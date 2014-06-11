@@ -1,28 +1,33 @@
-== README
+Clock Tower
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Clock Tower is an open-source time tracking web app.
 
-Things you may want to cover:
+The following specifies the features available for each user roles.
 
-* Ruby version
+Project leaders:
+create projects
+preset task names
+look at tasks for all projects that he owns
+query/filter all tasks
+provide summary of tasks
+send out invitations to project members
+all tasks that project members can do
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Project members:
+update profile
+create tasks for projects
+look at all tasks created
+query/filter all tasks
+provide summary of tasks
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Projects contain:
+Name
+Members
+
+Time Entries (Entries) contain:
+Project (dropdown)
+Task (dropdown)
+Hours (Integer). Eg: 2
+Minutes (Integer). Eg: 30 
+Comments (optional)
