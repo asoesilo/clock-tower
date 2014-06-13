@@ -1,0 +1,24 @@
+
+<%= form_for @user, url: @path, method: @method do |f| %>
+  <div>
+    <%= f.label "email" %><br>
+    <%= f.text_field "email" %>
+  </div>
+  <div>
+    <%= f.label "first_name", "First Name" %><br>
+    <%= f.text_field "first_name" %>
+  </div>
+  <div>
+    <%= f.label "last_name", "Last Name" %><br>
+    <%= f.text_field "last_name" %>
+  </div>
+  <div>
+    <%= f.label "password" %><br>
+    <%= f.password_field "password" %>
+  </div>
+  <div>
+    <%= f.label "password_confirmation" %><br>
+    <%= f.password_field "password_confirmation" %>
+  </div>
+  <div><%= f.submit "Submit" %></div>
+<% end %>
