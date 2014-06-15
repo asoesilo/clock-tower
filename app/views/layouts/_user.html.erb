@@ -1,16 +1,16 @@
 
-<%= form_for @user, url: @path, method: @method do |f| %>
+<%= form_for @user, url: @path, method: 'post' do |f| %>
   <div>
     <%= f.label "email" %><br>
     <%= f.text_field "email" %>
   </div>
   <div>
-    <%= f.label "first_name", "First Name" %><br>
-    <%= f.text_field "first_name" %>
+    <%= f.label "firstname", "First Name" %><br>
+    <%= f.text_field "firstname" %>
   </div>
   <div>
-    <%= f.label "last_name", "Last Name" %><br>
-    <%= f.text_field "last_name" %>
+    <%= f.label "lastname", "Last Name" %><br>
+    <%= f.text_field "lastname" %>
   </div>
   <div>
     <%= f.label "password" %><br>

@@ -1,8 +1,11 @@
 <h1>Log In</h1>
+
+<%= render 'layouts/show_alert' %>
+
 <%= form_tag session_path do %>
   <div>
     <%= label_tag "email" %><br>
-    <%= text_field_tag "email" %>
+    <%= text_field_tag "email", @email %>
   </div>
   <div>
     <%= label_tag :password %><br>

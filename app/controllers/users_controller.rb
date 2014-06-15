@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user, only: [:new, :create]
+  before_action :to_home_if_logged_in
+
   def new
     @user = User.new
     @path = users_path
-    @method = "post"
   end
 
   def create

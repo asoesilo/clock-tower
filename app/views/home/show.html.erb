@@ -1,0 +1,16 @@
+<h1>Home page</h1>
+
+<%= render 'layouts/show_alert' %>
+<%= render 'layouts/show_notice' %>
+
+<div>
+  <%= link_to "Register", new_user_path %>
+</div>
+
+<div>
+  <%= link_to "Log in", new_session_path %>
+</div>
+
+<div>
+  <%= link_to "Log out", session_path, method: :delete %>
+</div>
