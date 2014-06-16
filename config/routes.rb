@@ -55,6 +55,9 @@ Rails.application.routes.draw do
   #   end
 
   root to: "home#show"
-  resources :users, only: [:new, :create]
+
   resource :session, only: [:new, :create, :destroy]
+
+  resources :users, only: [:new, :create]
+  resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
 end

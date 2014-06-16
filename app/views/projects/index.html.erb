@@ -1,0 +1,25 @@
+<h1>Projects</h1>
+
+<%= render 'layouts/show_alert' %>
+
+<%= render 'layouts/show_notice' %>
+
+<%= render 'projects/project_error' %>
+
+<%= link_to "Create new project", new_project_path %>
+
+<% if @projects && @projects.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Created at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @projects %>
+    </tbody>
+  </table>
+<% else %>
+  <div>No projects</div>
+<% end %>

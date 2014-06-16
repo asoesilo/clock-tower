@@ -1,0 +1,6 @@
+<tr>
+  <td><%= project.name %></td>
+  <td><%= project.created_at %></td>
+  <td><%= link_to "Edit", edit_project_path(project) %></td>
+  <td><%= link_to "Delete", project_path(project), method: :delete %></td>
+</tr>
