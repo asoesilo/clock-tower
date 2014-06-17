@@ -1,0 +1,22 @@
+<h1>Tasks</h1>
+
+<%= render 'layouts/show_alert' %>
+
+<%= link_to "Create new tasks", new_task_path %>
+
+<% if @tasks.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Created by</th>
+        <th>Created at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @tasks %>
+    </tbody>
+  </table>
+<% else %>
+  <div>There are currently no tasks</div>
+<% end %>

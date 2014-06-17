@@ -1,0 +1,13 @@
+<%= link_to "Back to list of tasks", tasks_path %>
+
+<%= render 'task_error' %>
+
+<%= form_for @task do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>
