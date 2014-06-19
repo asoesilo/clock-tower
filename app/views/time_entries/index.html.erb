@@ -1,0 +1,25 @@
+<h1>Time entries</h1>
+
+<%= render 'layouts/show_alert' %>
+
+<%= link_to "Create new time entry", new_time_entry_path %>
+
+<% if @time_entries.any? %>
+  <table>
+    <thead>
+      <tr>
+        <td>Project</td>
+        <td>Task</td>
+        <td>User</td>
+        <td>Date</td>
+        <td>Duration</td>
+        <td>Comments</td>
+      </tr>
+  </thead>
+    <tbody>
+      <%= render @time_entries %>
+    </tbody>
+  </table>
+<% else %>
+  <div>There are currently no time entries</div>
+<% end %>

@@ -61,4 +61,5 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create]
   resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
 end
