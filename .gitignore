@@ -15,5 +15,8 @@
 /log/*.log
 /tmp
 
+# Ignore bower components
+public/bower_components
+
 # Ignore DS store files
 .DS_Store

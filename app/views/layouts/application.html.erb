@@ -7,8 +7,60 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="navbar-header">
+          <%= link_to "Clock Tower", root_path, { class: "navbar-brand" } %>
+        </div>
 
-<%= yield %>
+        <% if is_logged_in? %>
+          <div class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+              <li>
+                <%= link_to "Timer", time_entries_path %>
+              </li>
+              <li>
+                <a href="#">Reports</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <%= current_user.fullname %>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                  <li>
+                    <%= link_to "Sign out", session_path, method: :delete %>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
+  <%= yield %>
+  
+  <div class="navbar navbar-fixed-bottom">
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="navbar-collapse text-center">
+          <span class="glyphicon glyphicon-copyright-mark"></span>
+          2014 Andre Soesilo
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/app.css" rel="stylesheet">
+
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+  <!-- Javascript libraries for bootstrap -->
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

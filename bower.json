@@ -1,0 +1,21 @@
+{
+  "name": "clock-tower",
+  "version": "0.0.0",
+  "homepage": "https://github.com/asoesilo/clock-tower",
+  "authors": [
+    "Andre Soesilo <asoesilo84@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.11.1",
+    "components-font-awesome": "~4.1.0",
+    "bootstrap": "~3.2.0"
+  }
+}

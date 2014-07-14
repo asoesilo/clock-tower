@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     redirect_to :root, alert: "You are already logged in" if current_user
   end
 
+  def is_logged_in?
+    !current_user.nil?
+  end
+
   private
 
   def authenticate_user
@@ -21,4 +25,5 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_user
+  helper_method :is_logged_in?
 end

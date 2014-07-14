@@ -1,9 +1,59 @@
-<h1>Home page</h1>
-
 <%= render 'layouts/show_alert' %>
 <%= render 'layouts/show_notice' %>
 
-<div>
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>
+          Welcome to Clock Tower!
+        </h2>
+        <p>Insanely simple time tracking.</p>
+      </div>
+
+      <% if !is_logged_in? %>
+        <div class="col-md-4">
+          <div class="container">
+            <%= form_tag(session_path, class: "form-signin", role: "form") do %>
+              <%= email_field_tag :email, @email, class: "form-control", placeholder: "Email address" %>
+              <%= password_field_tag :password, nil, class: "form-control", placeholder: "Password" %>
+              <%= button_tag "Log In", class: "btn btn-primary btn-block", id: "login-btn" %>
+            <% end %>
+            <%= link_to "Create a new account", new_user_path, class: "text-center" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 feature">
+      <i class="fa fa-check fa-4x text-center"></i>
+      <h3 class="text-center">
+        Simple to Use
+      </h3>
+      <p>Intuitive UI allows any users to start using Clock Tower in just a few minutes</p>
+    </div>
+    <div class="col-md-4 feature">
+      <i class="fa fa-file-o fa-4x text-center"></i>
+      <h3 class="text-center">
+        Custom Reports
+      </h3>
+      <p>Provide multiple report templates to track weekly progress and expenses</p>
+    </div>
+    <div class="col-md-4 feature">
+      <i class="fa fa-share-square-o fa-4x text-center"></i>
+      <h3 class="text-center">
+        Direct Invoicing
+      </h3>
+      <p>Send invoices directly to your employers</p>
+    </div>
+  </div>
+</div>
+
+<!-- <div>
   <%= link_to "Register", new_user_path %>
 </div>
 
@@ -12,5 +62,17 @@
 </div>
 
 <div>
-  <%= link_to "Log out", session_path, method: :delete %>
+  <%= link_to "Projects", projects_path %>
 </div>
+
+<div>
+  <%= link_to "Tasks", tasks_path %>
+</div>
+
+<div>
+  <%= link_to "Entries", time_entries_path %>
+</div>
+
+<div>
+  <%= link_to "Log out", session_path, method: :delete %>
+</div> -->

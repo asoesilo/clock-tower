@@ -29,6 +29,9 @@ gem 'bcrypt', '~> 3.1.7'
 # An email validator for Rails 3 and 4.
 gem 'email_validator'
 
+# Twitter bootstrap for Rails
+gem 'twitter-bootstrap-rails'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
