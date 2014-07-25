@@ -1,20 +1,53 @@
+html, body {
+  height: 100%;
+}
+
 body {
   padding-top: 50px;
 }
 
-.form-signin #email {
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px;
+}
+
+#push, #footer {
+  height: 50px;
+}
+
+#footer {
+  color: #777;
+}
+
+#copyright {
+  padding-top: 13px;
+  padding-bottom: 12px;
+}
+
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.form .first-control {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.form-signin #password {
+.form .mid-control {
+  margin-bottom: -1px;
+  border-radius: 0;
+}
+
+.form .last-control {
   margin-bottom: 10px;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 }
 
-.form-signin #login-btn {
+.form .control-btn {
   margin-bottom: 10px;
 }
 

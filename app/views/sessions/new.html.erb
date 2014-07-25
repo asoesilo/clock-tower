@@ -1,17 +1,12 @@
-<h1>Log In</h1>
-
 <%= render 'layouts/show_alert' %>
 
-<%= form_tag session_path do %>
-  <div>
-    <%= label_tag "email" %><br>
-    <%= email_field_tag "email", @email %>
+<div class="container padding-top-20">
+  <div class="jumbotron">
+    <h2>Log In</h2>
+    <%= form_tag(session_path, class: "form", role: "form") do %>
+      <%= email_field_tag :email, @email, class: "form-control first-control", placeholder: "Email address" %>
+      <%= password_field_tag :password, nil, class: "form-control last-control", placeholder: "Password" %>
+      <%= button_tag "Log In", class: "btn btn-primary btn-block control-btn" %>
+    <% end %>
   </div>
-  <div>
-    <%= label_tag :password %><br>
-    <%= password_field_tag :password %>
-  </div>
-  <div>
-    <%= submit_tag "Log In" %>
-  </div>
-<% end %>
+</div>

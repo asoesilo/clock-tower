@@ -1,24 +1,8 @@
-
-<%= form_for @user, url: @path, method: 'post' do |f| %>
-  <div>
-    <%= f.label "email" %><br>
-    <%= f.text_field "email" %>
-  </div>
-  <div>
-    <%= f.label "firstname", "First Name" %><br>
-    <%= f.text_field "firstname" %>
-  </div>
-  <div>
-    <%= f.label "lastname", "Last Name" %><br>
-    <%= f.text_field "lastname" %>
-  </div>
-  <div>
-    <%= f.label "password" %><br>
-    <%= f.password_field "password" %>
-  </div>
-  <div>
-    <%= f.label "password_confirmation" %><br>
-    <%= f.password_field "password_confirmation" %>
-  </div>
-  <div><%= f.submit "Submit" %></div>
+<%= form_for(@user, url: @path, method: 'post', html: {class: "form", role: "form"}) do |f| %>
+  <%= email_field :email, @email, class: "form-control first-control", placeholder: "Email address" %>
+  <%= text_field :firstname, @firstname, class: "form-control mid-control", placeholder: "First name" %>
+  <%= text_field :lastname, @lastname, class: "form-control mid-control", placeholder: "Last name" %>
+  <%= password_field :password, nil, class: "form-control mid-control", placeholder: "Password" %>
+  <%= password_field :password_confirmation, nil, class: "form-control last-control", placeholder: "Confirm password" %>
+  <%= button_tag "Submit", class: "btn btn-primary btn-block control-btn" %>
 <% end %>

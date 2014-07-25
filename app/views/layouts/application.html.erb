@@ -18,7 +18,7 @@
           <div class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
               <li>
-                <%= link_to "Timer", time_entries_path %>
+                <%= link_to "Tracker", time_entries_path %>
               </li>
               <li>
                 <a href="#">Reports</a>
@@ -41,15 +41,20 @@
     </div>
   </div>
 
-  <%= yield %>
-  
-  <div class="navbar navbar-fixed-bottom">
-    <div class="navbar-inner">
+  <div id="wrap">
+    <div id="container">
+      <%= yield %>
+    </div>
+    <div id="push"></div>
+  </div>
+
+  <div id="footer">
+    <div class="navbar-inverse">
       <div class="container">
-        <div class="navbar-collapse text-center">
+        <p class="muted text-center" id="copyright">
           <span class="glyphicon glyphicon-copyright-mark"></span>
           2014 Andre Soesilo
-        </div>
+        </p>
       </div>
     </div>
   </div>
