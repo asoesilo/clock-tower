@@ -9,4 +9,13 @@ class User < ActiveRecord::Base
   def fullname
     "#{firstname} #{lastname}"
   end
+
+  def as_json(options)
+    {
+      id: id,
+      firstname: firstname,
+      lastname: lastname,
+      email: email
+    }
+  end
 end

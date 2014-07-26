@@ -62,4 +62,9 @@ Rails.application.routes.draw do
   resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
+  namespace :api do
+    resources :tasks, only: [:index]
+    resources :projects, only: [:index]
+    resources :time_entries, only: [:index, :create, :update, :destroy]
+  end
 end
