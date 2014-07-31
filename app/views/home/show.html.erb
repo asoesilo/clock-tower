@@ -19,7 +19,9 @@
               <%= password_field_tag :password, nil, class: "form-control last-control", placeholder: "Password" %>
               <%= button_tag "Log In", class: "btn btn-primary btn-block control-btn" %>
             <% end %>
-            <%= link_to "Create a new account", new_user_path, class: "text-center" %>
+            <div>
+              <%= link_to "Create a new account", new_user_path, class: "text-center" %>
+            </div>
           </div>
         </div>
       <% end %>
@@ -30,24 +32,36 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4 feature">
-      <i class="fa fa-check fa-4x text-center"></i>
-      <h3 class="text-center">
-        Simple to Use
-      </h3>
+      <div class="text-center">
+        <i class="fa fa-check fa-4x"></i>
+      </div>
+      <div>
+        <h3 class="text-center">
+          Simple to Use
+        </h3>
+      </div>
       <p>Intuitive UI allows any users to start using Clock Tower in just a few minutes</p>
     </div>
     <div class="col-md-4 feature">
-      <i class="fa fa-file-o fa-4x text-center"></i>
-      <h3 class="text-center">
-        Custom Reports
-      </h3>
+      <div class="text-center">
+        <i class="fa fa-file-o fa-4x"></i>
+      </div>
+      <div>
+        <h3 class="text-center">
+          Custom Reports
+        </h3>
+      </div>
       <p>Provide multiple report templates to track weekly progress and expenses</p>
     </div>
     <div class="col-md-4 feature">
-      <i class="fa fa-share-square-o fa-4x text-center"></i>
-      <h3 class="text-center">
-        Direct Invoicing
-      </h3>
+      <div class="text-center">
+        <i class="fa fa-share-square-o fa-4x"></i>
+      </div>
+      <div>
+        <h3 class="text-center">
+          Direct Invoicing
+        </h3>
+      </div>
       <p>Send invoices directly to your employers</p>
     </div>
   </div>

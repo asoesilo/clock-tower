@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ClockTower">
 <head>
   <title>ClockTower</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -59,13 +59,6 @@
     </div>
   </div>
 
-  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="/css/app.css" rel="stylesheet">
-
-  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-
-  <!-- Javascript libraries for bootstrap -->
-  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

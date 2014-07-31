@@ -2,6 +2,7 @@ class TimeEntriesController < ApplicationController
   before_filter :validate_time_entry_update, only: [:edit, :update, :destroy]
 
   def index
+    @time_entry = TimeEntry.new
     @time_entries = TimeEntry.all
   end
 
@@ -13,10 +14,13 @@ class TimeEntriesController < ApplicationController
     @time_entry = TimeEntry.new(time_entries_params)
     @time_entry.user = current_user
 
+    binding.pry
+
     if @time_entry.save
       redirect_to time_entries_path
     else
-      renders :new
+      binding.pry
+      render :new
     end
   end
 
@@ -32,7 +36,7 @@ class TimeEntriesController < ApplicationController
     if @time_entry.save
       redirect_to time_entries_path
     else
-      renders :edit
+      render :edit
     end
   end
 

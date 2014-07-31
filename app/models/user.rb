@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
       id: id,
       firstname: firstname,
       lastname: lastname,
+      fullname: fullname,
       email: email
     }
   end

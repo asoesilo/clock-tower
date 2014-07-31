@@ -29,8 +29,24 @@ gem 'bcrypt', '~> 3.1.7'
 # An email validator for Rails 3 and 4.
 gem 'email_validator'
 
-# Twitter bootstrap for Rails
-gem 'twitter-bootstrap-rails'
+# Bootstrap Sass for Rails
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
+
+# Font Awesome for Rails
+gem "font-awesome-rails"
+
+# Angular.js for Rails
+gem 'angularjs-rails', '~> 1.2.20'
+
+# Angular.js UI bootstrap for Rails
+gem 'angular-ui-bootstrap-rails', '~> 0.11.0'
+
+# Chosen Javascript for Rails
+gem 'chosen-rails', '~> 1.1.0'
+
+# Bootstrap for Chosen Javascript
+gem 'chosen-sass-bootstrap-rails', '~> 0.0.2'
 
 # Use unicorn as the app server
 # gem 'unicorn'

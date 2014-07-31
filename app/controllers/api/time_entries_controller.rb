@@ -7,11 +7,14 @@ module Api
     end
 
     def create
-      binding.pry
       time_entry = TimeEntry.new(time_entry_params)
 
+      if time_entry.user_id.nil? && current_user
+        time_entry.user_id = current_user.id
+      end
+
       if time_entry.save
-        head :ok
+        render json: { entry: time_entry }, status: :ok
       else
         render json: { errors: time_entry.errors.full_messages }, status: :bad_request
       end

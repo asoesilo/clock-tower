@@ -1,25 +1,49 @@
-<h1>Time entries</h1>
+<div ng-controller="TimeEntriesCtrl">
+  <div class="jumbotron padding-top-20">
+    <div class="container">
+      <div class="form-group row">
+        <div class="col-md-3">
+          <select name="task" class="form-control" data-placeholder="What are you working on?" chosen="tasks" ng-model="task" ng-options="task.name for task in tasks">
+            <option value></option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select name="project" class="form-control" data-placeholder="Select project" chosen="projects" ng-model="project" ng-options="project.name for project in projects">
+            <option value></option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <p class="input-group">
+            <input type="text" class="form-control" placeholder="Select date" datepicker-popup ng-model="date" ng-required="true" min-date="minDate" max-date="maxDate" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" show-weeks="false" readonly>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="toggleCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control" placeholder="Duration" ng-model="duration">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary btn-block control-btn" ng-click="createTimeEntry()">Submit</button>
+        </div>
+      </div>
+      <div>
+        <input type="text" class="form-control" placeholder="Write your comments here" ng-model="comments">
+      </div>
+    </div>
+  </div>
 
-<%= render 'layouts/show_alert' %>
-
-<%= link_to "Create new time entry", new_time_entry_path %>
-
-<% if @time_entries.any? %>
-  <table>
-    <thead>
-      <tr>
-        <td>Project</td>
-        <td>Task</td>
-        <td>User</td>
-        <td>Date</td>
-        <td>Duration</td>
-        <td>Comments</td>
-      </tr>
-  </thead>
-    <tbody>
-      <%= render @time_entries %>
-    </tbody>
-  </table>
-<% else %>
-  <div>There are currently no time entries</div>
-<% end %>
+  <div class="container">
+    <table class="table table-hover">
+      <tbody>
+        <tr ng-repeat="entry in timeEntries">
+          <td>{{entry.project.name}}</td>
+          <td>{{entry.task.name}}</td>
+          <td>{{entry.date}}</td>
+          <td>{{entry.duration_in_hours}}</td>
+          <td>{{entry.comments}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
