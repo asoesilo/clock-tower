@@ -2,8 +2,12 @@
 
 var ClockTower = angular.module('ClockTower');
 ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, apiPath) {
-  var getTimeEntries = function() {
+  var getAllTimeEntries = function() {
     return $http.get('./api/time_entries');
+  };
+
+  var getTimeEntriesForProfile = function() {
+    return $http.get('./api/profile/time_entries');
   };
 
   var createTimeEntry = function(taskId, projectId, entryDate, duration, comments) {
@@ -31,7 +35,7 @@ ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, api
       }
     };
 
-    return $http.put('./api/time_entries/' + id, data)
+    return $http.put('./api/time_entries/' + id, data);
   };
 
   var deleteTimeEntry = function(entryId) {
@@ -39,7 +43,8 @@ ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, api
   };
 
   return {
-    all: getTimeEntries,
+    all: getAllTimeEntries,
+    get: getTimeEntriesForProfile,
     create: createTimeEntry,
     update: updateTimeEntry,
     delete: deleteTimeEntry

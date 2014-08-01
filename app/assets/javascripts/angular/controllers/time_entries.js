@@ -91,7 +91,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
   };
 
   var fetchTimeEntries = function() {
-    TimeEntryService.all().success(function(data) {
+    TimeEntryService.get().success(function(data) {
       $scope.timeEntries = data;
       $scope.timeEntries.forEach(function(entry) {
         entry.date = new Date(entry.date);

@@ -14,12 +14,9 @@ class TimeEntriesController < ApplicationController
     @time_entry = TimeEntry.new(time_entries_params)
     @time_entry.user = current_user
 
-    binding.pry
-
     if @time_entry.save
       redirect_to time_entries_path
     else
-      binding.pry
       render :new
     end
   end

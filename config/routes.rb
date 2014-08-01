@@ -66,5 +66,6 @@ Rails.application.routes.draw do
     resources :tasks, only: [:index]
     resources :projects, only: [:index]
     resources :time_entries, only: [:index, :create, :update, :destroy]
+    get 'profile/time_entries'
   end
 end
