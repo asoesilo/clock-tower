@@ -33,6 +33,14 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     startingDay: 1
   };
 
+  $scope.showEditIcon = function(entry) {
+    entry.isHover = true;
+  };
+
+  $scope.hideEditIcon = function(entry) {
+    entry.isHover = false;
+  };
+
   var formatDate = function(date) {
     var yearStr = date.getFullYear();
     var monthStr = date.getMonth();
@@ -73,6 +81,24 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     });
   };
 
+  var removeEntryFromArray = function(entry) {
+    var index = $scope.timeEntries.indexOf(entry);
+    if(index > -1) {
+      $scope.timeEntries.splice(index, 1);
+    }
+  }
+
+  $scope.deleteTimeEntry = function(entry) {
+    console.log("in delete time entry");
+    TimeEntryService.delete(entry.id).then(function(response) {
+      if(response.data.errors !== undefined) {
+        // TODO: Handle error
+      }
+      else {
+        removeEntryFromArray(entry);
+      }
+    });
+  };
 
   var initializeData = function() {
     $scope.maxDate = new Date();

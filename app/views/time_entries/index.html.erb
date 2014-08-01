@@ -36,12 +36,16 @@
   <div class="container">
     <table class="table table-hover">
       <tbody>
-        <tr ng-repeat="entry in timeEntries">
+        <tr ng-repeat="entry in timeEntries" ng-mouseover="showEditIcon(entry)" ng-mouseleave="hideEditIcon(entry)">
           <td>{{entry.project.name}}</td>
           <td>{{entry.task.name}}</td>
           <td>{{entry.date}}</td>
           <td>{{entry.duration_in_hours}}</td>
           <td>{{entry.comments}}</td>
+          <td>
+            <div class="action-icon-push" ng-hide="entry.isHover"></div>
+            <a href ng-click="deleteTimeEntry(entry)"><i class="fa fa-times fa-1x" ng-show="entry.isHover"></i></a>
+          </td>
         </tr>
       </tbody>
     </table>
