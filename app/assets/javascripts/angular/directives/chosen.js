@@ -12,17 +12,16 @@ ClockTower.directive('chosen', function() {
       element.trigger('chosen:updated');
     });
 
-    if(item !== undefined) {
-      scope.$watch(item, function() {
-        element.trigger('chosen:updated');
-      });
-    }
+    scope.$watch(item, function() {
+      element.trigger('chosen:updated');
+    });
 
     element.chosen();
   };
 
   return {
     restrict: 'A',
-    link: linker
+    link: linker,
+    require: 'ngModel'
   };
 });

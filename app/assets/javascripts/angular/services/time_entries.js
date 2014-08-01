@@ -6,10 +6,9 @@ ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, api
     return $http.get('./api/time_entries');
   };
 
-  var createTimeEntry = function(userId, taskId, projectId, entryDate, duration, comments) {
+  var createTimeEntry = function(taskId, projectId, entryDate, duration, comments) {
     var data = {
       time_entry: {
-        user_id: userId,
         task_id: taskId,
         project_id: projectId,
         entry_date: entryDate,
@@ -21,6 +20,20 @@ ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, api
     return $http.post('./api/time_entries', data);
   };
 
+  var updateTimeEntry = function(id, taskId, projectId, entryDate, duration, comments) {
+    var data = {
+      time_entry: {
+        task_id: taskId,
+        project_id: projectId,
+        entry_date: entryDate,
+        duration_in_hours: duration,
+        comments: comments
+      }
+    };
+
+    return $http.put('./api/time_entries/' + id, data)
+  };
+
   var deleteTimeEntry = function(entryId) {
     return $http.delete('./api/time_entries/' + entryId);
   };
@@ -28,6 +41,7 @@ ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, api
   return {
     all: getTimeEntries,
     create: createTimeEntry,
+    update: updateTimeEntry,
     delete: deleteTimeEntry
   };
 }]);

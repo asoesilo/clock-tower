@@ -4,6 +4,8 @@ var ClockTower = angular.module('ClockTower');
 
 ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectService', 'TimeEntryService', function($scope, TaskService, ProjectService, TimeEntryService) {
 
+  $scope.date = "";
+
   var fetchTasks = function() {
     TaskService.all().success(function(tasks) {
       $scope.tasks = tasks;
@@ -16,11 +18,16 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     });
   };
 
-  $scope.toggleCalendar = function($event) {
+  $scope.toggleCalendar = function($event, entry) {
     $event.preventDefault();
     $event.stopPropagation();
 
-    $scope.opened = !$scope.opened;
+    if(entry !== undefined) {
+      entry.calendarOpen = !entry.calendarOpen;
+    }
+    else {
+      $scope.opened = !$scope.opened;
+    }
   };
 
   // Disable weekend selection
@@ -33,6 +40,15 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     startingDay: 1
   };
 
+  $scope.formatViewDate = function(input){
+    var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = input.getFullYear();
+    var month = input.getMonth();
+    var date = input.getDate();
+
+    return (date<10?"0"+date:date) + " " + months[month] + " " + year;
+  };
+
   $scope.showEditIcon = function(entry) {
     entry.isHover = true;
   };
@@ -41,12 +57,12 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     entry.isHover = false;
   };
 
-  var formatDate = function(date) {
-    var yearStr = date.getFullYear();
-    var monthStr = date.getMonth();
-    var dateStr = date.getDate();
+  var formatDate = function(input) {
+    var year = input.getFullYear();
+    var month = input.getMonth();
+    var date = input.getDate();
 
-    return yearStr + "-" + monthStr + "-" + dateStr;
+    return year + "-" + month + "-" + date;
   };
 
   $scope.createTimeEntry = function() {
@@ -58,7 +74,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     var date = formatDate($scope.date);
     var comments = $scope.comments;
 
-    TimeEntryService.create(null, task.id, project.id, date, duration, comments).then(function(response) {
+    TimeEntryService.create(task.id, project.id, date, duration, comments).then(function(response) {
       if(response.data.error !== undefined) {
         // TODO: Handle error
       }
@@ -72,12 +88,14 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
         $scope.comments = null;        
       }
     });
-
   };
 
   var fetchTimeEntries = function() {
     TimeEntryService.all().success(function(data) {
       $scope.timeEntries = data;
+      $scope.timeEntries.forEach(function(entry) {
+        entry.date = new Date(entry.date);
+      });
     });
   };
 
@@ -100,11 +118,55 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     });
   };
 
+  var setEditState = function(entry, state) {
+    entry.isEditState = state;
+  };
+
+  $scope.enterEditState = function(entry) {
+    entry.newTask = {id: entry.task.id};
+    entry.newProject = {id: entry.project.id};
+    entry.newDate = entry.date;
+    entry.newDuration = entry.duration_in_hours;
+    entry.newComments = entry.comments;
+
+    setEditState(entry, true);
+  }
+
+  $scope.saveEntry = function(entry) {
+    var task = entry.newTask;
+    var project = entry.newProject;
+    var date = entry.newDate;
+    var duration = entry.newDuration;
+    var comments = entry.newComments;
+
+    TimeEntryService.update(entry.id, task.id, project.id, date, duration, comments).then(function(response) {
+      console.log('in end update response');
+      if(response.data.error !== undefined) {
+        // TODO: Handle error
+      }
+      else {
+        console.log('in handle success');
+        setEditState(entry, false);
+
+        var newEntry = response.data.entry;
+        entry.task = newEntry.task;
+        entry.project = newEntry.project;
+        entry.date = new Date(newEntry.date);
+        entry.duration_in_hours = newEntry.duration_in_hours;
+        entry.comments = newEntry.comments;
+      }
+    });
+  }
+
+  $scope.cancelEdit = function(entry) {
+    setEditState(entry, false);
+  }
+
   var initializeData = function() {
     $scope.maxDate = new Date();
     $scope.minDate = new Date();
     $scope.minDate.setYear($scope.minDate.getFullYear() - 1);
-    $scope.format = 'dd-MMMM-yyyy';
+    $scope.dateFormat = "dd MMM yyyy"
 
     fetchTasks();
     fetchProjects();
