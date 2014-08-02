@@ -20,4 +20,24 @@ class TimeEntry < ActiveRecord::Base
       comments: comments
     }
   end
+
+  class << self
+    def query(from, to, user_ids, project_ids: nil, task_ids: nil)
+      result = TimeEntry.where("entry_date >= ? AND entry_date <= ?", from, to)
+
+      if user_ids && user_ids.size > 0
+        result = result.where(user_id: user_ids)
+      end
+
+      if project_ids
+        result = result.where(project_id: project_ids)
+      end
+
+      if task_ids
+        result = result.where(task_id: task_ids)
+      end
+
+      result
+    end
+  end
 end

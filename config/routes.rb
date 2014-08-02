@@ -68,4 +68,8 @@ Rails.application.routes.draw do
     resources :time_entries, only: [:index, :create, :update, :destroy]
     get 'profile/time_entries'
   end
+  namespace :reports do
+    get 'summary'
+    get 'user/:id', to: :user, as: :user
+  end
 end
