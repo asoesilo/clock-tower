@@ -1,0 +1,45 @@
+<div class="container" ng-controller="UserReportController">
+  <div class="jumbotron" ng-init="presetValues('<%= @from %>','<%= @to %>',<%= @user.to_json(nil) %>)">
+    <%= form_tag(reports_user_path, method: :get, class: "form", role: "form") do %>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="input-group">
+            <%= text_field_tag :from, nil, {class: "form-control", placeholder: "From", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "from", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isFromCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="toggleFromCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+        </div>
+        <div class="col-md-2">
+          <p class="input-group">
+            <%= text_field_tag :to, nil, {class: "form-control", placeholder: "To", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "to", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isToCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="toggleToCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+        </div>
+        <div class="col-md-4">
+          <%= select_tag :user, nil, {class: "form-control", "data-placeholder" => "Filter by users", "chosen" => "users", include_blank: true, "ng-model" => "selected_user", "ng-options" => "user.fullname for user in users track by user.id"} %>
+        </div>
+        <div class="col-md-2">
+          <%= button_tag "Fetch", class: "btn btn-primary btn-block control-btn" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <div>Total duration: <%= @total_duration %> hours</div>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% @time_entries.each do |time_entry| %>
+        <tr>
+          <td><%= time_entry.project.name %></td>
+          <td><%= time_entry.task.name %></td>
+          <td><%= time_entry.duration_in_hours %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

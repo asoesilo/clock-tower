@@ -13,12 +13,14 @@ class ReportsController < ApplicationController
 
   def user
     requirements = report_user_params
-    @time_entries = TimeEntry.query(requirements["from"], requirements["to"], [requirements["id"]])
+    @time_entries = TimeEntry.query(requirements["from"], requirements["to"], [requirements["user"]])
 
     @from = requirements["from"]
     @to = requirements["to"]
-    @user = User.find_by(id: requirements["id"])
+    @user = User.find_by(id: requirements["user"])
     @total_duration = calculate_total_duration(@time_entries)
+
+    # binding.pry
   end
 
   private
@@ -27,7 +29,7 @@ class ReportsController < ApplicationController
   end
 
   def report_user_params
-    params.permit(:id, :from, :to)
+    params.permit(:user, :from, :to)
   end
 
   def calculate_total_duration(entries)
