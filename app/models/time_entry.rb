@@ -37,7 +37,7 @@ class TimeEntry < ActiveRecord::Base
         result = result.where(task_id: task_ids)
       end
 
-      result
+      result.order(entry_date: :desc)
     end
   end
 end
