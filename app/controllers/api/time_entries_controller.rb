@@ -1,6 +1,8 @@
 module Api
   class TimeEntriesController < ApplicationController
-    skip_before_filter  :verify_authenticity_token
+    skip_before_action :admin_access, only: [:index, :create, :update, :destroy]
+
+    skip_before_filter :verify_authenticity_token
 
     def index
       render json: TimeEntry.all, status: :ok

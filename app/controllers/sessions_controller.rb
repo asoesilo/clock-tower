@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user, only: [:new, :create, :destroy]
+  skip_before_action :admin_access, only: [:new, :create, :destroy]
+  
   before_action :to_home_if_logged_in, only: [:new, :create]
 
   def new

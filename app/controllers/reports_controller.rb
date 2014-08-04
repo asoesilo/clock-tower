@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  skip_before_action :admin_access, only: [:summary, :user]
+
   def summary
     requirements = report_summary_params
     @time_entries = TimeEntry.query(requirements["from"], requirements["to"], requirements["users"], project_ids: requirements["projects"], task_ids: requirements["tasks"])
