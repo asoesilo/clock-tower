@@ -8,6 +8,7 @@ class ReportsController < ApplicationController
     @users = User.where(id: requirements["users"])
     @projects = Project.where(id: requirements["projects"])
     @tasks = Task.where(id: requirements["tasks"])
+    @total_duration = calculate_total_duration(@time_entries)
   end
 
   def user
@@ -17,6 +18,7 @@ class ReportsController < ApplicationController
     @from = requirements["from"]
     @to = requirements["to"]
     @user = User.find_by(id: requirements["id"])
+    @total_duration = calculate_total_duration(@time_entries)
   end
 
   private
@@ -26,5 +28,11 @@ class ReportsController < ApplicationController
 
   def report_user_params
     params.permit(:id, :from, :to)
+  end
+
+  def calculate_total_duration(entries)
+    entries.inject(0) do |sum, entry|
+      sum + entry.duration_in_hours
+    end
   end
 end
