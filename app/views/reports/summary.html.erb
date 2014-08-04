@@ -30,7 +30,7 @@
           <%= select_tag :tasks, @tasks, {class: "form-control", "data-placeholder" => "Filter by tasks", "chosen" => "tasks", multiple: true, "ng-model" => "selected_tasks", "ng-options" => "task.name for task in tasks track by task.id"} %>
         </div>
         <div class="col-md-2">
-          <%= button_tag "Search", class: "btn btn-primary btn-block control-btn" %>
+          <%= button_tag "Fetch", class: "btn btn-primary btn-block control-btn" %>
         </div>
       </div>
     <% end %>
