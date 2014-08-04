@@ -5,3 +5,13 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# Create user admin account if one does not yet exist
+ADMIN_FIRSTNAME = "my"
+ADMIN_LASTNAME = "admin"
+ADMIN_EMAIL = "my@admin.com"
+ADMIN_PASSWORD = "admin"
+
+if User.find_by(email: ADMIN_EMAIL).nil?
+  User.create(firstname: ADMIN_FIRSTNAME, lastname: ADMIN_LASTNAME, email: ADMIN_EMAIL, password: ADMIN_PASSWORD, is_admin: true)
+end
