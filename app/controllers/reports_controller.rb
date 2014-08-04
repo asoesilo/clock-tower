@@ -3,14 +3,20 @@ class ReportsController < ApplicationController
     requirements = report_summary_params
     @time_entries = TimeEntry.query(requirements["from"], requirements["to"], requirements["users"], project_ids: requirements["projects"], task_ids: requirements["tasks"])
 
-    # render json: @time_entries, status: :ok
+    @from = requirements["from"]
+    @to = requirements["to"]
+    @users = User.where(id: requirements["users"])
+    @projects = Project.where(id: requirements["projects"])
+    @tasks = Task.where(id: requirements["tasks"])
   end
 
   def user
     requirements = report_user_params
     @time_entries = TimeEntry.query(requirements["from"], requirements["to"], [requirements["id"]])
 
-    # render json: @time_entries, status: :ok
+    @from = requirements["from"]
+    @to = requirements["to"]
+    @user = User.find_by(id: requirements["id"])
   end
 
   private

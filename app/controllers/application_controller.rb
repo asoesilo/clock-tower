@@ -24,6 +24,17 @@ class ApplicationController < ActionController::Base
     redirect_to new_session_path, alert: "Please login first!" unless current_user
   end
 
+  def default_report_start_date
+    today = Date.today
+    today - today.wday
+  end
+
+  def default_report_end_date
+    Date.today
+  end
+
   helper_method :current_user
   helper_method :is_logged_in?
+  helper_method :default_report_start_date
+  helper_method :default_report_end_date
 end
