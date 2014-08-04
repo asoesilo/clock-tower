@@ -71,6 +71,6 @@ Rails.application.routes.draw do
   end
   namespace :reports do
     get 'summary'
-    get 'user/:id', to: :user, as: :user
+    get 'user'
   end
 end
