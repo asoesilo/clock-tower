@@ -49,6 +49,14 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     return (date<10?"0"+date:date) + " " + months[month] + " " + year;
   };
 
+  var parseDate = function(dateString) {
+    var match = dateString.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+
+    // Date.prototype.setMonth() is zero-based: 0 for January, 1 for February, and so on.
+    // Thus, we need to substract 1.
+    return (match) ? new Date(match[1], match[2]-1, match[3]) : null;
+  };
+
   $scope.showEditIcon = function(entry) {
     entry.isHover = true;
   };
@@ -59,7 +67,10 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
 
   var formatDate = function(input) {
     var year = input.getFullYear();
-    var month = input.getMonth();
+
+    // Date.prototype.getMonth() is zero-based: 0 for January, 1 for February, and so on.
+    // Thus, we need to add 1.
+    var month = input.getMonth() + 1;
     var date = input.getDate();
 
     return year + "-" + month + "-" + date;
@@ -79,6 +90,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
         // TODO: Handle error
       }
       else {
+        response.data.entry.date = parseDate(response.data.entry.date);
         $scope.timeEntries.push(response.data.entry);
 
         $scope.task = null;
@@ -94,7 +106,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     TimeEntryService.get().success(function(data) {
       $scope.timeEntries = data;
       $scope.timeEntries.forEach(function(entry) {
-        entry.date = new Date(entry.date);
+        entry.date = parseDate(entry.date);
       });
     });
   };
@@ -151,7 +163,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
         var newEntry = response.data.entry;
         entry.task = newEntry.task;
         entry.project = newEntry.project;
-        entry.date = new Date(newEntry.date);
+        entry.date = parseDate(newEntry.date);
         entry.duration_in_hours = newEntry.duration_in_hours;
         entry.comments = newEntry.comments;
       }
@@ -166,7 +178,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', 'TaskService', 'ProjectServi
     $scope.maxDate = new Date();
     $scope.minDate = new Date();
     $scope.minDate.setYear($scope.minDate.getFullYear() - 1);
-    $scope.dateFormat = "dd MMM yyyy"
+    $scope.dateFormat = "yyyy-MM-dd"
 
     fetchTasks();
     fetchProjects();
