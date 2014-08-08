@@ -1,5 +1,5 @@
-<div class="container" ng-controller="UserReportController">
-  <div class="jumbotron" ng-init="presetValues('<%= @from %>','<%= @to %>',<%= @user.to_json(nil) %>)">
+<div class="jumbotron" ng-controller="UserReportController">
+  <div class="container" ng-init="presetValues('<%= @from %>','<%= @to %>',<%= @user.to_json(nil) %>)">
     <%= form_tag(reports_user_path, method: :get, class: "form", role: "form") do %>
       <div class="row">
         <div class="col-md-2">
