@@ -8,6 +8,7 @@ module Admin
 
     def new
       @project = Project.new
+      @path = admin_projects_path
     end
 
     def create
@@ -23,6 +24,7 @@ module Admin
 
     def edit
       @project = Project.find(params[:id])
+      @path = admin_project_path
     end
 
     def update

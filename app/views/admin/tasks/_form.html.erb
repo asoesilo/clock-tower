@@ -2,7 +2,7 @@
 
 <%= render 'task_error' %>
 
-<%= form_for @task, url: admin_tasks_path do |f| %>
+<%= form_for @task, url: @path do |f| %>
   <div>
     <%= f.label :name %>
     <%= f.text_field :name %>

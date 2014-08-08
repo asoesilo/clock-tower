@@ -8,6 +8,7 @@ module Admin
 
     def new
       @task = Task.new
+      @path = admin_tasks_path
     end
 
     def create
@@ -23,6 +24,7 @@ module Admin
 
     def edit
       @task = Task.find(params[:id])
+      @path = admin_task_path
     end
 
     def update
