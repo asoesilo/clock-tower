@@ -1,8 +1,8 @@
-<%= link_to "Back to list of tasks", tasks_path %>
+<%= link_to "Back to list of tasks", admin_tasks_path %>
 
 <%= render 'task_error' %>
 
-<%= form_for @task do |f| %>
+<%= form_for @task, url: admin_tasks_path do |f| %>
   <div>
     <%= f.label :name %>
     <%= f.text_field :name %>

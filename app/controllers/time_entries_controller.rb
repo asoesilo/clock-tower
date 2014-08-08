@@ -1,6 +1,4 @@
 class TimeEntriesController < ApplicationController
-  skip_before_action :admin_access, only: [:index, :new, :create, :edit, :update, :destroy]
-
   before_filter :validate_time_entry_update, only: [:edit, :update, :destroy]
 
   def index

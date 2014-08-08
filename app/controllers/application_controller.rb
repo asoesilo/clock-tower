@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :authenticate_user
-  before_action :admin_access
 
   protected
 
@@ -20,13 +19,8 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
   def authenticate_user
     redirect_to new_session_path, alert: "Please login first!" unless current_user
-  end
-
-  def admin_access
-    redirect_to root_path, alert: "Admin access required!" if current_user && !current_user.is_admin?
   end
 
   def default_report_start_date

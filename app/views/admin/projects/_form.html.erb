@@ -1,0 +1,13 @@
+<%= link_to "Back to projects", admin_projects_path %>
+
+<%= render 'admin/projects/project_error' %>
+
+<%= form_for @project, url: admin_projects_path do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>

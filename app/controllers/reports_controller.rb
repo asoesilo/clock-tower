@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-  skip_before_action :admin_access, only: [:summary, :user]
 
   def summary
     requirements = report_summary_params

@@ -58,10 +58,7 @@ Rails.application.routes.draw do
 
   resource :session, only: [:new, :create, :destroy]
 
-  resources :users, only: [:new, :create]
   resource :profile, only: [:new, :create]
-  resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
-  resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
   namespace :api do
     resources :users, only: [:index]
@@ -73,5 +70,10 @@ Rails.application.routes.draw do
   namespace :reports do
     get 'summary'
     get 'user'
+  end
+  namespace :admin do
+    resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
   end
 end

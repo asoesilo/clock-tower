@@ -3,6 +3,14 @@
   <%= f.text_field :firstname, {value: @firstname, class: "form-control mid-control", placeholder: "First name"} %>
   <%= f.text_field :lastname, {value: @lastname, class: "form-control mid-control", placeholder: "Last name"} %>
   <%= f.password_field :password, {value: nil, class: "form-control mid-control", placeholder: "Password"} %>
-  <%= f.password_field :password_confirmation, {value: nil, class: "form-control last-control", placeholder: "Confirm password"} %>
+  <% if current_user && current_user.is_admin? %>
+    <%= f.password_field :password_confirmation, {value: nil, class: "form-control mid-control", placeholder: "Confirm password"} %>
+    <%= f.label :is_admin, class: "form-control last-control" do %>
+      <%= f.check_box :is_admin, {value: @is_admin} %>
+      <small><%= f.label :is_admin, "Administrator" %></small>
+    <% end %>
+  <% else %>
+    <%= f.password_field :password_confirmation, {value: nil, class: "form-control last-control", placeholder: "Confirm password"} %>
+  <% end %>
   <%= f.submit "Submit", {class: "btn btn-primary btn-block control-btn"} %>
 <% end %>

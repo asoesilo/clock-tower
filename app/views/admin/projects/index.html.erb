@@ -4,9 +4,9 @@
 
 <%= render 'layouts/show_notice' %>
 
-<%= render 'projects/project_error' %>
+<%= render 'admin/projects/project_error' %>
 
-<%= link_to "Create new project", new_project_path %>
+<%= link_to "Create new project", new_admin_project_path %>
 
 <% if @projects && @projects.any? %>
   <table>
