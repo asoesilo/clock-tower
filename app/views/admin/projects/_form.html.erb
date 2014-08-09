@@ -1,6 +1,6 @@
 <%= render 'admin/projects/project_error' %>
 
 <%= form_for @project, url: @path do |f| %>
-  <%= f.text_field :name, {value: @name, class: "form-control", placeholder: "Name"} %>
+  <%= f.text_field :name, {class: "form-control", placeholder: "Name"} %>
   <%= f.submit "Submit", class: "btn btn-primary btn-block control-btn" %>
 <% end %>
