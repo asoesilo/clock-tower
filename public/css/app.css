@@ -64,3 +64,9 @@ body {
 .action-icon-push {
   width: 12px;
 }
+
+.vcenter {
+  display: inline-block;
+  vertical-align: baseline;
+  float: none;
+}

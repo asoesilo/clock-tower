@@ -1,13 +1,6 @@
-<%= link_to "Back to projects", admin_projects_path %>
-
 <%= render 'admin/projects/project_error' %>
 
 <%= form_for @project, url: @path do |f| %>
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  <div>
-    <%= f.submit "Submit" %>
-  </div>
+  <%= f.text_field :name, {value: @name, class: "form-control", placeholder: "Name"} %>
+  <%= f.submit "Submit", class: "btn btn-primary btn-block control-btn" %>
 <% end %>
