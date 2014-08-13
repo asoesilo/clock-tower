@@ -11,7 +11,11 @@ class SessionsController < ApplicationController
     user = User.find_by_email(params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to :root, notice: "Welcome back, #{user.fullname}"
+      if user.is_admin?
+        redirect_to :reports_user
+      else
+        redirect_to :time_entries
+      end
     else
       flash[:alert] = "Invalid email or password"
 
