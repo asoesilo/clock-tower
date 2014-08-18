@@ -1,35 +1,37 @@
 <div ng-controller="TimeEntriesCtrl">
   <div class="jumbotron padding-top-20">
     <div class="container">
-      <div class="form-group row">
-        <div class="col-md-3">
-          <select name="task" class="form-control" data-placeholder="What are you working on?" chosen="tasks" ng-model="task" ng-options="task.name for task in tasks">
-            <option value></option>
-          </select>
+      <form ng-submit="createTimeEntry()">
+        <div class="form-group row">
+          <div class="col-md-3">
+            <select name="task" class="form-control" data-placeholder="What are you working on?" chosen="tasks" ng-model="task" ng-options="task.name for task in tasks">
+              <option value></option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select name="project" class="form-control" data-placeholder="Select project" chosen="projects" ng-model="project" ng-options="project.name for project in projects">
+              <option value></option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <p class="input-group">
+              <input type="text" class="form-control" placeholder="Select date" datepicker-popup="{{dateFormat}}" ng-model="date" ng-required="true" show-weeks="true" min-date="minDate" max-date="maxDate" is-open="opened" datepicker-options="dateOptions" close-text="Close" readonly>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="toggleCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Duration" ng-model="duration">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary btn-block control-btn" type="submit">Submit</button>
+          </div>
         </div>
-        <div class="col-md-3">
-          <select name="project" class="form-control" data-placeholder="Select project" chosen="projects" ng-model="project" ng-options="project.name for project in projects">
-            <option value></option>
-          </select>
+        <div>
+          <input type="text" class="form-control" placeholder="Write your comments here" ng-model="comments">
         </div>
-        <div class="col-md-2">
-          <p class="input-group">
-            <input type="text" class="form-control" placeholder="Select date" datepicker-popup="{{dateFormat}}" ng-model="date" ng-required="true" show-weeks="true" min-date="minDate" max-date="maxDate" is-open="opened" datepicker-options="dateOptions" close-text="Close" readonly>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="toggleCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          </p>
-        </div>
-        <div class="col-md-2">
-          <input type="text" class="form-control" placeholder="Duration" ng-model="duration">
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary btn-block control-btn" ng-click="createTimeEntry()">Submit</button>
-        </div>
-      </div>
-      <div>
-        <input type="text" class="form-control" placeholder="Write your comments here" ng-model="comments">
-      </div>
+      </form>
     </div>
   </div>
 
