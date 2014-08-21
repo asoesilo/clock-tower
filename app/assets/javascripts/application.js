@@ -16,6 +16,7 @@
 
 //= require angular
 //= require angular-ui-bootstrap-tpls
+//= require angular-resource.min.js
 //= require chosen-jquery
 //= require clock_tower_app
 //= require ./angular/services/constants

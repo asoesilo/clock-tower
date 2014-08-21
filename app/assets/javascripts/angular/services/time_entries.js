@@ -1,16 +1,20 @@
 'use strict';
 
 var ClockTower = angular.module('ClockTower');
-ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, apiPath) {
+ClockTower.service('TimeEntryService', ['$http', '$resource', function($http, $resource) {
+  var TimeEntry = $resource('./api/time_entries/:id', {id: '@id'}, {
+    'update': { method: 'PUT' }
+  });
+
   var getAllTimeEntries = function() {
-    return $http.get('./api/time_entries');
+    return TimeEntry.query();
   };
 
   var getTimeEntriesForProfile = function() {
     return $http.get('./api/profile/time_entries');
   };
 
-  var createTimeEntry = function(taskId, projectId, entryDate, duration, comments) {
+  var createTimeEntry = function(taskId, projectId, entryDate, duration, comments, success, error) {
     var data = {
       time_entry: {
         task_id: taskId,
@@ -21,10 +25,11 @@ ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, api
       }
     };
 
-    return $http.post('./api/time_entries', data);
+    var newTimeEntry = new TimeEntry(data);
+    return newTimeEntry.$save(success, error);
   };
 
-  var updateTimeEntry = function(id, taskId, projectId, entryDate, duration, comments) {
+  var updateTimeEntry = function(id, taskId, projectId, entryDate, duration, comments, success, error) {
     var data = {
       time_entry: {
         task_id: taskId,
@@ -35,11 +40,11 @@ ClockTower.service('TimeEntryService', ['$http', 'API_PATH', function($http, api
       }
     };
 
-    return $http.put('./api/time_entries/' + id, data);
+    return TimeEntry.update({id: id}, data, success, error);
   };
 
-  var deleteTimeEntry = function(entryId) {
-    return $http.delete('./api/time_entries/' + entryId);
+  var deleteTimeEntry = function(entryId, success, error) {
+    return TimeEntry.remove({id: entryId}, success, error);
   };
 
   return {

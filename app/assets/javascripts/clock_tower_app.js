@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('ClockTower', ["ui.bootstrap"]);
+angular.module('ClockTower', ["ui.bootstrap", "ngResource"]);
