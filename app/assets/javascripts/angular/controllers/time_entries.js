@@ -16,7 +16,6 @@ var ConfirmationModalCtrl = function($scope, $modalInstance, message) {
 
 ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'ProjectService', 'TimeEntryService',
   function($scope, $modal, TaskService, ProjectService, TimeEntryService) {
-
     $scope.date = "";
 
     var fetchTasks = function() {
@@ -90,28 +89,23 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
     };
 
     $scope.createTimeEntry = function() {
-      console.log("In create time entry");
-
       var task = $scope.task;
       var project = $scope.project;
       var duration = $scope.duration;
       var date = formatDate($scope.date);
       var comments = $scope.comments;
 
-      TimeEntryService.create(task.id, project.id, date, duration, comments).then(function(response) {
-        if(response.data.error !== undefined) {
-          // TODO: Handle error
-        }
-        else {
-          response.data.entry.date = parseDate(response.data.entry.date);
-          $scope.timeEntries.push(response.data.entry);
+      TimeEntryService.create(task.id, project.id, date, duration, comments, function(response) {
+        response.entry.date = parseDate(response.entry.date);
+        $scope.timeEntries.push(response.entry);
 
-          $scope.task = null;
-          $scope.project = null;
-          $scope.duration = null;
-          $scope.date = null;
-          $scope.comments = null;        
-        }
+        $scope.task = null;
+        $scope.project = null;
+        $scope.duration = null;
+        $scope.date = null;
+        $scope.comments = null;
+      }, function(error) {
+        // TODO: error handling
       });
     };
 
@@ -132,8 +126,6 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
     }
 
     $scope.deleteTimeEntry = function(entry) {
-      console.log("in delete time entry");
-
       // Use traditional Javascript dialog to prompt delete confirmation
       // if(window.confirm("Confirm to delete time entry.")) {
       //   console.log("delete time entry");
@@ -152,15 +144,11 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       });
 
       modalInstance.result.then(function() {
-        console.log('delete time entry');
 
-        TimeEntryService.delete(entry.id).then(function(response) {
-          if(response.data.errors !== undefined) {
-            // TODO: Handle error
-          }
-          else {
-            removeEntryFromArray(entry);
-          }
+        TimeEntryService.delete(entry.id, function() {
+          removeEntryFromArray(entry);
+        }, function(error) {
+          // TODO: error handling
         });
       }, function() {
         // Cancel delete
@@ -188,22 +176,17 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       var duration = entry.newDuration;
       var comments = entry.newComments;
 
-      TimeEntryService.update(entry.id, task.id, project.id, date, duration, comments).then(function(response) {
-        console.log('in end update response');
-        if(response.data.error !== undefined) {
-          // TODO: Handle error
-        }
-        else {
-          console.log('in handle success');
-          setEditState(entry, false);
+      TimeEntryService.update(entry.id, task.id, project.id, date, duration, comments, function(response) {
+        setEditState(entry, false);
 
-          var newEntry = response.data.entry;
-          entry.task = newEntry.task;
-          entry.project = newEntry.project;
-          entry.date = parseDate(newEntry.date);
-          entry.duration_in_hours = newEntry.duration_in_hours;
-          entry.comments = newEntry.comments;
-        }
+        var newEntry = response.entry;
+        entry.task = newEntry.task;
+        entry.project = newEntry.project;
+        entry.date = parseDate(newEntry.date);
+        entry.duration_in_hours = newEntry.duration_in_hours;
+        entry.comments = newEntry.comments;
+      }, function(error) {
+        // TODO: Handle error
       });
     }
 
