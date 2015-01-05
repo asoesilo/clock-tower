@@ -8,10 +8,10 @@
 
 # Create user admin account if one does not yet exist
 
-User.destroy_all
-Project.destroy_all
-Task.destroy_all
-TimeEntry.destroy_all
+User.delete_all
+Project.delete_all
+Task.delete_all
+TimeEntry.delete_all
 
 ADMIN_FIRSTNAME = "my"
 ADMIN_LASTNAME = "admin"
@@ -19,7 +19,7 @@ ADMIN_EMAIL = "my@admin.com"
 ADMIN_PASSWORD = "my@admin.com"
 
 if admin = User.find_by(email: ADMIN_EMAIL).nil?
-  admin = User.create(firstname: ADMIN_FIRSTNAME, lastname: ADMIN_LASTNAME, email: ADMIN_EMAIL, password: ADMIN_PASSWORD, is_admin: true)
+  admin = User.create!(firstname: ADMIN_FIRSTNAME, lastname: ADMIN_LASTNAME, email: ADMIN_EMAIL, password: ADMIN_PASSWORD, is_admin: true)
 end
 
 # Projects
@@ -40,7 +40,9 @@ Task.create! creator: admin, name: 'Lecture / Class'
 Task.create! creator: admin, name: 'Breakout'
 Task.create! creator: admin, name: 'Pod Leading'
 Task.create! creator: admin, name: 'Project Mentoring'
-Task.create! creator: admin, name: 'Development'
+Task.create! creator: admin, name: 'Software Development'
 Task.create! creator: admin, name: 'Meeting'
 Task.create! creator: admin, name: 'Curriculum Development'
+Task.create! creator: admin, name: 'Unknown Legacy'
+Task.create! creator: admin, name: 'Grading Tests'
 
