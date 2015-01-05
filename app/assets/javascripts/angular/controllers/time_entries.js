@@ -99,8 +99,8 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         response.entry.date = parseDate(response.entry.date);
         $scope.timeEntries.push(response.entry);
 
-        $scope.task = null;
-        $scope.project = null;
+        //$scope.task = null;
+        //$scope.project = null;
         $scope.duration = null;
         $scope.date = null;
         $scope.comments = null;
