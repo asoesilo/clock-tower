@@ -3,6 +3,6 @@ class AdminController < ApplicationController
 
   private
   def admin_access
-    redirect_to root_path, alert: "Admin access required!" if current_user && !current_user.is_admin?
+    redirect_to root_path, alert: "Admin access required!" unless current_user && current_user.is_admin?
   end
 end

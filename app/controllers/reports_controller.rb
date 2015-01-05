@@ -1,4 +1,6 @@
-class ReportsController < ApplicationController
+class ReportsController < AdminController
+
+  
 
   def summary
     requirements = report_summary_params
