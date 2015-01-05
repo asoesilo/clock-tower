@@ -54,6 +54,7 @@ gem 'airbrake'
 # https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
 gem 'puma'
 gem 'silencer'
+gem 'newrelic_rpm'
 
 group :production do 
   gem 'rails_12factor'

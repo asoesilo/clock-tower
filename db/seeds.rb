@@ -42,5 +42,5 @@ Task.create! creator: admin, name: 'Pod Leading'
 Task.create! creator: admin, name: 'Project Mentoring'
 Task.create! creator: admin, name: 'Development'
 Task.create! creator: admin, name: 'Meeting'
-
+Task.create! creator: admin, name: 'Curriculum Development'
 
