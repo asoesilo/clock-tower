@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.1.1'
 gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
@@ -48,6 +49,12 @@ gem 'chosen-rails', '~> 1.1.0'
 # Bootstrap for Chosen Javascript
 gem 'chosen-sass-bootstrap-rails', '~> 0.0.2'
 
+gem 'airbrake'
+# ruby app server
+# https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+gem 'puma'
+gem 'silencer'
+
 group :production do 
   gem 'rails_12factor'
 end
@@ -60,4 +67,6 @@ group :development, :test do
   gem 'faker'
   gem 'pry'
   gem 'pry-debugger'
+  gem 'dotenv-rails'
+  gem 'quiet_assets'
 end
