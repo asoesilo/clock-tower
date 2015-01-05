@@ -19,7 +19,14 @@ ADMIN_EMAIL = "my@admin.com"
 ADMIN_PASSWORD = "my@admin.com"
 
 if admin = User.find_by(email: ADMIN_EMAIL).nil?
-  admin = User.create!(firstname: ADMIN_FIRSTNAME, lastname: ADMIN_LASTNAME, email: ADMIN_EMAIL, password: ADMIN_PASSWORD, is_admin: true)
+  admin = User.create!(
+    firstname: ADMIN_FIRSTNAME, 
+    lastname: ADMIN_LASTNAME, 
+    email: ADMIN_EMAIL, 
+    password: ADMIN_PASSWORD, 
+    is_admin: true,
+    active: true
+  )
 end
 
 # Projects

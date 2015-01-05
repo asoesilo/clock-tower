@@ -3,7 +3,7 @@ module Admin
     skip_before_action :authenticate_user, only: [:new, :create]
 
     def index
-      @users = User.all
+      @users = User.order(active: :desc, is_admin: :desc, id: :desc).all
     end
 
     def new
