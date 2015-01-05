@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150105061642) do
+ActiveRecord::Schema.define(version: 20150105090626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,12 +23,16 @@ ActiveRecord::Schema.define(version: 20150105061642) do
     t.datetime "updated_at"
   end
 
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+
   create_table "tasks", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
   end
+
+  add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
 
   create_table "time_entries", force: true do |t|
     t.integer  "user_id"
@@ -41,6 +45,11 @@ ActiveRecord::Schema.define(version: 20150105061642) do
     t.datetime "updated_at"
   end
 
+  add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree
+  add_index "time_entries", ["project_id"], name: "index_time_entries_on_project_id", using: :btree
+  add_index "time_entries", ["task_id"], name: "index_time_entries_on_task_id", using: :btree
+  add_index "time_entries", ["user_id"], name: "index_time_entries_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
     t.string   "firstname"
     t.string   "lastname"
@@ -52,5 +61,7 @@ ActiveRecord::Schema.define(version: 20150105061642) do
     t.boolean  "is_admin"
     t.boolean  "active"
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
 end
