@@ -48,7 +48,7 @@ ClockTower.service('TimeEntryService', ['$http', '$resource', function($http, $r
   };
 
   return {
-    all: getAllTimeEntries,
+//  all: getAllTimeEntries,
     get: getTimeEntriesForProfile,
     create: createTimeEntry,
     update: updateTimeEntry,

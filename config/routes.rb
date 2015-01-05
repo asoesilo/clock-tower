@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index]
     resources :tasks, only: [:index]
     resources :projects, only: [:index]
-    resources :time_entries, only: [:index, :create, :update, :destroy]
+    resources :time_entries, only: [:create, :update, :destroy]
     get 'profile/time_entries'
   end
   namespace :reports do

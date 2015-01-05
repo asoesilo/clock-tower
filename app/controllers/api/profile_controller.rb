@@ -3,7 +3,12 @@ module Api
     skip_before_action :admin_access, only: [:time_entries]
 
     def time_entries
-      render json: TimeEntry.where(user_id: current_user.id), status: :ok
+      @entries = current_user.time_entries.order(entry_date: :desc)
+      render json: {
+        num_entries: @entries.count,
+        entries: @entries.limit(50),
+        total_hours: @entries.sum(:duration_in_hours)
+      }
     end
   end
 end

@@ -4,9 +4,9 @@ module Api
 
     skip_before_filter :verify_authenticity_token
 
-    def index
-      render json: TimeEntry.all, status: :ok
-    end
+    # def index
+    #   render json: TimeEntry.all, status: :ok
+    # end
 
     def create
       time_entry = TimeEntry.new(time_entry_params)
