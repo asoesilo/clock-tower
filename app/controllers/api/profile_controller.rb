@@ -6,7 +6,7 @@ module Api
       @entries = current_user.time_entries.order(entry_date: :desc)
       render json: {
         num_entries: @entries.count,
-        entries: @entries.limit(50),
+        entries: @entries.limit(25),
         total_hours: @entries.sum(:duration_in_hours)
       }
     end

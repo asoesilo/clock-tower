@@ -49,10 +49,10 @@
   </div>
 
   <div class="container">
-    <p>
+    <p ng-show="totalHours">
       <strong>Total Hours:</strong>
       <span>{{ totalHours }}</span>
-      <span ng-show="moreEntries">(Only showing latest 50 entries)</span>
+      <span ng-show="moreEntries">(Only showing latest 25 entries)</span>
     </p>
     <accordion close-others="false">
       <accordion-group ng-repeat="entry in timeEntries" is-open="entry.isEditState" is-disabled="true">
