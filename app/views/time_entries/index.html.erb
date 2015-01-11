@@ -55,7 +55,7 @@
       <span ng-show="moreEntries">(Only showing latest 25 entries)</span>
     </p>
     <accordion close-others="false">
-      <accordion-group ng-repeat="entry in timeEntries" is-open="entry.isEditState" is-disabled="true">
+      <accordion-group ng-repeat="entry in timeEntries" is-open="entry.isEditState" is-disabled="true" ng-class="{'fresh': entry.justCreated}">
         <accordion-heading>
           <div class="row">
             <div class="col-md-8">

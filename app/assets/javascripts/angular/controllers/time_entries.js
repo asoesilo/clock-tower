@@ -97,7 +97,8 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
 
       TimeEntryService.create(task.id, project.id, date, duration, comments, function(response) {
         response.entry.date = parseDate(response.entry.date);
-        $scope.timeEntries.push(response.entry);
+        response.entry.justCreated = true
+        $scope.timeEntries.unshift(response.entry);
 
         //$scope.task = null;
         //$scope.project = null;
@@ -105,7 +106,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         $scope.date = null;
         $scope.comments = null;
       }, function(error) {
-        // TODO: error handling
+        alert(error);
       });
     };
 
@@ -151,6 +152,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
           removeEntryFromArray(entry);
         }, function(error) {
           // TODO: error handling
+          alert(error);
         });
       }, function() {
         // Cancel delete
