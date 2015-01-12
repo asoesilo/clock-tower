@@ -51,6 +51,7 @@
  <% end %>
 
   <% @reporting_users.each do |user| %>
+    <% next unless @entries_by_user[user.id.to_s][:regular].present? || @entries_by_user[user.id.to_s][:holiday].present? %>
     <div class="row">
       <h3>
         <%= user.fullname %>
