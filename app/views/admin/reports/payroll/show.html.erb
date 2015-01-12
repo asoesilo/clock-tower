@@ -52,7 +52,12 @@
 
   <% @reporting_users.each do |user| %>
     <div class="row">
-      <h3><%= user.fullname %></h3>
+      <h3>
+        <%= user.fullname %>
+        <% if user.company_name? %>
+          (<%= user.company_name %>)
+        <% end %>
+      </h3>
     </div>
     <table class="table table-bordered">
       <tbody>

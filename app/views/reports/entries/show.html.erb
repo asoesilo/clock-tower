@@ -48,7 +48,12 @@
  <% end %>
 
   <div class="row">
-    <h3><%= current_user.fullname %></h3>
+    <h3> 
+      <%= current_user.fullname %>
+      <% if current_user.company_name? %>
+        (<%= current_user.company_name %>)
+      <% end %>
+    </h3>
   </div>
   <table class="table table-bordered">
     <tbody>
