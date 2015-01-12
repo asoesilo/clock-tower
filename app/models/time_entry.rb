@@ -22,19 +22,19 @@ class TimeEntry < ActiveRecord::Base
   end
 
   class << self
-    def query(from, to, user_ids: nil, project_ids: nil, task_ids: nil)
+    def query(from, to, user_ids = nil, project_ids = nil, task_ids = nil)
       result = TimeEntry.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", from, to)
 
-      if user_ids && user_ids.size > 0
-        result = result.where(user_id: user_ids)
+      if user_ids.present?
+        result = result.where("time_entries.user_id = (?)", user_ids)
       end
 
-      if project_ids
-        result = result.where(project_id: project_ids)
+      if project_ids.present?
+        result = result.where("time_entries.project_id = (?)", project_ids)
       end
 
-      if task_ids
-        result = result.where(task_id: task_ids)
+      if task_ids.present?
+        result = result.where("time_entries.task_id = (?)", task_ids)
       end
 
       result.order(entry_date: :desc)

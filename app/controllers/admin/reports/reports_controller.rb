@@ -2,7 +2,13 @@ class Admin::Reports::ReportsController < Admin::Reports::BaseController
 
   def summary
     requirements = report_summary_params
-    @time_entries = TimeEntry.query(requirements["from"], requirements["to"], requirements["users"], project_ids: requirements["projects"], task_ids: requirements["tasks"])
+    @time_entries = TimeEntry.query(
+      requirements["from"], 
+      requirements["to"], 
+      requirements["users"], 
+      requirements["projects"], 
+      requirements["tasks"]
+    )
 
     @from = requirements["from"]
     @to = requirements["to"]
