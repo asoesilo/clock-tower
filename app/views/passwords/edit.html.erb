@@ -1,0 +1,11 @@
+<div class="container padding-top-20">
+  <h2>Password Update</h2> 
+  <%= form_for @user, url: password_path, method: :put do |f| %>
+
+    <%= f.text_field :password, {class: "form-control", placeholder: 'Password'} %>
+    <%= f.text_field :password_confirmation, {class: "form-control", placeholder: 'Confirmation'} %>
+
+    <%= f.submit "Update Password", class: "btn btn-primary btn-block control-btn" %>
+
+  <% end %>
+</div>

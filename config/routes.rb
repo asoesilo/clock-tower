@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
 
   resource :profile, only: [:new, :create]
+  resource :password, only: [:edit, :update]
+  
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
   namespace :api do
     resources :users, only: [:index]

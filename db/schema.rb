@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111204616) do
+ActiveRecord::Schema.define(version: 20150112022055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20150111204616) do
     t.float    "rate"
     t.float    "secondary_rate"
     t.float    "holiday_rate_multiplier", default: 1.5
+    t.boolean  "password_reset_required"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
