@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
     else
       rate = self.rate
     end
-    holiday ? rate * holiday_rate_multiplier : rate
+    holiday ? rate.to_f * holiday_rate_multiplier : rate.to_f
   end
 
   def as_json(options)

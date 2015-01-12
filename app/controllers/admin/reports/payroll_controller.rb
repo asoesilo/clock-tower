@@ -8,8 +8,8 @@ class Admin::Reports::PayrollController < Admin::Reports::BaseController
     @reporting_users = @users || @all_users
 
     @entries_by_user = {}
-    
-    reporter = Reports::Entries.new(@from, @to)
+
+    reporter = ::Reports::Entries.new(@from, @to)
 
     @reporting_users.each do |user|
       @entries_by_user[user.id.to_s] = {

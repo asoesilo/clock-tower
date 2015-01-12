@@ -1,9 +1,9 @@
 <tr class="<%= 'info' if entry[:holiday] %>">
   <td style="width:200px">
-    <%= project.try(:name) || "[Unknown Project]" %>
+    <%= entry[:project].try(:name) || "[Unknown Project]" %>
   </td>
   <td>
-    <%= task.try(:name) || "[Unknown Task]" %>
+    <%= entry[:task].try(:name) || "[Unknown Task]" %>
     <% if entry[:holiday] && entry[:date] %>
       - 
       <% holiday = Holidays.on(entry[:date], :ca_bc).first %>
@@ -14,9 +14,9 @@
     <%= entry[:hours] %>
   </td>
   <td style="width:90px">
-    <%= number_to_currency rate %>/hr
+    <%= number_to_currency entry[:rate] %>/hr
   </td>
   <td style="width:90px">
-    <strong><%= number_to_currency cost %></strong>
+    <strong><%= number_to_currency entry[:cost] %></strong>
   </td>
 </tr>

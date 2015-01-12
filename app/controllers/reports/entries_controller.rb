@@ -4,7 +4,7 @@ class Reports::EntriesController < ApplicationController
     @from = report_params[:from].present? ? Date.parse(report_params[:from]) : Date.today
     @to = report_params[:to].present? ? Date.parse(report_params[:to]) : Date.today
 
-    reporter = Reports::Entries.new(@from, @to)
+    reporter = ::Reports::Entries.new(@from, @to)
 
     @entries = {
       regular: reporter.regular_entries_for(current_user),
