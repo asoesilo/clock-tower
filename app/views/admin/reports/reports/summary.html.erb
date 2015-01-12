@@ -1,6 +1,6 @@
 <div class="jumbotron" ng-controller="SummaryReportController">
   <div class="container" ng-init="presetValues('<%= @from %>','<%= @to %>',<%= @users.to_json(nil) %>, <%= @projects?@projects.to_json(nil):[] %>, <%= @tasks?@tasks.to_json(nil):[] %>)">
-    <%= form_tag(reports_summary_path, method: :get, class: "form", role: "form") do %>
+    <%= form_tag(admin_reports_summary_path, method: :get, class: "form", role: "form") do %>
       <div class="row">
         <div class="col-md-2">
           <p class="input-group">

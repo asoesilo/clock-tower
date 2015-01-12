@@ -49,6 +49,8 @@ gem 'chosen-rails', '~> 1.1.0'
 # Bootstrap for Chosen Javascript
 gem 'chosen-sass-bootstrap-rails', '~> 0.0.2'
 
+gem 'holidays'
+
 gem 'airbrake'
 # ruby app server
 # https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server

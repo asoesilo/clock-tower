@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       if user.is_admin?
-        redirect_to :reports_user
+        redirect_to :admin_reports_user
       else
         redirect_to :time_entries
       end

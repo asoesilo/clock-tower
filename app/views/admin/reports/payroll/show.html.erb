@@ -1,0 +1,107 @@
+<div class="jumbotron" ng-controller="SummaryReportController">
+  <div class="container" ng-init="presetValues('<%= @from %>','<%= @to %>',<%= @users.to_json(nil) %>, <%= @projects?@projects.to_json(nil):[] %>, <%= @tasks?@tasks.to_json(nil):[] %>)">
+    <%= form_tag(admin_reports_payroll_path, method: :get, class: "form", role: "form") do %>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="input-group">
+            <%= text_field_tag :from, @from, {class: "form-control", placeholder: "From", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "from", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isFromCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="toggleFromCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+        </div>
+        <div class="col-md-2">
+          <p class="input-group">
+            <%= text_field_tag :to, @to, {class: "form-control", placeholder: "To", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "to", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isToCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="toggleToCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+        </div>
+        <div class="col-md-4">
+          <%= select_tag :users, @users, {class: "form-control", "data-placeholder" => "Filter by users", "chosen" => "users", multiple: true, "ng-model" => "selected_users", "ng-options" => "user.fullname for user in users track by user.id"} %>
+        </div>
+      
+        <div class="col-md-2">
+          <%= button_tag "Fetch", class: "btn btn-primary btn-block control-btn" %>
+        </div>
+        
+      </div>
+    
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+
+ <% if @holidays.present? %>
+  <div class="alert alert-info" %>
+    <p>
+      <strong>NOTE:</strong>
+      The following BC Holidays are observed during this date range:
+    </p>
+    <ul>
+      <% @holidays.each do |holiday| %>
+        <li><%= holiday[:name] %> (<%= holiday[:date] %>)</li>
+      <% end %>
+    </ul>
+    <hr/>
+    <p>For users with holiday rates, these will likely affect their totals</p>
+  </div>
+ <% end %>
+
+  <% @reporting_users.each do |user| %>
+    <div class="row">
+      <h3><%= user.fullname %></h3>
+    </div>
+    <table class="table table-bordered">
+      <tbody>
+        <% total_cost = 0 %>
+        <% @entries_by_user[user.id.to_s][:regular].each do |entry| %>
+          <% 
+            project = Project.find_by(id: entry[:project_id])
+            task = Task.find_by(id: entry[:task_id])
+            rate = user.rate_for(task, entry[:holiday])
+            cost = entry[:hours] * rate 
+            total_cost += cost
+          %>
+          <%= render 'entry', 
+                entry: entry, 
+                project: project, 
+                task: task, 
+                rate: rate, 
+                cost: cost 
+          %>
+        <% end %>
+        <% @entries_by_user[user.id.to_s][:holiday].each do |entry| %>
+          <% 
+            project = Project.find_by(id: entry[:project_id])
+            task = Task.find_by(id: entry[:task_id])
+            rate = user.rate_for(task, entry[:holiday])
+            cost = entry[:hours] * rate 
+            total_cost += cost
+            date = entry[:date]
+          %>
+          <%= render 'entry', 
+                entry: entry, 
+                project: project, 
+                task: task, 
+                rate: rate, 
+                cost: cost 
+          %>
+        <% end %>
+        <!-- Total -->
+        <tr class="warning">
+          <td colspan="4">
+            <strong>TOTAL:</strong>
+          </td>
+          <td>
+            <strong><%= number_to_currency total_cost %></strong>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+    <hr/>
+  <% end %>
+</div>

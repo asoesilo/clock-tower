@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150105090626) do
+ActiveRecord::Schema.define(version: 20150111204616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150105090626) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.boolean  "apply_secondary_rate"
   end
 
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
@@ -60,6 +61,10 @@ ActiveRecord::Schema.define(version: 20150105090626) do
     t.string   "password_digest"
     t.boolean  "is_admin"
     t.boolean  "active"
+    t.boolean  "hourly",                  default: true
+    t.float    "rate"
+    t.float    "secondary_rate"
+    t.float    "holiday_rate_multiplier", default: 1.5
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
