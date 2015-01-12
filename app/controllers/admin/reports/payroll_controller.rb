@@ -1,8 +1,6 @@
 class Admin::Reports::PayrollController < Admin::Reports::BaseController
 
   def show
-    # require 'reports/entries'
-    
     @from = report_params[:from].present? ? Date.parse(report_params[:from]) : Date.today
     @to = report_params[:to].present? ? Date.parse(report_params[:to]) : Date.today
     @all_users = User.all.hourly.order(lastname: :asc, firstname: :asc)
@@ -20,8 +18,6 @@ class Admin::Reports::PayrollController < Admin::Reports::BaseController
       }
     end
 
-    # raise @entries_by_user.inspect
-    
   end
 
   private

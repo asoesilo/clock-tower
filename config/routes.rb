@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     resources :time_entries, only: [:create, :update, :destroy]
     get 'profile/time_entries'
   end
+  namespace :reports do
+    get 'entries' => 'entries#show'
+  end
   namespace :admin do
     resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
