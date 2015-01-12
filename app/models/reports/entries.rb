@@ -10,8 +10,11 @@ class Reports::Entries
   end
 
   def holiday_entries_for(user)
+    # no entries if no holidays in the time period
+    return [] if holiday_dates.blank?
+    
     entries = entries_for(user)
-    entries = entries.where("time_entries.entry_date IN (?)", holiday_dates) if holiday_dates.present?
+    entries = entries.where("time_entries.entry_date IN (?)", holiday_dates) 
     entries = entries.group(:entry_date).select(:entry_date)
 
     entries.collect do |e| 

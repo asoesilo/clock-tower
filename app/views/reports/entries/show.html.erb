@@ -59,25 +59,12 @@
     <tbody>
       <% total_cost = 0 %>
       <% @entries[:regular].each do |entry| %>
-        <% total_cost += cost %>
+        <% total_cost += entry[:cost] %>
         <%= render 'entry', entry: entry %>
       <% end %>
       <% @entries[:holiday].each do |entry| %>
-        <% 
-          project = Project.find_by(id: entry[:project_id])
-          task = Task.find_by(id: entry[:task_id])
-          rate = current_user.rate_for(task, entry[:holiday])
-          cost = entry[:hours] * rate 
-          total_cost += cost
-          date = entry[:date]
-        %>
-        <%= render 'entry', 
-              entry: entry, 
-              project: project, 
-              task: task, 
-              rate: rate, 
-              cost: cost 
-        %>
+        <% total_cost += entry[:cost] %>
+        <%= render 'entry', entry: entry %>
       <% end %>
       <!-- Total -->
       <tr class="warning">
