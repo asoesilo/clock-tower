@@ -2,5 +2,12 @@
 
 <%= form_for @task, url: @path do |f| %>
   <%= f.text_field :name, {class: "form-control", placeholder: "Name"} %>
+
+  <%= f.label :apply_secondary_rate, class: "form-control last-control" do %>
+    <%= f.check_box :apply_secondary_rate %>
+    <small><%= f.label :apply_secondary_rate, "Use Secondary Rate" %></small>
+  <% end %>
+
+
   <%= f.submit "Submit", class: "btn btn-primary btn-block control-btn" %>
 <% end %>
