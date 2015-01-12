@@ -2,11 +2,11 @@
 <%= render 'layouts/user_error' %>
 
 <div class="container padding-top-20">
-  <h2>Create account</h2>
+  <h2>Update User</h2>
   
   <%= form_for([:admin, @user], html: {class: "form", role: "form"}) do |f| %>
     <%= render f %>
-    <%= f.submit "Create", {class: "btn btn-primary btn-block control-btn"} %>
+    <%= f.submit "Submit", {class: "btn btn-primary btn-block control-btn"} %>
   <% end %>
 
 </div>

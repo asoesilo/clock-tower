@@ -1,0 +1,27 @@
+<%= form.email_field :email, class: "form-control first-control", placeholder: "Email address" %>
+  
+<%= form.text_field :firstname, class: "form-control mid-control", placeholder: "First name" %>
+
+<%= form.text_field :lastname, class: "form-control mid-control", placeholder: "Last name" %>
+
+<%= form.password_field :password, class: "form-control mid-control", placeholder: "Password" %>  
+<%= form.password_field :password_confirmation, class: "form-control mid-control", placeholder: "Confirm password" %>
+
+<%= form.text_field :rate, class: "form-control mid-control", placeholder: "Hourly Rate" %>
+<%= form.text_field :secondary_rate, class: "form-control mid-control", placeholder: "Secondary Hourly Rate" %>
+<%= form.text_field :holiday_rate_multiplier, class: "form-control mid-control", placeholder: "Holiday Rate Multiplier" %>
+
+<%= form.label :hourly, class: "form-control last-control" do %>
+  <%= form.check_box :hourly %>
+  <small><%= form.label :hourly, "Hourly (Contractor)" %></small>
+<% end %>
+
+<%= form.label :is_admin, class: "form-control last-control" do %>
+  <%= form.check_box :is_admin %>
+  <small><%= form.label :is_admin, "Administrator" %></small>
+<% end %>
+
+<%= form.label :active, class: "form-control last-control" do %>
+  <%= form.check_box :active %>
+  <small><%= form.label :active, "Active" %></small>
+<% end %>

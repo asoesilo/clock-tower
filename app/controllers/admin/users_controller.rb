@@ -10,6 +10,19 @@ class Admin::UsersController < Admin::BaseController
     @path = admin_users_path
   end
 
+  def edit
+    @user = User.find params[:id]
+  end
+
+  def update
+    @user = User.find params[:id]
+    if @user.update(user_params)
+      redirect_to :index, notice: 'User updated'
+    else
+      render :edit
+    end
+  end
+
   def create
     @user = User.new(user_params)
 
@@ -22,6 +35,18 @@ class Admin::UsersController < Admin::BaseController
 
   protected
   def user_params
-    params.require(:user).permit(:email, :firstname, :lastname, :password, :password_confirmation, :is_admin)
+    params.require(:user).permit(
+      :email, 
+      :firstname, 
+      :lastname, 
+      :password, 
+      :password_confirmation, 
+      :is_admin,
+      :active,
+      :rate,
+      :secondary_rate,
+      :hourly,
+      :holiday_rate_multiplier
+    )
   end
 end
