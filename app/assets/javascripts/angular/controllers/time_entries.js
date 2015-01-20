@@ -1,5 +1,6 @@
 'use strict';
 
+
 var ClockTower = angular.module('ClockTower');
 
 var ConfirmationModalCtrl = function($scope, $modalInstance, message) {

@@ -1,5 +1,6 @@
 'use strict';
 
+
 var ClockTower = angular.module('ClockTower');
 ClockTower.service('TimeEntryService', ['$http', '$resource', function($http, $resource) {
   var TimeEntry = $resource('./api/time_entries/:id', {id: '@id'}, {
