@@ -9,8 +9,8 @@ module Api
     # end
 
     def create
-      time_entry = TimeEntry.new(time_entry_params)
-      time_entry.user_id = current_user.id
+      time_entry = current_user.time_entries.new(time_entry_params)
+      # time_entry.user_id = current_user.id
 
       if time_entry.save
         render json: { entry: time_entry }, status: :ok
@@ -20,7 +20,7 @@ module Api
     end
 
     def update
-      time_entry = TimeEntry.find_by(id: params[:id])
+      time_entry = current_user.time_entries.find(params[:id])
       if time_entry.update_attributes(time_entry_params)
         render json: { entry: time_entry }, status: :ok
       else
@@ -29,7 +29,7 @@ module Api
     end
 
     def destroy
-      time_entry = TimeEntry.find_by(id: params[:id])
+      time_entry = current_user.time_entries.find(params[:id])
       if time_entry.destroy
         head :ok
       else
