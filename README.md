@@ -1,4 +1,7 @@
 Clock Tower
+=============
+
+Initial version developed by Andre Soseilo.
 
 Clock Tower is an open-source time tracking web app.
 
