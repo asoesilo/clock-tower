@@ -3,6 +3,15 @@
   <td><%= user.lastname %></td>
   <td><%= user.email %></td>
   <td>
+    <% if entry = user.time_entries.order(entry_date: :desc).first %>
+      <span class="label <%= 'label-warning' if (Date.current - entry.entry_date.to_date) > 7 %>">
+        <%= entry.entry_date.to_formatted_s('') %>
+      </span>
+    <% else %>
+      <span class="label label-danger">None</span>
+    <% end %>
+  </td>
+  <td>
     <% if user.active? %>
       <span class="label label-success">Active</span>
     <% else %>
