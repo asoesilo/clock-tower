@@ -4,7 +4,7 @@
   <td><%= user.email %></td>
   <td>
     <% if entry = user.time_entries.order(entry_date: :desc).first %>
-      <span class="label <%= 'label-warning' if (Date.current - entry.entry_date.to_date) > 7 %>">
+      <span class="label <%= (Date.current - entry.entry_date.to_date) > 7 ? 'label-warning' : 'label-default' %>">
         <%= entry.entry_date.to_formatted_s('') %>
       </span>
     <% else %>
