@@ -34,22 +34,23 @@
 
 <div class="container">
 
- <% if @holidays.present? %>
-  <div class="alert alert-info" %>
-    <p>
-      <strong>NOTE:</strong>
-      The following BC Holidays are observed during this date range:
-    </p>
-    <ul>
-      <% @holidays.each do |holiday| %>
-        <li><%= holiday[:name] %> (<%= holiday[:date] %>)</li>
-      <% end %>
-    </ul>
-    <hr/>
-    <p>For users with holiday rates, these will likely affect their totals</p>
-  </div>
- <% end %>
+  <% if @holidays.present? %>
+    <div class="alert alert-info" %>
+      <p>
+        <strong>NOTE:</strong>
+        The following BC Holidays are observed during this date range:
+      </p>
+      <ul>
+        <% @holidays.each do |holiday| %>
+          <li><%= holiday[:name] %> (<%= holiday[:date] %>)</li>
+        <% end %>
+      </ul>
+      <hr/>
+      <p>For users with holiday rates, these will likely affect their totals</p>
+    </div>
+  <% end %>
 
+  <% final_total = 0 %>
   <% @reporting_users.each do |user| %>
     <% next unless @entries_by_user[user.id.to_s][:regular].present? || @entries_by_user[user.id.to_s][:holiday].present? %>
     <div class="row">
@@ -84,5 +85,11 @@
       </tbody>
     </table>
     <hr/>
+    <% final_total += total_cost %>
   <% end %>
+
+  <div class="alert alert-info">
+    <strong>TOTAL: <%= number_to_currency final_total %></strong>
+  </div>
+
 </div>
