@@ -5,6 +5,7 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
+  <%= yield :head %>
 </head>
 <body id="<%= 'admin' if on_admin? %>">
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -33,14 +34,12 @@
                     <li>
                       <%= link_to "Tasks", admin_tasks_path %>
                     </li>
+                    <li role="presentation" class="divider"></li>
                     <li>
                       <%= link_to "Payroll Report", admin_reports_payroll_path(from: default_report_start_date, to: default_report_end_date) %>
                     </li>
                     <li>
                       <%= link_to "Summary Report", admin_reports_summary_path(from: default_report_start_date, to: default_report_end_date) %>
-                    </li>
-                    <li>
-                      <%= link_to "User Time Tracking Report", admin_reports_user_path(user: current_user.id, from: default_report_start_date, to: default_report_end_date) %>
                     </li>
                   </ul>
                 </li>

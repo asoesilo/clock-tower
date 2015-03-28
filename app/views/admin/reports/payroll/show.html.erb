@@ -1,31 +1,34 @@
-<div class="jumbotron" ng-controller="SummaryReportController">
-  <div class="container" ng-init="presetValues('<%= @from %>','<%= @to %>',<%= @users.to_json(nil) %>, <%= @projects?@projects.to_json(nil):[] %>, <%= @tasks?@tasks.to_json(nil):[] %>)">
+<div class="jumbotron report-options">
+  <div class="container">
     <%= form_tag(admin_reports_payroll_path, method: :get, class: "form", role: "form") do %>
       <div class="row">
-        <div class="col-md-2">
-          <p class="input-group">
-            <%= text_field_tag :from, @from, {class: "form-control", placeholder: "From", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "from", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isFromCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="toggleFromCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          </p>
+        
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :from, @from.to_s(:humanly), class: "form-control pick-a-date", placeholder: "From" %>
         </div>
-        <div class="col-md-2">
-          <p class="input-group">
-            <%= text_field_tag :to, @to, {class: "form-control", placeholder: "To", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "to", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isToCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="toggleToCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          </p>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :to, @to.to_s(:humanly), class: "form-control pick-a-date", placeholder: "To" %>
         </div>
-        <div class="col-md-4">
-          <%= select_tag :users, @users, {class: "form-control", "data-placeholder" => "Filter by users", "chosen" => "users", multiple: true, "ng-model" => "selected_users", "ng-options" => "user.fullname for user in users track by user.id"} %>
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :users, options_from_collection_for_select(@all_users, :id, :fullname, params[:users]), { class: "form-control chosen-select", "data-placeholder" => "Filter by users", multiple: true } %>
+        </div>
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :projects, options_from_collection_for_select(@all_projects, :id, :name, params[:projects]), { class: "form-control chosen-select", "data-placeholder" => "Filter by projects", multiple: true } %>
+        </div>
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :tasks, options_from_collection_for_select(@all_tasks, :id, :name, params[:tasks]), { class: "form-control chosen-select", "data-placeholder" => "Filter by tasks", multiple: true } %>
         </div>
       
-        <div class="col-md-2">
-          <%= button_tag "Fetch", class: "btn btn-primary btn-block control-btn" %>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <%= button_tag "Fetch", class: "btn btn-primary control-btn pull-right" %>
         </div>
-        
       </div>
     
     <% end %>

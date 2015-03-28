@@ -9,11 +9,11 @@ class Reports::Entries
     @holiday_dates = @holidays.collect { |h| h[:date] }
   end
 
-  def holiday_entries_for(user)
+  def holiday_entries_for(user, project_ids = nil, task_ids = nil)
     # no entries if no holidays in the time period
     return [] if holiday_dates.blank?
     
-    entries = entries_for(user)
+    entries = entries_for(user, project_ids, task_ids)
     entries = entries.where("time_entries.entry_date IN (?)", holiday_dates) 
     entries = entries.group(:entry_date).select(:entry_date)
 
@@ -34,8 +34,8 @@ class Reports::Entries
     end
   end
 
-  def regular_entries_for(user)
-    entries = entries_for(user)
+  def regular_entries_for(user, project_ids = nil, task_ids = nil)
+    entries = entries_for(user, project_ids, task_ids)
     entries = entries.where("time_entries.entry_date NOT IN (?)", holiday_dates) if holiday_dates.present?
     
     entries.collect do |e|
@@ -56,9 +56,11 @@ class Reports::Entries
 
   private
 
-  def entries_for(user)
+  def entries_for(user, project_ids = nil, task_ids = nil)
     entries = user.time_entries.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", @from, @to)
     entries = entries.group(:project_id, :task_id)
+    entries = entries.where(project_id: project_ids) if project_ids
+    entries = entries.where(task_id: task_ids) if task_ids
     entries = entries.select("time_entries.project_id, time_entries.task_id, SUM(time_entries.duration_in_hours) AS hours")
   end
 

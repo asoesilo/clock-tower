@@ -27,7 +27,6 @@ Rails.application.routes.draw do
     namespace :reports do
       get 'payroll' => 'payroll#show'
       get 'summary' => 'reports#summary'
-      get 'user' => 'reports#user'
     end
   end
 end

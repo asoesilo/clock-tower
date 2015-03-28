@@ -1,30 +1,19 @@
-<div class="jumbotron" ng-controller="SummaryReportController">
-  <div class="container" ng-init="presetValues('<%= @from %>','<%= @to %>',<%= @users.to_json(nil) %>, <%= @projects?@projects.to_json(nil):[] %>, <%= @tasks?@tasks.to_json(nil):[] %>)">
+<div class="jumbotron report-options">
+  <div class="container">
     <%= form_tag(reports_entries_path, method: :get, class: "form", role: "form") do %>
       <div class="row">
-        <div class="col-md-2">
-          <p class="input-group">
-            <%= text_field_tag :from, @from, {class: "form-control", placeholder: "From", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "from", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isFromCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="toggleFromCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          </p>
+        <div class="col-md-4 option-field">
+          <%= text_field_tag :from, @from.to_s(:humanly), class: "form-control pick-a-date", placeholder: "From" %>
         </div>
-        <div class="col-md-2">
-          <p class="input-group">
-            <%= text_field_tag :to, @to, {class: "form-control", placeholder: "To", "datepicker-popup" => "{{dateFormat}}", "ng-model" => "to", "ng-required" => "true", "show-weeks" => "true", "is-open" => "isToCalendarOpen", "datepicker-options" => "dateOptions", "close-text" => "Close", "readonly" => ""} %>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="toggleToCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          </p>
+        <div class="col-md-4 option-field">
+          <%= text_field_tag :to, @to.to_s(:humanly), class: "form-control pick-a-date", placeholder: "To" %>
         </div>
         
-        <div class="col-md-2">
+        <div class="col-md-4">
           <%= button_tag "Fetch", class: "btn btn-primary btn-block control-btn" %>
         </div>
         
       </div>
-    
     <% end %>
   </div>
 </div>

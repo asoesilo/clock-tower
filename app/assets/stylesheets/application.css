@@ -13,5 +13,7 @@
  *= require_tree .
  *= require font-awesome
  *= require chosen_bootstrap
+ *= require pickadate/classic
+ *= require pickadate/classic.date
  *= require_self
  */

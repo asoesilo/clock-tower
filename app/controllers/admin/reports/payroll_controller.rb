@@ -1,7 +1,7 @@
 class Admin::Reports::PayrollController < Admin::Reports::BaseController
 
   def show
-    @from = report_params[:from].present? ? Date.parse(report_params[:from]) : Date.today
+    @from = report_params[:from].present? ? Date.parse(report_params[:from]) : Date.today.beginning_of_week
     @to = report_params[:to].present? ? Date.parse(report_params[:to]) : Date.today
     @all_users = User.all.hourly.order(lastname: :asc, firstname: :asc)
     @users = @all_users.where(id: report_params[:users]) if report_params[:users].present?
@@ -13,8 +13,8 @@ class Admin::Reports::PayrollController < Admin::Reports::BaseController
 
     @reporting_users.each do |user|
       @entries_by_user[user.id.to_s] = {
-        regular: reporter.regular_entries_for(user),
-        holiday: reporter.holiday_entries_for(user)
+        regular: reporter.regular_entries_for(user, report_params[:projects], report_params[:tasks]),
+        holiday: reporter.holiday_entries_for(user, report_params[:projects], report_params[:tasks])
       }
     end
 
@@ -23,7 +23,7 @@ class Admin::Reports::PayrollController < Admin::Reports::BaseController
   private
 
   def report_params
-    params.permit(:from, :to, users: [])
+    params.permit(:from, :to, users: [], projects: [], tasks: [])
   end
 
 end

@@ -10,33 +10,18 @@ class Admin::Reports::ReportsController < Admin::Reports::BaseController
       requirements["tasks"]
     )
 
-    @from = requirements["from"]
-    @to = requirements["to"]
+    @from = requirements["from"].present? ? Date.parse(requirements["from"]) : Date.today.beginning_of_week
+    @to = requirements["to"].present? ? Date.parse(requirements["to"]) : Date.today
     @users = User.where(id: requirements["users"])
     @projects = Project.where(id: requirements["projects"])
     @tasks = Task.where(id: requirements["tasks"])
     @total_duration = calculate_total_duration(@time_entries)
   end
 
-  def user
-    requirements = report_user_params
-    @time_entries = TimeEntry.query(requirements["from"], requirements["to"], [requirements["user"]])
-
-    @from = requirements["from"]
-    @to = requirements["to"]
-    @user = User.find_by(id: requirements["user"])
-    @total_duration = calculate_total_duration(@time_entries)
-
-    # binding.pry
-  end
-
   private
+
   def report_summary_params
     params.permit(:from, :to, users: [], projects: [], tasks: [])
-  end
-
-  def report_user_params
-    params.permit(:user, :from, :to)
   end
 
   def calculate_total_duration(entries)
@@ -44,4 +29,5 @@ class Admin::Reports::ReportsController < Admin::Reports::BaseController
       sum + entry.duration_in_hours
     end
   end
+  
 end

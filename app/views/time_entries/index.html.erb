@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag 'timesheet' %>
+<% end %>
+
 <div ng-controller="TimeEntriesCtrl">
   <script type="text/ng-template" id="confirmationModal.html">
     <div class="modal-header">
