@@ -10,11 +10,7 @@ class SessionsController < ApplicationController
     user = User.find_by_email(params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      if user.is_admin?
-        redirect_to :admin_reports_user
-      else
-        redirect_to :time_entries
-      end
+      redirect_to :time_entries
     else
       flash.now[:alert] = "Invalid email or password"
       render :new
