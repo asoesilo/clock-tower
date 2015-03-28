@@ -2,7 +2,7 @@
   <div class="jumbotron">
     <h2>Log In</h2>
     <%= form_tag(session_path, class: "form", role: "form") do %>
-      <%= email_field_tag :email, @email, class: "form-control first-control", placeholder: "Email address" %>
+      <%= email_field_tag :email, params[:email], class: "form-control first-control", placeholder: "Email address" %>
       <%= password_field_tag :password, nil, class: "form-control last-control", placeholder: "Password" %>
       <%= button_tag "Log In", class: "btn btn-primary btn-block control-btn" %>
     <% end %>

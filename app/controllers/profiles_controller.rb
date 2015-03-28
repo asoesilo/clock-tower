@@ -1,4 +1,5 @@
 class ProfilesController < ApplicationController
+  
   skip_before_action :authenticate_user, only: [:new, :create]
   before_action :to_home_if_logged_in
 
@@ -22,8 +23,10 @@ class ProfilesController < ApplicationController
     end
   end
 
-  protected
+  private
+
   def user_params
     params.require(:user).permit(:email, :firstname, :lastname, :password, :password_confirmation)
   end
+
 end

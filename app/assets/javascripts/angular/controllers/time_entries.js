@@ -112,7 +112,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
     };
 
     var fetchTimeEntries = function() {
-      TimeEntryService.get().success(function(data) {
+      TimeEntryService.list().success(function(data) {
         $scope.timeEntries = data.entries;
         $scope.totalHours = data.total_hours;
         $scope.moreEntries = (data.num_entries > 25);

@@ -1,10 +1,9 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user, only: [:new, :create, :destroy]
   
+  skip_before_action :authenticate_user, only: [:new, :create, :destroy]
   before_action :to_home_if_logged_in, only: [:new, :create]
 
   def new
-    @email = ""
   end
 
   def create
@@ -17,20 +16,14 @@ class SessionsController < ApplicationController
         redirect_to :time_entries
       end
     else
-      flash[:alert] = "Invalid email or password"
-
-      @email = params[:email]
+      flash.now[:alert] = "Invalid email or password"
       render :new
     end
   end
 
   def destroy
-    if current_user
-      reset_session
-    else
-      flash[:notice] = "You are not logged in!"
-    end
-
-    redirect_to :root
+    reset_session if current_user
+    redirect_to :root, notice: "You have been logged out."
   end
+
 end
