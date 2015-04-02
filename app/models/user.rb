@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
 
   scope :hourly, -> { where(hourly: true) }
 
+  after_create :send_email_invite
+
+  attr_accessor :creator # virtual attribute
+
   def fullname
     "#{firstname} #{lastname}"
   end
@@ -32,4 +36,11 @@ class User < ActiveRecord::Base
       email: email
     }
   end
+
+  private 
+
+  def send_email_invite
+    UserMailer.user_invite(self, creator).deliver
+  end
+
 end

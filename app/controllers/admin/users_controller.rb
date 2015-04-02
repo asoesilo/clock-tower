@@ -6,7 +6,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def new
-    @user = User.new
+    @user = User.new(active: true)
     @path = admin_users_path
   end
 
@@ -26,6 +26,7 @@ class Admin::UsersController < Admin::BaseController
   def create
     @user = User.new(user_params)
     @user.password_reset_required = true
+    @user.creator = current_user
     
     if @user.save
       redirect_to admin_users_path
