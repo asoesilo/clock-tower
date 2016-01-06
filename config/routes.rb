@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resource :session, only: [:new, :create, :destroy]
   resource :password, only: [:edit, :update]
+  resource :password_reset, only: [:new, :create]
   
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
 
