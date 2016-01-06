@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   validates :firstname, presence: true
   validates :lastname, presence: true
   validates :email, presence: true, uniqueness: true, email: true
+  validates :password, presence: true, if: :validate_password?
+  validates :password_confirmation, presence: true, if: :validate_password?
 
   scope :hourly, -> { where(hourly: true) }
 
@@ -38,6 +40,10 @@ class User < ActiveRecord::Base
   end
 
   private 
+
+  def validate_password?
+    password || password_confirmation
+  end
 
   def send_email_invite
     UserMailer.user_invite(self, creator).deliver
