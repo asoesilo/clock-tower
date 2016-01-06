@@ -13,5 +13,5 @@ Your account on Clock Tower has been created. Please login now to update your cr
 <p>
   Cheers,
   <br>
-  <%= @creator.fullname %>
+  <%= @creator.try(:fullname) || 'Clocktower Admin' %>
 </p>
