@@ -16,6 +16,9 @@
               <%= password_field_tag :password, nil, class: "form-control last-control", placeholder: "Password" %>
               <%= button_tag "Log In", class: "btn btn-primary btn-block control-btn" %>
             <% end %>
+            <div class='text-center'>
+              <%= link_to 'Forgot Password', new_password_reset_path %>
+            </div>
           </div>
         </div>
       <% end %>
