@@ -9,8 +9,8 @@ class PasswordsController < ApplicationController
   def update
     @user = current_user
     @user.attributes = password_params
-    @user.password_reset_required = false
     if @user.save
+      @user.password_reset_required = false
       redirect_to :root, notice: "Password updated, thanks!"
     else
       render :edit
