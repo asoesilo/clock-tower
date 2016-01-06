@@ -18,10 +18,9 @@ ADMIN_LASTNAME = "admin"
 ADMIN_EMAIL = "my@admin.com"
 ADMIN_PASSWORD = "my@admin.com"
 
-# Needed to prevent actionmailer view throwing an error
-creator = User.new
-
 if admin = User.find_by(email: ADMIN_EMAIL).nil?
+  creator = User.new
+
   admin = User.create!(
     firstname: ADMIN_FIRSTNAME, 
     lastname: ADMIN_LASTNAME, 
