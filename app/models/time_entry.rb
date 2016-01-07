@@ -46,11 +46,10 @@ class TimeEntry < ActiveRecord::Base
   private
 
   def set_rate()
-    return nil unless user.hourly?
     if user.secondary_rate? && task.apply_secondary_rate?
       rate = user.secondary_rate
     else
-      rate = user.rate
+      rate = user.rate || 0
     end
     rate = (  entry_date.holiday?(:ca_bc) ? rate.to_f * user.holiday_rate_multiplier : rate.to_f)
     self.rate = rate
