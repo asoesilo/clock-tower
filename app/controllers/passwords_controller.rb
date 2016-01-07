@@ -10,7 +10,9 @@ class PasswordsController < ApplicationController
     @user = current_user
     @user.attributes = password_params
     @user.password_reset_required = false
-    if @user.save
+    if password_blank?
+      render :edit
+    elsif @user.save
       redirect_to :root, notice: "Password updated, thanks!"
     else
       render :edit
@@ -18,6 +20,10 @@ class PasswordsController < ApplicationController
   end
 
   private
+
+  def password_blank?
+    password_params[:password].blank? || password_params[:password_confirmation].blank?
+  end
 
   def password_params
     params.require(:user).permit(:password, :password_confirmation)
