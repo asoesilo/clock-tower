@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   validates :firstname, presence: true
   validates :lastname, presence: true
   validates :email, presence: true, uniqueness: true, email: true
+  
+  validates :password_reset_token, uniqueness: true
   validates :password, presence: true, if: :validate_password?
   validates :password_confirmation, presence: true, if: :validate_password?
 
