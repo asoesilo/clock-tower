@@ -10,11 +10,11 @@ class PasswordsController < ApplicationController
     @user = current_user
     @user.attributes = password_params
     @user.password_reset_required = false
-    if password_blank?
-      render :edit
-    elsif @user.save
+    if !password_blank? && @user.valid?
+      @user.save
       redirect_to :root, notice: "Password updated, thanks!"
     else
+      flash.now[:notice] = "Invalid password update."
       render :edit
     end
   end
