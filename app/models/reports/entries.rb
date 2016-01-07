@@ -19,7 +19,7 @@ class Reports::Entries
 
     entries.collect do |e| 
       task = Task.find_by(id: e[:task_id])
-      rate = e.rate || user.rate_for(task, true)
+      rate = e[:rate] || user.rate_for(task, true)
       {
         project_id: e[:project_id],
         task_id:    e[:task_id],
