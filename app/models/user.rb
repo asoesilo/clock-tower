@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   validates :lastname, presence: true
   validates :email, presence: true, uniqueness: true, email: true
   
-  validates :password_reset_token, uniqueness: true
+  validates :password_reset_token, uniqueness: true, if: :password_reset_token
 
   scope :hourly, -> { where(hourly: true) }
 
