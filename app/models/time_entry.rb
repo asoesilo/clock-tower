@@ -52,7 +52,7 @@ class TimeEntry < ActiveRecord::Base
     else
       rate = user.rate
     end
-    rate = (entry_date.holiday? ? rate.to_f * user.holiday_rate_multiplier : rate.to_f)
+    rate = (  entry_date.holiday?(:ca_bc) ? rate.to_f * user.holiday_rate_multiplier : rate.to_f)
     self.rate = rate
   end
 
