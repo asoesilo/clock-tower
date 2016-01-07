@@ -9,6 +9,8 @@ class TimeEntry < ActiveRecord::Base
   validates :entry_date, presence: true
   validates :duration_in_hours, presence: true
 
+  before_save :set_rate
+
   def as_json(options)
     {
       id: id,
@@ -40,4 +42,18 @@ class TimeEntry < ActiveRecord::Base
       result.order(entry_date: :desc)
     end
   end
+
+  private
+
+  def set_rate()
+    return nil unless user.hourly?
+    if user.secondary_rate? && task.apply_secondary_rate?
+      rate = user.secondary_rate
+    else
+      rate = user.rate
+    end
+    rate = (entry_date.holiday? ? rate.to_f * user.holiday_rate_multiplier : rate.to_f)
+    self.rate = rate
+  end
+
 end
