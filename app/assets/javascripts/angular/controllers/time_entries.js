@@ -17,7 +17,7 @@ var ConfirmationModalCtrl = function($scope, $modalInstance, message) {
 
 ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'ProjectService', 'TimeEntryService',
   function($scope, $modal, TaskService, ProjectService, TimeEntryService) {
-    $scope.date = "";
+    $scope.date = new Date();
 
     var fetchTasks = function() {
       TaskService.all().success(function(tasks) {
@@ -104,7 +104,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         //$scope.task = null;
         //$scope.project = null;
         $scope.duration = null;
-        $scope.date = null;
+        $scope.date = new Date();
         $scope.comments = null;
       }, function(error) {
         alert(error);
