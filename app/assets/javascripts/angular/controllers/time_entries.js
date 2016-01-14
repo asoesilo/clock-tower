@@ -1,6 +1,5 @@
 'use strict';
 
-
 var ClockTower = angular.module('ClockTower');
 
 var ConfirmationModalCtrl = function($scope, $modalInstance, message) {
@@ -23,12 +22,14 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       TaskService.all().success(function(tasks) {
         $scope.tasks = tasks;
       });
+      setSelectDefaults();
     };
 
     var fetchProjects = function() {
       ProjectService.all().success(function(projects) {
         $scope.projects = projects;
       });
+      setSelectDefaults();
     };
 
     $scope.toggleCalendar = function($event, entry) {
@@ -111,6 +112,30 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       });
     };
 
+    var setSelectDefaults = function() {
+      var tasks = $scope.tasks
+      var projects = $scope.projects
+      var entries = $scope.timeEntries;
+
+      // function requires 3 ajax calls to complete and is called during the callback of each
+      if ( !tasks || !projects || !entries )
+        return 
+
+      var lastEntry = entries[0]
+
+      // task/project from lastEntry !== to values in $scope.tasks/projects
+      // so we have to set $scope.task/project to a value from tasks/projects
+      var lastTask = tasks.find(function(task){
+        return task.id === lastEntry.task.id;
+      });
+      var lastProject = projects.find(function(project){
+        return project.id === lastEntry.project.id;
+      });
+
+      $scope.task = lastTask;
+      $scope.project = lastProject;
+    };
+
     var fetchTimeEntries = function() {
       TimeEntryService.list().success(function(data) {
         $scope.timeEntries = data.entries;
@@ -119,6 +144,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         $scope.timeEntries.forEach(function(entry) {
           entry.date = parseDate(entry.date);
         });
+        setSelectDefaults();
       });
     };
 
@@ -204,7 +230,6 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       $scope.minDate = new Date();
       $scope.minDate.setYear($scope.minDate.getFullYear() - 1);
       $scope.dateFormat = "yyyy-MM-dd"
-
       fetchTasks();
       fetchProjects();
       fetchTimeEntries();
