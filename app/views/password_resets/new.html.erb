@@ -1,0 +1,9 @@
+<div class="container padding-top-20">
+  <div class="jumbotron">
+    <h2>Reset Password</h2>
+    <%= form_tag(password_resets_path, class: 'form') do %>
+      <%= email_field_tag :email, params[:email], class: "form-control", placeholder: "Email address" %>
+      <%= button_tag "Reset Password", class: "btn btn-primary btn-block control-btn" %>
+    <% end %>
+  </div>
+</div>
