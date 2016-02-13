@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107021147) do
+ActiveRecord::Schema.define(version: 20160213001027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,9 @@ ActiveRecord::Schema.define(version: 20160107021147) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "rate"
+    t.boolean  "apply_rate"
+    t.boolean  "is_holiday"
+    t.integer  "holiday_rate_multiplier"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree

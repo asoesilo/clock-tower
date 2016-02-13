@@ -9,6 +9,7 @@ class TimeEntry < ActiveRecord::Base
   validates :entry_date, presence: true
   validates :duration_in_hours, presence: true
 
+  before_save :set_holiday
   before_save :set_rate
 
   def as_json(options)
@@ -45,14 +46,25 @@ class TimeEntry < ActiveRecord::Base
 
   private
 
-  def set_rate()
-    if user.secondary_rate? && task.apply_secondary_rate?
-      rate = user.secondary_rate
-    else
-      rate = user.rate || 0
+  def set_holiday
+    if self.is_holiday = entry_date.holiday?(:ca_bc)
+      self.holiday_rate_multiplier = user.holiday_rate_multiplier
     end
-    rate = (  entry_date.holiday?(:ca_bc) ? rate.to_f * user.holiday_rate_multiplier : rate.to_f)
-    self.rate = rate
+  end
+
+  def set_rate
+    if self.apply_rate = user.hourly?
+      self.rate = calculate_rate
+    end
+  end
+
+  def calculate_rate
+    if user.secondary_rate? && task.apply_secondary_rate?
+      new_rate = user.secondary_rate
+    else
+      new_rate = user.rate
+    end
+    new_rate = ( is_holiday? ? new_rate.to_f * holiday_rate_multiplier : new_rate.to_f)
   end
 
 end
