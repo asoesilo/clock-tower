@@ -42,20 +42,18 @@ class TimeEntry < ActiveRecord::Base
 
       result.order(entry_date: :desc)
     end
-  end
+  end 
 
   private
 
   def set_holiday
-    if self.is_holiday = entry_date.holiday?(:ca_bc)
-      self.holiday_rate_multiplier = user.holiday_rate_multiplier
-    end
+    self.is_holiday = entry_date.holiday?(:ca_bc)
+    self.holiday_rate_multiplier = user.holiday_rate_multiplier
   end
 
   def set_rate
-    if self.apply_rate = user.hourly?
-      self.rate = calculate_rate
-    end
+    self.apply_rate = user.hourly?
+    self.rate = calculate_rate
   end
 
   def calculate_rate
@@ -64,7 +62,7 @@ class TimeEntry < ActiveRecord::Base
     else
       new_rate = user.rate
     end
-    new_rate = ( is_holiday? ? new_rate.to_f * holiday_rate_multiplier : new_rate.to_f)
+    is_holiday? ? (new_rate.to_f * holiday_rate_multiplier) : new_rate.to_f
   end
 
 end
