@@ -19,8 +19,7 @@ class Reports::Entries
 
     entries.collect do |e| 
       task = Task.find_by(id: e[:task_id])
-      rate = e.apply_rate.nil? ? user.rate_for(task, true) : e[:rate]
-
+      rate = e[:rate] if e.apply_rate?
       {
         project_id: e[:project_id],
         task_id:    e[:task_id],

@@ -54,8 +54,9 @@ class TimeEntry < ActiveRecord::Base
   end
 
   def set_rate
-    self.apply_rate = user.hourly?
-    self.rate = calculate_rate
+    if self.apply_rate = user.hourly?
+      self.rate = calculate_rate
+    end
   end
 
   def calculate_rate
