@@ -1,6 +1,6 @@
 class Admin::LocationsController < Admin::BaseController
 
-  before_action :load_location, only: [:show, :update, :destroy]
+  before_action :load_location, only: [:show, :edit, :update, :destroy]
 
   def index
     @locations = Location.all
@@ -17,6 +17,17 @@ class Admin::LocationsController < Admin::BaseController
       redirect_to admin_locations_path, notice: "#{@location.name} was successfully created."
     else
       render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @location.update(location_params)
+      redirect_to admin_locations_path, notice: "#{@location.name} was successfully created."
+    else
+      render :edit
     end
   end
 

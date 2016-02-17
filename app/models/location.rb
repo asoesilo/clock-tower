@@ -23,7 +23,7 @@ class Location < ActiveRecord::Base
   private
 
   def check_if_deletable
-    # false
+    
   end
 
   def set_holiday_code
