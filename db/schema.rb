@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20160217171621) do
 
   create_table "locations", force: :cascade do |t|
     t.string  "name"
+    t.string  "province"
     t.string  "holiday_code"
     t.integer "tax_percent"
     t.string  "tax_name"

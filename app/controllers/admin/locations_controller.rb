@@ -8,6 +8,10 @@ class Admin::LocationsController < Admin::BaseController
     @location = Location.new
   end
 
+  def create
+    p params
+  end
+
   private
 
   def load_location
