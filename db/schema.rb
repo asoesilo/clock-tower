@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160213005838) do
+ActiveRecord::Schema.define(version: 20160217012218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20160213005838) do
     t.boolean  "apply_rate"
     t.boolean  "is_holiday"
     t.integer  "holiday_rate_multiplier"
+    t.boolean  "legacy"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree
@@ -71,6 +72,7 @@ ActiveRecord::Schema.define(version: 20160213005838) do
     t.boolean  "password_reset_required"
     t.string   "company_name"
     t.string   "password_reset_token"
+    t.string   "tax_number"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

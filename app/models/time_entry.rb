@@ -11,6 +11,8 @@ class TimeEntry < ActiveRecord::Base
 
   before_save :set_holiday
   before_save :set_rate
+  # Before save prevents user selecting holiday / secondary rate task + changing it afterwards.
+  # Before create prevents user from updating old entries when they have a new rate, therefore updating it.
 
   def as_json(options)
     {
