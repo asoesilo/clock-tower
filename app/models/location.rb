@@ -8,6 +8,8 @@ class Location < ActiveRecord::Base
   # Taken from the Holidays::CA namespace.
   
   belongs_to :creator, class_name: :User, foreign_key: "user_id"
+  has_many :tasks
+  has_many :users
 
   validates :name, presence: true
   validates :province, inclusion: { in: HOLIDAY_CODES.keys }
@@ -16,7 +18,13 @@ class Location < ActiveRecord::Base
 
   before_create :set_holiday_code
 
+  before_destroy :check_if_deletable
+
   private
+
+  def check_if_deletable
+    # false
+  end
 
   def set_holiday_code
     self.holiday_code = HOLIDAY_CODES[self.province]
