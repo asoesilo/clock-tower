@@ -5,6 +5,7 @@ class CreateLocationModel < ActiveRecord::Migration
       t.string :holiday_code
       t.integer :tax_percent
       t.string :tax_name
+      t.string :user_id
     end
   end
 end

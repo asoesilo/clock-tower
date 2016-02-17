@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160217171621) do
     t.string  "holiday_code"
     t.integer "tax_percent"
     t.string  "tax_name"
+    t.string  "user_id"
   end
 
   create_table "projects", force: :cascade do |t|
