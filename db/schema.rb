@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20160217171621) do
   enable_extension "plpgsql"
 
   create_table "locations", force: :cascade do |t|
-    t.string "name"
-    t.string "vacation_name"
-    t.string "tax_percent"
-    t.string "tax_name"
+    t.string  "name"
+    t.string  "holiday_code"
+    t.integer "tax_percent"
+    t.string  "tax_name"
   end
 
   create_table "projects", force: :cascade do |t|
