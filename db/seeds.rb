@@ -25,7 +25,8 @@ if admin = User.find_by(email: ADMIN_EMAIL).nil?
     email: ADMIN_EMAIL, 
     password: ADMIN_PASSWORD, 
     is_admin: true,
-    active: true
+    active: true,
+    creator: User.new
   )
 end
 

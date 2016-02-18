@@ -19,7 +19,7 @@ class Reports::Entries
 
     entries.collect do |e| 
       task = Task.find_by(id: e[:task_id])
-      rate = user.rate_for(task, true)
+      rate = e[:rate] if e.apply_rate?
       {
         project_id: e[:project_id],
         task_id:    e[:task_id],
@@ -40,7 +40,7 @@ class Reports::Entries
     
     entries.collect do |e|
       task = Task.find_by(id: e[:task_id])
-      rate = user.rate_for(task, false)
+      rate = e[:rate] if e.apply_rate?
       {
         project_id: e[:project_id],
         task_id:    e[:task_id],
@@ -58,10 +58,10 @@ class Reports::Entries
 
   def entries_for(user, project_ids = nil, task_ids = nil)
     entries = user.time_entries.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", @from, @to)
-    entries = entries.group(:project_id, :task_id)
+    entries = entries.group(:project_id, :task_id, :rate, :apply_rate)
     entries = entries.where(project_id: project_ids) if project_ids
     entries = entries.where(task_id: task_ids) if task_ids
-    entries = entries.select("time_entries.project_id, time_entries.task_id, SUM(time_entries.duration_in_hours) AS hours")
+    entries = entries.select("time_entries.rate, time_entries.apply_rate, time_entries.project_id, time_entries.task_id, SUM(time_entries.duration_in_hours) AS hours")
   end
 
 end

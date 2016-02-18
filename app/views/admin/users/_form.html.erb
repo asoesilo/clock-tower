@@ -16,13 +16,14 @@
 <%= form.text_field :rate, class: "form-control mid-control", placeholder: "Hourly Rate" %>
 <%= form.text_field :secondary_rate, class: "form-control mid-control", placeholder: "Secondary Hourly Rate" %>
 <%= form.text_field :holiday_rate_multiplier, class: "form-control mid-control", placeholder: "Holiday Rate Multiplier" %>
+<%= form.text_field :tax_number, class: "form-control mid-control", placeholder: "GST / HST Number" %>
 
-<%= form.label :hourly, class: "form-control last-control" do %>
+<%= form.label :hourly, class: "form-control mid-control" do %>
   <%= form.check_box :hourly %>
   <small><%= form.label :hourly, "Hourly (Contractor)" %></small>
 <% end %>
 
-<%= form.label :is_admin, class: "form-control last-control" do %>
+<%= form.label :is_admin, class: "form-control mid-control" do %>
   <%= form.check_box :is_admin %>
   <small><%= form.label :is_admin, "Administrator" %></small>
 <% end %>
