@@ -27,7 +27,9 @@ class Location < ActiveRecord::Base
   private
 
   def check_if_deletable
-    
+    self.errors.add :tasks, "Cannot delete a location with tasks." if tasks.any?
+    self.errors.add :cohorts, "Cannot delete a location with cohorts." if cohorts.any?
+    cohorts.blank? && task.blank?
   end
 
   def set_holiday_code
