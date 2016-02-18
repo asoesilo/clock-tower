@@ -35,7 +35,7 @@ class Admin::LocationsController < Admin::BaseController
     if @location.destroy
       flash[:notice] = "#{@location.name} was successfully deleted."
     else
-      flash[:notice] = "#{@location.name} could not be deleted."
+      flash[:notice] = "#{@location.name} was not deleted, #{@location.errors.full_messages.join(' ')}"
     end
     redirect_to [:admin, :locations]
   end
