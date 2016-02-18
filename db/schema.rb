@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217233616) do
+ActiveRecord::Schema.define(version: 20160218235346) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "locations", force: :cascade do |t|
     t.string  "name"
     t.string  "province"
-    t.string  "holiday_code"
     t.integer "tax_percent"
     t.string  "tax_name"
     t.string  "user_id"
@@ -81,8 +81,8 @@ ActiveRecord::Schema.define(version: 20160217233616) do
     t.boolean  "password_reset_required"
     t.string   "company_name"
     t.string   "password_reset_token"
-    t.integer  "location_id"
     t.string   "tax_number"
+    t.integer  "location_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
