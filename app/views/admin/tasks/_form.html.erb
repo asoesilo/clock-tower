@@ -2,6 +2,7 @@
 
 <%= form_for @task, url: @path do |f| %>
   <%= f.text_field :name, {class: "form-control", placeholder: "Name"} %>
+  <%= f.select :location_id, Location.all.map{ |location| [location, location.id] }, { include_blank: "Location" }, { class: "form-control" } %>
 
   <%= f.label :apply_secondary_rate, class: "form-control last-control" do %>
     <%= f.check_box :apply_secondary_rate %>

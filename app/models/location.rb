@@ -20,6 +20,10 @@ class Location < ActiveRecord::Base
 
   before_destroy :check_if_deletable
 
+  def to_s
+    "#{name} - #{province}"
+  end
+
   private
 
   def check_if_deletable

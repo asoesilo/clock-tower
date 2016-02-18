@@ -49,7 +49,8 @@ class Admin::UsersController < Admin::BaseController
       :secondary_rate,
       :company_name,
       :hourly,
-      :holiday_rate_multiplier
+      :holiday_rate_multiplier,
+      :location_id
     )
   end
 end
