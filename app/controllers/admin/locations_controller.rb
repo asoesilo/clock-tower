@@ -25,7 +25,7 @@ class Admin::LocationsController < Admin::BaseController
 
   def update
     if @location.update(location_params)
-      redirect_to admin_locations_path, notice: "#{@location.name} was successfully created."
+      redirect_to admin_locations_path, notice: "#{@location.name} was successfully updated."
     else
       render :edit
     end
