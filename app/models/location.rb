@@ -29,7 +29,7 @@ class Location < ActiveRecord::Base
   def check_if_deletable
     self.errors.add :tasks, "are present." if tasks.any?
     self.errors.add :users, "are present." if users.any?
-    users.blank? && tasks.blank?
+    errors.any?
   end
 
   def set_holiday_code
