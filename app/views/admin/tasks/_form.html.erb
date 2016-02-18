@@ -2,7 +2,7 @@
 
 <%= form_for @task, url: @path do |f| %>
   <%= f.text_field :name, {class: "form-control", placeholder: "Name"} %>
-  <%= f.select :location_id, Location.options_for_select, { include_blank: "Location" }, { class: "form-control" } %>
+  <%= f.select :location_id, locations_select_options, { include_blank: "Location" }, { class: "form-control" } %>
 
   <%= f.label :apply_secondary_rate, class: "form-control last-control" do %>
     <%= f.check_box :apply_secondary_rate %>

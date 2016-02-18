@@ -6,7 +6,7 @@
 
 <%= form.text_field :lastname, class: "form-control mid-control", placeholder: "Last name" %>
 
-<%= form.select :location_id, Location.options_for_select, { include_blank: "Location" }, { class: "form-control mid-control" } %>
+<%= form.select :location_id, locations_select_options, { include_blank: "Location" }, { class: "form-control mid-control" } %>
 
 <%= form.text_field :company_name, class: "form-control mid-control", placeholder: "Company Name" %>
 
