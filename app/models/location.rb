@@ -24,6 +24,16 @@ class Location < ActiveRecord::Base
     "#{name} - #{province}"
   end
 
+  class << self
+
+    def options_for_select
+      all.map do |location|
+        [location.to_s, location.id]
+      end
+    end
+
+  end
+
   private
 
   def check_if_deletable
