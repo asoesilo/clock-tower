@@ -16,12 +16,14 @@ class Location < ActiveRecord::Base
   validates :tax_percent, numericality: true
   validates :tax_name, presence: true
 
-  before_create :set_holiday_code
-
   before_destroy :check_if_deletable
 
   def to_s
     "#{name} - #{province}"
+  end
+
+  def holiday_code
+    HOLIDAY_CODES[self.province]
   end
 
   private
@@ -29,11 +31,7 @@ class Location < ActiveRecord::Base
   def check_if_deletable
     self.errors.add :tasks, "are present." if tasks.any?
     self.errors.add :users, "are present." if users.any?
-    errors.any?
-  end
-
-  def set_holiday_code
-    self.holiday_code = HOLIDAY_CODES[self.province]
+    errors.blank?
   end
 
 end
