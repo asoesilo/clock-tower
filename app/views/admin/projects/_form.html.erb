@@ -2,5 +2,7 @@
 
 <%= form_for @project, url: @path do |f| %>
   <%= f.text_field :name, {class: "form-control", placeholder: "Name"} %>
+  <%= f.select :location_id, locations_select_options, { include_blank: "Location" }, { class: "form-control" } %>
+  
   <%= f.submit "Submit", class: "btn btn-primary btn-block control-btn" %>
 <% end %>

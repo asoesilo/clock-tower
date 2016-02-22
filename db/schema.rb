@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218235346) do
+ActiveRecord::Schema.define(version: 20160222191418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20160218235346) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "location_id"
   end
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
@@ -39,7 +40,6 @@ ActiveRecord::Schema.define(version: 20160218235346) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.boolean  "apply_secondary_rate"
-    t.integer  "location_id"
   end
 
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20160218235346) do
     t.boolean  "is_holiday"
     t.integer  "holiday_rate_multiplier"
     t.boolean  "legacy"
+    t.string   "holiday_code"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree

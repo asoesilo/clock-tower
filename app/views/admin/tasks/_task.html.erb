@@ -1,7 +1,6 @@
 <tr>
   <td><%= task.name %></td>
   <td><%= task.creator.fullname %></td>
-  <td><%= task.location.try :name %></td>
   <td><%= task.created_at %></td>
   <td><%= link_to "Edit", edit_admin_task_path(task) %></td>
   <td><%= link_to "Delete", admin_task_path(task), method: :delete %></td>

@@ -49,7 +49,7 @@ class Admin::TasksController < Admin::BaseController
   private
 
   def task_params
-    params.require(:task).permit(:name, :apply_secondary_rate, :location_id)
+    params.require(:task).permit(:name, :apply_secondary_rate)
   end
 
   def redirect_if_task_not_found

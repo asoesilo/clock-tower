@@ -49,8 +49,15 @@ class TimeEntry < ActiveRecord::Base
   private
 
   def set_holiday
-    self.is_holiday = entry_date.holiday?(:ca_bc)
+    set_holiday_code
+    self.is_holiday = entry_date.holiday?(self.holiday_code)
     self.holiday_rate_multiplier = user.holiday_rate_multiplier
+  end
+
+  def set_holiday_code
+    code = user.location.holiday_code if user.location
+    code = project.location.holiday_code if project.location
+    self.holiday_code = code || :ca_bc
   end
 
   def set_rate
