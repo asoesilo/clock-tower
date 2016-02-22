@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe TasksController do
+describe Admin::TasksController do
 
-  logged_in_user
+  logged_in_user_admin
 
   describe "GET #index" do
     it "assigns the list of tasks to @tasks" do
@@ -13,6 +13,7 @@ describe TasksController do
 
     it "renders the :index template" do
       get :index
+      expect(response.status).to eq(200)
       response.should render_template :index
     end
   end
@@ -55,7 +56,7 @@ describe TasksController do
 
       it "redirects to :index page" do
         post :create, task: attributes_for(:task)
-        response.should redirect_to tasks_url
+        expect(response).to redirect_to(admin_tasks_url)
       end
     end
 
@@ -95,7 +96,7 @@ describe TasksController do
 
       it "redirects to :index page" do
         put :update, id: @task, task: attributes_for(:task)
-        response.should redirect_to tasks_url
+        expect(response).to redirect_to(admin_tasks_url)
       end
     end
 
@@ -128,7 +129,7 @@ describe TasksController do
 
     it "redirects to :index page" do
       delete :destroy, id: @task
-      response.should redirect_to tasks_url
+      expect(response).to redirect_to(admin_tasks_url)
     end
   end
 end

@@ -9,6 +9,10 @@ module UserAccountHelpers
     def logged_in_user
       current_user { create(:user) }
     end
+
+    def logged_in_user_admin
+      current_user { create(:user_admin) }
+    end
   end
 
   def login_as(user)

@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe TimeEntriesController do
+describe "TimeEntriesController" do
 
 end
