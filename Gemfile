@@ -52,6 +52,8 @@ gem 'chosen-sass-bootstrap-rails', '~> 0.0.2'
 
 gem 'holidays'
 
+gem 'sentry-raven'
+
 gem 'airbrake'
 # ruby app server
 # https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
