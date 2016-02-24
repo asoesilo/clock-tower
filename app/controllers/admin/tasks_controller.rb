@@ -47,6 +47,7 @@ class Admin::TasksController < Admin::BaseController
   end
 
   private
+
   def task_params
     params.require(:task).permit(:name, :apply_secondary_rate)
   end

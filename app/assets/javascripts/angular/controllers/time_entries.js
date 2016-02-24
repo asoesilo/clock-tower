@@ -107,7 +107,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         $scope.date = null;
         $scope.comments = null;
       }, function(error) {
-        alert(error);
+        alert(error.data.errors.join());
       });
     };
 

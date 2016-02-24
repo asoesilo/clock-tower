@@ -11,16 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217012218) do
+ActiveRecord::Schema.define(version: 20160222191418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "locations", force: :cascade do |t|
+    t.string  "name"
+    t.string  "province"
+    t.integer "tax_percent"
+    t.string  "tax_name"
+    t.string  "user_id"
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "location_id"
   end
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
@@ -49,6 +58,7 @@ ActiveRecord::Schema.define(version: 20160217012218) do
     t.boolean  "is_holiday"
     t.integer  "holiday_rate_multiplier"
     t.boolean  "legacy"
+    t.string   "holiday_code"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree
@@ -73,6 +83,7 @@ ActiveRecord::Schema.define(version: 20160217012218) do
     t.string   "company_name"
     t.string   "password_reset_token"
     t.string   "tax_number"
+    t.integer  "location_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
