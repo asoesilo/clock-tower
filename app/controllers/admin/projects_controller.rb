@@ -45,7 +45,7 @@ class Admin::ProjectsController < Admin::BaseController
 
   private
   def project_params
-    params.require(:project).permit(:name)
+    params.require(:project).permit(:name, :location_id)
   end
 
   def redirect_if_project_not_found

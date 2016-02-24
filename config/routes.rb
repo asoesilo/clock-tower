@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
     namespace :reports do
       get 'payroll' => 'payroll#show'
       get 'summary' => 'summary#show'

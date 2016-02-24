@@ -1,8 +1,12 @@
+<%= render 'admin/shared/form_error', object: @user %>
+
 <%= form.email_field :email, class: "form-control first-control", placeholder: "Email address" %>
   
 <%= form.text_field :firstname, class: "form-control mid-control", placeholder: "First name" %>
 
 <%= form.text_field :lastname, class: "form-control mid-control", placeholder: "Last name" %>
+
+<%= form.select :location_id, locations_select_options, { include_blank: "Location" }, { class: "form-control mid-control" } %>
 
 <%= form.text_field :company_name, class: "form-control mid-control", placeholder: "Company Name" %>
 

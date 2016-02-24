@@ -1,0 +1,10 @@
+<% if object && object.errors.any? %>
+  <div>
+    <%= pluralize(object.errors.count, "error") %> prevented the form from being submitted:
+    <ul>
+      <% object.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
