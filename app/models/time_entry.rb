@@ -9,6 +9,11 @@ class TimeEntry < ActiveRecord::Base
   validates :entry_date, presence: true
   validates :duration_in_hours, presence: true
 
+  before_save :set_holiday
+  before_save :set_rate
+  # Before save prevents user selecting holiday / secondary rate task + changing it afterwards.
+  # Before create prevents user from updating old entries when they have a new rate, therefore updating it.
+
   def as_json(options)
     {
       id: id,
@@ -39,5 +44,35 @@ class TimeEntry < ActiveRecord::Base
 
       result.order(entry_date: :desc)
     end
+  end 
+
+  private
+
+  def set_holiday
+    set_holiday_code
+    self.is_holiday = entry_date.holiday?(self.holiday_code)
+    self.holiday_rate_multiplier = user.holiday_rate_multiplier
   end
+
+  def set_holiday_code
+    code = user.location.holiday_code if user.location
+    code = project.location.holiday_code if project.location
+    self.holiday_code = code || :ca_bc
+  end
+
+  def set_rate
+    if self.apply_rate = user.hourly?
+      self.rate = calculate_rate
+    end
+  end
+
+  def calculate_rate
+    if user.secondary_rate? && task.apply_secondary_rate?
+      new_rate = user.secondary_rate
+    else
+      new_rate = user.rate
+    end
+    is_holiday? ? (new_rate.to_f * holiday_rate_multiplier) : new_rate.to_f
+  end
+
 end

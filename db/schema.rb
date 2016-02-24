@@ -11,21 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150116022340) do
+ActiveRecord::Schema.define(version: 20160222191418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "projects", force: true do |t|
+  create_table "locations", force: :cascade do |t|
+    t.string  "name"
+    t.string  "province"
+    t.integer "tax_percent"
+    t.string  "tax_name"
+    t.string  "user_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
     t.string   "name"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "location_id"
   end
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
 
-  create_table "tasks", force: true do |t|
+  create_table "tasks", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -35,7 +44,7 @@ ActiveRecord::Schema.define(version: 20150116022340) do
 
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
 
-  create_table "time_entries", force: true do |t|
+  create_table "time_entries", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "project_id"
     t.integer  "task_id"
@@ -44,6 +53,12 @@ ActiveRecord::Schema.define(version: 20150116022340) do
     t.string   "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "rate"
+    t.boolean  "apply_rate"
+    t.boolean  "is_holiday"
+    t.integer  "holiday_rate_multiplier"
+    t.boolean  "legacy"
+    t.string   "holiday_code"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree
@@ -51,7 +66,7 @@ ActiveRecord::Schema.define(version: 20150116022340) do
   add_index "time_entries", ["task_id"], name: "index_time_entries_on_task_id", using: :btree
   add_index "time_entries", ["user_id"], name: "index_time_entries_on_user_id", using: :btree
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "firstname"
     t.string   "lastname"
     t.string   "email"
@@ -66,6 +81,9 @@ ActiveRecord::Schema.define(version: 20150116022340) do
     t.float    "holiday_rate_multiplier", default: 1.5
     t.boolean  "password_reset_required"
     t.string   "company_name"
+    t.string   "password_reset_token"
+    t.string   "tax_number"
+    t.integer  "location_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

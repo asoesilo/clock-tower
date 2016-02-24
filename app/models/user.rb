@@ -3,9 +3,13 @@ class User < ActiveRecord::Base
   has_many :projects
   has_many :time_entries
 
+  belongs_to :location
+  
   validates :firstname, presence: true
   validates :lastname, presence: true
   validates :email, presence: true, uniqueness: true, email: true
+  
+  validates :password_reset_token, uniqueness: true, if: :password_reset_token
 
   scope :hourly, -> { where(hourly: true) }
 

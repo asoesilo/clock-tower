@@ -1,0 +1,8 @@
+<tr>
+  <td><%= location.name %></td>
+  <td><%= location.creator.try :fullname %></td>
+  <td><%= location.tax_name %></td>
+  <td><%= location.tax_percent %></td>
+  <td><%= link_to "Edit", edit_admin_location_path(location) %></td>
+  <td><%= link_to "Delete", admin_location_path(location), method: :delete, data: { confirm: "This will delete #{location.name}, Are you sure?"} %></td>
+</tr>

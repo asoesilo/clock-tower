@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
   resource :password, only: [:edit, :update]
   
+  resources :password_resets, only: [:new, :create, :show]
+
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
 
   # For time entries 
@@ -25,6 +27,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
     namespace :reports do
       get 'payroll' => 'payroll#show'
       get 'summary' => 'summary#show'
