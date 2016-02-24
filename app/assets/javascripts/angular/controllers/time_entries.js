@@ -21,15 +21,15 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
     var fetchTasks = function() {
       TaskService.all().success(function(tasks) {
         $scope.tasks = tasks;
+        setSelectDefaults();
       });
-      setSelectDefaults();
     };
 
     var fetchProjects = function() {
       ProjectService.all().success(function(projects) {
         $scope.projects = projects;
+        setSelectDefaults();
       });
-      setSelectDefaults();
     };
 
     $scope.toggleCalendar = function($event, entry) {
@@ -118,11 +118,11 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       var entries = $scope.timeEntries;
 
       // function requires 3 ajax calls to complete and is called during the callback of each
-      if ( !tasks || !projects || !entries )
+      if ( tasks.length === 0 || projects.length === 0 || entries.length === 0 ){
         return;
+      }
 
       var lastEntry = entries[0];
-
       // task/project from lastEntry !== to values in $scope.tasks/projects
       // so we have to set $scope.task/project to a value from tasks/projects
       var lastTask = tasks.find(function(task){
@@ -230,6 +230,10 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       $scope.minDate = new Date();
       $scope.minDate.setYear($scope.minDate.getFullYear() - 1);
       $scope.dateFormat = "yyyy-MM-dd";
+      $scope.tasks = [];
+      $scope.projects = [];
+      $scope.timeEntries = [];
+
       fetchTasks();
       fetchProjects();
       fetchTimeEntries();
