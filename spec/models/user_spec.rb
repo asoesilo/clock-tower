@@ -30,7 +30,7 @@ describe User do
 
   describe "#fullname" do
     it "returns a concatenation of firstname and lastname" do
-      user = create(:user)
+      user = build(:user)
       expect(user.fullname).to eq "#{user.firstname} #{user.lastname}"
     end
   end

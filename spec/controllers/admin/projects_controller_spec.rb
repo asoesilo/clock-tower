@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe ProjectsController do
+describe Admin::ProjectsController do
 
-  logged_in_user
+  logged_in_user_admin
 
   describe "GET #index" do
     it "populates an array of projects" do
@@ -39,7 +39,7 @@ describe ProjectsController do
 
       it "redirects to projects page" do
         post :create, project: attributes_for(:project)
-        response.should redirect_to projects_url
+        expect(response).to redirect_to(admin_projects_url)
       end
     end
 
@@ -95,7 +95,7 @@ describe ProjectsController do
 
       it "redirects to projects#index" do
         put :update, id: @project, project: attributes_for(:project)
-        response.should redirect_to projects_url
+        expect(response).to redirect_to(admin_projects_url)
       end
     end
 
@@ -128,7 +128,7 @@ describe ProjectsController do
 
     it "redirects to projects#index" do
       delete :destroy, id: @project
-      response.should redirect_to projects_url
+      expect(response).to redirect_to(admin_projects_url)
     end
   end
 end
