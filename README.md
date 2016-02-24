@@ -12,6 +12,9 @@ Initial version developed by Andre Soseilo.
 5. bin/rake db:setup
 6. start server using bin/rails s
 
+### Configuration
+* [Sentry](https://getsentry.com) - Error reporting. Initial setup requires "SENTRY_DSN" .env variable set, /config/initializers/sentry.rb contains the configuration for the sentry-raven gem.
+
 #### Clock Tower is an open-source time tracking web app.
 
 The following specifies the features available for each user roles.
@@ -31,15 +34,3 @@ The following specifies the features available for each user roles.
 * look at all tasks created
 * query/filter all tasks
 * provide summary of tasks
-
-
-##### Projects contain:
-* Name
-* Members
-
-##### Time Entries (Entries) contain:
-* Project (dropdown)
-* Task (dropdown)
-* Hours (Integer). Eg: 2
-* Minutes (Integer). Eg: 30 
-* Comments (optional)
