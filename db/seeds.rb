@@ -22,10 +22,10 @@ if admin = User.find_by(email: ADMIN_EMAIL).nil?
   creator = User.new
 
   admin = User.create!(
-    firstname: ADMIN_FIRSTNAME, 
-    lastname: ADMIN_LASTNAME, 
-    email: ADMIN_EMAIL, 
-    password: ADMIN_PASSWORD, 
+    firstname: ADMIN_FIRSTNAME,
+    lastname: ADMIN_LASTNAME,
+    email: ADMIN_EMAIL,
+    password: ADMIN_PASSWORD,
     is_admin: true,
     active: true,
     creator: creator
@@ -55,4 +55,3 @@ Task.create! creator: admin, name: 'Meeting'
 Task.create! creator: admin, name: 'Curriculum Development'
 Task.create! creator: admin, name: 'Unknown Legacy'
 Task.create! creator: admin, name: 'Grading Tests'
-

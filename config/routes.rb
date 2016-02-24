@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
   resource :password, only: [:edit, :update]
   
+  resources :password_resets, only: [:new, :create, :show]
+
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
 
   # For time entries 
