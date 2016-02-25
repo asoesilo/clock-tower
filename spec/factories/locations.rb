@@ -9,5 +9,11 @@ FactoryGirl.define do
 
     association :creator, factory: :user, strategy: :build
     
+    trait :vancouver do
+      name "Vancouver"
+      province "British Columbia"
+    end
+
+    factory :vancouver_location, traits: [:vancouver]
   end
 end
