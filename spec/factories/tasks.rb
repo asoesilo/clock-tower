@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :task do
     name    { Faker::Lorem.sentence }
-    association :creator, factory: :user
+    association :creator, factory: :user, strategy: :build
 
     factory :task_without_name do
       name nil
