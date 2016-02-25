@@ -1,13 +1,12 @@
 'use strict';
 
-
 var ClockTower = angular.module('ClockTower');
 
 var ConfirmationModalCtrl = function($scope, $modalInstance, message) {
   $scope.message = message;
 
   $scope.ok = function() {
-    $modalInstance.close()
+    $modalInstance.close();
   };
 
   $scope.cancel = function() {
@@ -17,17 +16,19 @@ var ConfirmationModalCtrl = function($scope, $modalInstance, message) {
 
 ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'ProjectService', 'TimeEntryService',
   function($scope, $modal, TaskService, ProjectService, TimeEntryService) {
-    $scope.date = "";
+    $scope.date = new Date();
 
     var fetchTasks = function() {
       TaskService.all().success(function(tasks) {
         $scope.tasks = tasks;
+        setSelectDefaults();
       });
     };
 
     var fetchProjects = function() {
       ProjectService.all().success(function(projects) {
         $scope.projects = projects;
+        setSelectDefaults();
       });
     };
 
@@ -98,17 +99,41 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
 
       TimeEntryService.create(task.id, project.id, date, duration, comments, function(response) {
         response.entry.date = parseDate(response.entry.date);
-        response.entry.justCreated = true
+        response.entry.justCreated = true;
         $scope.timeEntries.unshift(response.entry);
 
         //$scope.task = null;
         //$scope.project = null;
         $scope.duration = null;
-        $scope.date = null;
+        $scope.date = new Date();
         $scope.comments = null;
       }, function(error) {
         alert(error.data.errors.join());
       });
+    };
+
+    var setSelectDefaults = function() {
+      var tasks = $scope.tasks;
+      var projects = $scope.projects;
+      var entries = $scope.timeEntries;
+
+      // function requires 3 ajax calls to complete and is called during the callback of each
+      if ( tasks.length === 0 || projects.length === 0 || entries.length === 0 ){
+        return;
+      }
+
+      var lastEntry = entries[0];
+      // task/project from lastEntry !== to values in $scope.tasks/projects
+      // so we have to set $scope.task/project to a value from tasks/projects
+      var lastTask = tasks.find(function(task){
+        return task.id === lastEntry.task.id;
+      });
+      var lastProject = projects.find(function(project){
+        return project.id === lastEntry.project.id;
+      });
+
+      $scope.task = lastTask;
+      $scope.project = lastProject;
     };
 
     var fetchTimeEntries = function() {
@@ -119,6 +144,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         $scope.timeEntries.forEach(function(entry) {
           entry.date = parseDate(entry.date);
         });
+        setSelectDefaults();
       });
     };
 
@@ -127,7 +153,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       if(index > -1) {
         $scope.timeEntries.splice(index, 1);
       }
-    }
+    };
 
     $scope.deleteTimeEntry = function(entry) {
       // Use traditional Javascript dialog to prompt delete confirmation
@@ -172,7 +198,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       entry.newComments = entry.comments;
 
       setEditState(entry, true);
-    }
+    };
 
     $scope.saveEntry = function(entry) {
       var task = entry.newTask;
@@ -193,22 +219,25 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       }, function(error) {
         // TODO: Handle error
       });
-    }
+    };
 
     $scope.cancelEdit = function(entry) {
       setEditState(entry, false);
-    }
+    };
 
     var initializeData = function() {
       $scope.maxDate = new Date();
       $scope.minDate = new Date();
       $scope.minDate.setYear($scope.minDate.getFullYear() - 1);
-      $scope.dateFormat = "yyyy-MM-dd"
+      $scope.dateFormat = "yyyy-MM-dd";
+      $scope.tasks = [];
+      $scope.projects = [];
+      $scope.timeEntries = [];
 
       fetchTasks();
       fetchProjects();
       fetchTimeEntries();
-    }
+    };
 
     $scope.myDate = new Date();
 
