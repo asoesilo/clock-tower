@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222191418) do
+ActiveRecord::Schema.define(version: 20160224202526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20160222191418) do
     t.integer  "rate"
     t.boolean  "apply_rate"
     t.boolean  "is_holiday"
-    t.integer  "holiday_rate_multiplier"
+    t.decimal  "holiday_rate_multiplier", precision: 4, scale: 2
     t.boolean  "legacy"
     t.string   "holiday_code"
   end
@@ -75,10 +75,10 @@ ActiveRecord::Schema.define(version: 20160222191418) do
     t.string   "password_digest"
     t.boolean  "is_admin"
     t.boolean  "active"
-    t.boolean  "hourly",                  default: true
+    t.boolean  "hourly",                                          default: true
     t.float    "rate"
     t.float    "secondary_rate"
-    t.float    "holiday_rate_multiplier", default: 1.5
+    t.decimal  "holiday_rate_multiplier", precision: 4, scale: 2, default: 1.5
     t.boolean  "password_reset_required"
     t.string   "company_name"
     t.string   "password_reset_token"
