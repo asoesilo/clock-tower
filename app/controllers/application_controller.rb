@@ -5,9 +5,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authenticate_user
-  before_action :check_for_password_update
+  before_action :check_for_password_update 
+  before_action :set_raven_context
 
   private
+
+  def set_raven_context
+    Raven.user_context(user_id: session[:user_id])
+    Raven.extra_context(params: params.to_hash, url: request.url)
+  end
 
   def current_user
     @current_user ||= User.find_by(active: true, id: session[:user_id]) if session[:user_id]
