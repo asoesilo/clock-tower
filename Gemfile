@@ -4,7 +4,7 @@ ruby '2.2.1'
 
 gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.5.1'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -54,7 +54,6 @@ gem 'holidays'
 
 gem 'sentry-raven'
 
-gem 'airbrake'
 # ruby app server
 # https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
 gem 'puma'
@@ -74,7 +73,8 @@ end
 group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'rspec-rails', '~> 2.14.1'
+  gem 'rspec-rails', '2.99'
+  gem 'rspec-collection_matchers'
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'pry'

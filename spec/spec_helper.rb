@@ -20,6 +20,9 @@ RSpec.configure do |config|
   config.include UserAccountHelpers,         type: :controller
   config.extend  UserAccountHelpers::Macros, type: :controller
 
+  # Rails spec configuration from location vs meta data
+  # config.infer_spec_type_from_file_location!
+
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
