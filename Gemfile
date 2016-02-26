@@ -81,4 +81,5 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'dotenv-rails'
   gem 'quiet_assets'
+  gem 'simplecov', :require => false
 end
