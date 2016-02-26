@@ -1,5 +1,6 @@
 Clock Tower
 =============
+[![Code Climate](https://codeclimate.com/github/lighthouse-labs/clock-tower/badges/gpa.svg)](https://codeclimate.com/github/lighthouse-labs/clock-tower)
 
 Initial version developed by Andre Soseilo.
 
