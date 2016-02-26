@@ -6,7 +6,8 @@ describe Admin::TasksController do
 
   describe "GET #index" do
     it "assigns the list of tasks to @tasks" do
-      task = create(:task)
+      task = build(:task)
+      expect(Task).to receive(:all).and_return([task])
       get :index
       assigns(:tasks).should eq [task]
     end
