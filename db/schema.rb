@@ -59,6 +59,10 @@ ActiveRecord::Schema.define(version: 20160224202526) do
     t.decimal  "holiday_rate_multiplier", precision: 4, scale: 2
     t.boolean  "legacy"
     t.string   "holiday_code"
+    t.boolean  "has_tax"
+    t.string   "tax_desc"
+    t.integer  "tax_percent"
+    t.integer  "location_id"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree
@@ -84,6 +88,7 @@ ActiveRecord::Schema.define(version: 20160224202526) do
     t.string   "password_reset_token"
     t.string   "tax_number"
     t.integer  "location_id"
+    t.boolean  "has_tax"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
