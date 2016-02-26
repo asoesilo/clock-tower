@@ -8,24 +8,24 @@ describe Admin::ProjectsController do
     it "populates an array of projects" do
       project = create(:project)
       get :index
-      assigns(:projects).should eq [project]
+      expect(assigns(:projects)).to eq [project]
     end
 
     it "renders the :index template" do
       get :index
-      response.should render_template :index
+      expect(response).to render_template :index
     end
   end
 
   describe "GET #new" do
     it "assigns a new Project to @project" do
       get :new
-      assigns(:project).should be_a_new(Project)
+      expect(assigns(:project)).to be_a_new(Project)
     end
 
     it "renders the :new template" do
       get :new
-      response.should render_template :new
+      expect(response).to render_template :new
     end
   end
 
@@ -53,7 +53,7 @@ describe Admin::ProjectsController do
 
         it "re-renders the :new template" do
           post :create, project: attributes_for(:project_without_name)
-          response.should render_template :new
+          expect(response).to render_template :new
         end
       end
     end
@@ -63,13 +63,13 @@ describe Admin::ProjectsController do
     it "assigns the requested project to @project" do
       project = create(:project)
       get :edit, id: project
-      assigns(:project).should eq project
+      expect(assigns(:project)).to eq project
     end
 
     it "renders the :edit template" do
       project = create(:project)
       get :edit, id: project.id
-      response.should render_template :edit
+      expect(response).to render_template :edit
     end
   end
 
@@ -81,7 +81,7 @@ describe Admin::ProjectsController do
 
     it "locates the requested project" do
       put :update, id: @project, project: attributes_for(:project)
-      assigns(:project).should eq @project
+      expect(assigns(:project)).to eq @project
     end
 
     context "with valid attributes" do
@@ -90,7 +90,7 @@ describe Admin::ProjectsController do
         put :update, id: @project, project: attributes_for(:project,
           name: new_name)
         @project.reload
-        @project.name.should eq(new_name)
+        expect(@project.name).to eq(new_name)
       end
 
       it "redirects to projects#index" do
@@ -104,13 +104,13 @@ describe Admin::ProjectsController do
         put :update, id: @project, project: attributes_for(:project,
           name: nil)
         @project.reload
-        @project.name.should eq(@project_name)
+        expect(@project.name).to eq(@project_name)
       end
 
       it "re-renders the edit template" do
         put :update, id: @project, project: attributes_for(:project,
           name: nil)
-        response.should render_template :edit
+        expect(response).to render_template :edit
       end
     end
   end

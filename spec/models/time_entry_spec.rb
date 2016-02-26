@@ -23,7 +23,7 @@ describe TimeEntry do
     end
 
     it "is invalid without a duration" do
-      expect(build(:time_entry, duration_in_hours: nil)).to have(1).errors_on(:duration_in_hours)
+      expect(build(:time_entry, duration_in_hours: nil).errors_on(:duration_in_hours).size).to eq(1)
     end
 
     it "is invalid without a user" do

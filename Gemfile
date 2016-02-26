@@ -50,7 +50,7 @@ gem 'chosen-rails', '~> 1.1.0'
 # Bootstrap for Chosen Javascript
 gem 'chosen-sass-bootstrap-rails', '~> 0.0.2'
 
-gem 'holidays'
+gem 'holidays', '~> 3.2.0'
 
 gem 'sentry-raven'
 
@@ -73,7 +73,7 @@ end
 group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'rspec-rails', '2.99'
+  gem 'rspec-rails', '~> 3.4.0'
   gem 'rspec-collection_matchers'
   gem 'factory_girl_rails'
   gem 'faker'
