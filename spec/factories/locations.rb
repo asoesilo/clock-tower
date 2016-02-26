@@ -7,8 +7,8 @@ FactoryGirl.define do
     tax_percent   { rand(100) }
     tax_name      { Faker::Address.state_abbr }
 
-    association :creator, factory: :user, strategy: :build
-    
+    association :creator, factory: :user
+
     trait :vancouver do
       name "Vancouver"
       province "British Columbia"
