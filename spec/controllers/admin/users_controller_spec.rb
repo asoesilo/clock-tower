@@ -6,16 +6,15 @@ describe Admin::UsersController do
 
   # describe "GET #index" do
   #   it "should return an array of all users" do
-  #     user = build(:user)
   #     get :index
-  #     assigns(:users).should eq([user])
+  #     assigns(:users).should eq(User.all)
   #   end
   # end
 
   describe "GET #new" do
     it "assigns a new user to @user" do
       get :new
-      assigns(:user).should be_a_new(User)
+      expect(assigns(:user)).to be_a_new(User)
     end
   end
 
@@ -47,7 +46,7 @@ describe Admin::UsersController do
 
       it "should render the new template" do
         post :create, user: attributes_for(:user, email: nil)
-        response.should render_template(:new)
+        expect(response).to render_template(:new)
       end
     end
   end
@@ -68,7 +67,7 @@ describe Admin::UsersController do
     context "with valid attributes" do
       it "should load correct user" do
         put :update, id: @user, user: attributes_for(:user)
-        assigns(:user).should eq(@user)
+        expect(assigns(:user)).to eq(@user)
       end
     
       it "should update the user with the correct values" do
@@ -86,7 +85,7 @@ describe Admin::UsersController do
     context "with invalid attributes" do
       it "should load correct user" do
         put :update, id: @user, user: attributes_for(:user, email: nil)
-        assigns(:user).should eq(@user)
+        expect(assigns(:user)).to eq(@user)
       end
 
       it "should not update the user with incorrect values" do
@@ -97,7 +96,7 @@ describe Admin::UsersController do
 
       it "should render the edit template" do
         put :update, id: @user, user: attributes_for(:user, firstname: nil)
-        response.should render_template(:edit)
+        expect(response).to render_template(:edit)
       end
     end
 

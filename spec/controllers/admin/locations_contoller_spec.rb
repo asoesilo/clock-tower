@@ -10,14 +10,14 @@ describe Admin::LocationsController do
       expect(Location).to receive(:all).and_return([location])
 
       get :index
-      assigns(:locations).should eq([location])
+      expect(assigns(:locations)).to eq([location])
     end
   end
 
   describe "GET #new" do
     it "assigns a new location to @location" do
       get :new
-      assigns(:location).should be_a_new(Location)
+      expect(assigns(:location)).to be_a_new(Location)
     end
   end
 
@@ -44,7 +44,7 @@ describe Admin::LocationsController do
 
       it "should render the new template" do
         post :create, location: attributes_for(:location, name: nil)
-        response.should render_template :new
+        expect(response).to render_template :new
       end
     end
   end
@@ -53,7 +53,7 @@ describe Admin::LocationsController do
     it "should load correct student application" do
       @location = create(:location)
       get :edit, id: @location
-      assigns(:location).should eq(@location)
+      expect(assigns(:location)).to eq(@location)
     end
   end
 
@@ -65,7 +65,7 @@ describe Admin::LocationsController do
     context "with valid attributes" do
       it "should load correct student application" do
         put :update, id: @location, location: attributes_for(:location)
-        assigns(:location).should eq(@location)
+        expect(assigns(:location)).to eq(@location)
       end
 
       it "should update the location with the correct values" do
@@ -87,7 +87,7 @@ describe Admin::LocationsController do
 
       it "should load correct student application" do
         put :update, id: @location, location: @invalid_attrs
-        assigns(:location).should eq(@location)
+        expect(assigns(:location)).to eq(@location)
       end
 
       it "should not update the location" do
@@ -98,7 +98,7 @@ describe Admin::LocationsController do
 
       it "should render the edit page" do
         put :update, id: @location, location: @invalid_attrs
-        response.should render_template :edit
+        expect(response).to render_template :edit
       end
     end
   end
