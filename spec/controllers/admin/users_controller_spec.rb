@@ -4,12 +4,15 @@ describe Admin::UsersController do
 
   logged_in_user_admin
 
-  # describe "GET #index" do
-  #   it "should return an array of all users" do
-  #     get :index
-  #     assigns(:users).should eq(User.all)
-  #   end
-  # end
+  describe "GET #index" do
+    it "should return an array of all users" do
+      user = build :user
+      expect(User).to receive(:order).and_return(user)
+      expect(user).to receive(:all).and_return([user])
+      get :index
+      assigns(:users).should eq([user])
+    end
+  end
 
   describe "GET #new" do
     it "assigns a new user to @user" do
