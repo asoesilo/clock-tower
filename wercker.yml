@@ -52,4 +52,7 @@ build:
             name: rspec
             code: |
               export ENV="test"
-              ADMIN_PASSWORD=supersecret rspec spec
+              export EMAIL_SENDER="clocktower@clock.dev"
+              export SUPER_ADMIN_EMAIL="admin@clock.dev"
+              export ADMIN_PASSWORD="supersecret"
+              rspec spec
