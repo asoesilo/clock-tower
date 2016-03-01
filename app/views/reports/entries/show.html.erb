@@ -19,23 +19,6 @@
 </div>
 
 <div class="container">
-
- <% if @holidays.present? %>
-  <div class="alert alert-info" %>
-    <p>
-      <strong>NOTE:</strong>
-      The following BC Holidays are observed during this date range:
-    </p>
-    <ul>
-      <% @holidays.each do |holiday| %>
-        <li><%= holiday[:name] %> (<%= holiday[:date] %>)</li>
-      <% end %>
-    </ul>
-    <hr/>
-    <p>For users with holiday rates, these will likely affect their totals</p>
-  </div>
- <% end %>
-
   <div class="row">
     <h3> 
       <%= current_user.fullname %>

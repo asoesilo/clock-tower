@@ -9,12 +9,11 @@ class Admin::Reports::PayrollController < Admin::Reports::BaseController
 
     @entries_by_user = {}
 
-    reporter = ::Reports::Entries.new(@from, @to)
-
     @reporting_users.each do |user|
+      reporter = ::Reports::Entries.new(@from, @to, user)
       @entries_by_user[user.id.to_s] = {
-        regular: reporter.regular_entries_for(user, report_params[:projects], report_params[:tasks]),
-        holiday: reporter.holiday_entries_for(user, report_params[:projects], report_params[:tasks])
+        regular: reporter.regular_entries_for(report_params[:projects], report_params[:tasks]),
+        holiday: reporter.holiday_entries_for(report_params[:projects], report_params[:tasks])
       }
     end
 

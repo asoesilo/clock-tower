@@ -6,7 +6,7 @@
     <%= entry[:task].try(:name) || "[Unknown Task]" %>
     <% if entry[:holiday] && entry[:date] %>
       - 
-      <% holiday = Holidays.on(entry[:date], :ca_bc).first %>
+      <% holiday = Holidays.on(entry[:date], entry[:holiday_code].to_sym).first %>
       <%= holiday[:name] %> (<%=  holiday[:date] %>)
     <% end %>
   </td>
