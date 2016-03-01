@@ -50,7 +50,8 @@ class Admin::UsersController < Admin::BaseController
       :company_name,
       :hourly,
       :holiday_rate_multiplier,
-      :location_id
+      :location_id,
+      :tax_number
     )
   end
 end
