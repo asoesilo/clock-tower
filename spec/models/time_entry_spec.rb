@@ -50,7 +50,7 @@ describe TimeEntry do
         allow(@time_entry.project).to receive(:location).and_return(nil)
       end
 
-      it "should set location to the users location" do
+      it "should set location to the users location if the user has one" do
         allow(@time_entry.user).to receive(:location).and_return(@location)
 
         @time_entry.save
@@ -58,6 +58,8 @@ describe TimeEntry do
       end
 
       it "should set location to nil if user has none" do
+        allow(@time_entry.user).to receive(:location).and_return(nil)
+
         @time_entry.save
         expect(@time_entry.location).to eq(nil)
       end
@@ -74,10 +76,24 @@ describe TimeEntry do
       end
 
       it "should set location to the projects location if user has one" do
-        allow(@time_entry.user).to receive(:location).and_return(build (:location))
+        allow(@time_entry.user).to receive(:location).and_return(build(:location))
 
         @time_entry.save
         expect(@time_entry.location).to eq(@location)
+      end
+    end
+
+    context "with a project location and a user location" do
+      before :each do
+        @user_location = build(:location)
+        allow(@time_entry.user).to receive(:location).and_return(@user_location)
+        @project_location = build(:location)
+        allow(@time_entry.project).to receive(:location).and_return(@project_location)
+      end
+
+      it "should use the projects location instead of the users" do
+        @time_entry.save
+        expect(@time_entry.location).to eq(@project_location)
       end
     end
   end
