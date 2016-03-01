@@ -81,6 +81,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'dotenv-rails'
   gem 'quiet_assets'
+  gem 'simplecov'
 end
 
 gem 'codeclimate-test-reporter', group: :test, require: nil
