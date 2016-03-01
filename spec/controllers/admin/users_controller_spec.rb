@@ -10,7 +10,7 @@ describe Admin::UsersController do
       expect(User).to receive(:order).and_return(user)
       expect(user).to receive(:all).and_return([user])
       get :index
-      assigns(:users).should eq([user])
+      expect(assigns(:users)).to eq [user]
     end
   end
 
@@ -58,7 +58,7 @@ describe Admin::UsersController do
     it "should load the correct User" do
       user = create(:user)
       get :edit, id: user
-      assigns(:user).should eq(user)
+      expect(assigns(:user)).to eq user
     end
   end
 
@@ -72,7 +72,7 @@ describe Admin::UsersController do
         put :update, id: @user, user: attributes_for(:user)
         expect(assigns(:user)).to eq(@user)
       end
-    
+
       it "should update the user with the correct values" do
         put :update, id: @user, user: attributes_for(:user, firstname: "Test_Passed")
         @user.reload

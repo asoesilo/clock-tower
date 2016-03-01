@@ -18,7 +18,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
-    user = User.by_email(params[:email])
+    user = User.by_email(params[:email]).first
     if user
       user.update(password_reset_token: SecureRandom.hex(10))
 

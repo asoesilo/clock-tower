@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  
+
   skip_before_action :authenticate_user, only: [:new, :create, :destroy]
   before_action :to_home_if_logged_in, only: [:new, :create]
 
@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.by_email(params[:email])
+    user = User.by_email(params[:email]).first
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to :time_entries
