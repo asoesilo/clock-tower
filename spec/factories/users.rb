@@ -16,7 +16,7 @@ FactoryGirl.define do
     company_name { Faker::Company.name }
     tax_number   { Faker::Number.number(10) }
     after(:build) { |user|
-      user.class.any_instance.stub(:send_email_invite)
+      allow(user).to receive(:send_email_invite)
     }
     trait :admin do
       is_admin true
