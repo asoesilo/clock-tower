@@ -6,7 +6,8 @@ describe Admin::ProjectsController do
 
   describe "GET #index" do
     it "populates an array of projects" do
-      project = create(:project)
+      project = build(:project)
+      expect(Project).to receive(:all).and_return([project])
       get :index
       expect(assigns(:projects)).to eq [project]
     end
