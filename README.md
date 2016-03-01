@@ -1,6 +1,6 @@
 Clock Tower
 =============
-[![Code Climate](https://codeclimate.com/github/lighthouse-labs/clock-tower/badges/gpa.svg)](https://codeclimate.com/github/lighthouse-labs/clock-tower)
+[![Code Climate](https://codeclimate.com/github/lighthouse-labs/clock-tower/badges/gpa.svg)](https://codeclimate.com/github/lighthouse-labs/clock-tower) [![Test Coverage](https://codeclimate.com/github/lighthouse-labs/clock-tower/badges/coverage.svg)](https://codeclimate.com/github/lighthouse-labs/clock-tower/coverage)[![wercker status](https://app.wercker.com/status/716fce0af92b16f027bdee7950468aee/m "wercker status")](https://app.wercker.com/project/bykey/716fce0af92b16f027bdee7950468aee)
 
 Initial version developed by Andre Soseilo.
 

@@ -73,3 +73,9 @@ pickle-email-*.html
 .ruby-version
 
 /lib/tasks/secret/**
+
+# Wercker
+/_builds
+/_cache
+/_projects
+/_steps
