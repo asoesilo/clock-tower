@@ -40,20 +40,59 @@ describe TimeEntry do
 
   end
 
-  describe "#set_holiday" do
-    it "should take a users holiday_code and apply it to itself if the user has a location and its project doesn't" do
-      allow(@time_entry.project).to receive(:location).and_return(nil)
-      @time_entry.user.location = build(:location)
-      allow(@time_entry.user.location).to receive(:holiday_code).and_return(:ca_bc)
-
-      @time_entry.save      
-      expect(@time_entry.holiday_code).to eq("ca_bc")
+  describe "#set_location" do
+    before :each do
+      @location = build(:location)
     end
 
-    it "should take a project holiday_code and apply it to itself if the project has a location" do
-      @time_entry.project.location = build(:location)
-      allow(@time_entry.project.location).to receive(:holiday_code).and_return(:ca_bc)
+    context "with no project location" do
+      before :each do
+        allow(@time_entry.project).to receive(:location).and_return(nil)
+      end
 
+      it "should set location to the users location" do
+        allow(@time_entry.user).to receive(:location).and_return(@location)
+
+        @time_entry.save
+        expect(@time_entry.location).to eq(@location)
+      end
+
+      it "should set location to nil if user has none" do
+        @time_entry.save
+        expect(@time_entry.location).to eq(nil)
+      end
+    end
+
+    context "with a project location" do
+      before :each do
+        allow(@time_entry.project).to receive(:location).and_return(@location)
+      end
+
+      it "should set location to the project location" do
+        @time_entry.save
+        expect(@time_entry.location).to eq(@location)
+      end
+
+      it "should set location to the projects location if user has one" do
+        allow(@time_entry.user).to receive(:location).and_return(build (:location))
+
+        @time_entry.save
+        expect(@time_entry.location).to eq(@location)
+      end
+    end
+  end
+
+  describe "#set_holiday" do
+    it "it should set its holiday_code to its locations holiday_code" do
+      location = build(:location)
+      allow(location).to receive(:holiday_code).and_return("ca_qc")
+      @time_entry.location = location
+
+      @time_entry.save      
+      expect(@time_entry.holiday_code).to eq("ca_qc")
+    end
+
+    it "should default to ca_bc holiday code if there is no location" do
       @time_entry.save
       expect(@time_entry.holiday_code).to eq("ca_bc")
     end
@@ -84,6 +123,48 @@ describe TimeEntry do
 
       @time_entry.save
       expect(@time_entry.holiday_rate_multiplier).to eq(nil)
+    end
+  end
+
+  describe "#set_tax" do
+    it "should set has_tax to its users tax setting" do
+      allow(@time_entry).to receive(:user).and_return(build(:user, has_tax: true))
+      @time_entry.save
+      expect(@time_entry.has_tax).to eq(true)
+    end
+
+    it "should set has_tax to its users tax setting" do
+      allow(@time_entry).to receive(:user).and_return(build(:user, has_tax: false))
+      @time_entry.save
+      expect(@time_entry.has_tax).to eq(false)
+    end
+
+    context "with location" do
+      before :each do
+        allow(@time_entry).to receive(:location).and_return(build(:location, tax_name: 'test', tax_percent: 3.14))
+      end
+
+      it "should set the tax_desc to its locations tax desc" do
+        @time_entry.save
+        expect(@time_entry.tax_desc).to eq('test')
+      end
+
+      it "should set the tax_percent to its locations tax percent" do
+        @time_entry.save
+        expect(@time_entry.tax_percent).to eq(3.14)
+      end
+    end
+
+    context "without location" do
+      it "should not set tax_desc" do
+        @time_entry.save
+        expect(@time_entry.tax_desc).to eq(nil)
+      end
+
+      it "should not set tax_percent" do
+        @time_entry.save
+        expect(@time_entry.tax_percent).to eq(nil)
+      end
     end
   end
 

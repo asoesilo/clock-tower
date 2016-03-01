@@ -2,6 +2,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :task
+  belongs_to :location
 
   validates :user, presence: true
   validates :project, presence: true
@@ -10,6 +11,8 @@ class TimeEntry < ActiveRecord::Base
   validates :duration_in_hours, presence: true
 
   before_save :set_holiday
+  before_save :set_location
+  before_save :set_tax
   before_save :set_rate
   # Before save prevents user selecting holiday / secondary rate task + changing it afterwards.
   # Before create prevents user from updating old entries when they have a new rate, therefore updating it.
@@ -54,10 +57,21 @@ class TimeEntry < ActiveRecord::Base
     self.holiday_rate_multiplier = user.holiday_rate_multiplier
   end
 
+  def set_location
+    self.location = user.location if user.location
+    self.location = project.location if project.location
+  end
+
+  def set_tax
+    self.has_tax = user.has_tax?
+    if self.location
+      self.tax_percent = location.tax_percent
+      self.tax_desc = location.tax_name
+    end
+  end
+
   def set_holiday_code
-    code = user.location.holiday_code if user.location
-    code = project.location.holiday_code if project.location
-    self.holiday_code = code || :ca_bc
+    self.holiday_code = location.try(:holiday_code) || :ca_bc
   end
 
   def set_rate
