@@ -1,9 +1,17 @@
-class Reports::Entries
-    
-  def initialize(from, to, user)
-    @from = from
-    @to = to
-    @user = user
+class GenerateReportEntries
+  include Interactor
+
+  def call
+    context.fail! unless has_required_feilds?
+
+    context.holiday_entries = holiday_entries_for(context[:project_ids], context[:task_ids])
+    context.regular_entries = regular_entries_for(context[:project_ids], context[:task_ids])
+  end
+
+  private
+
+  def has_required_feilds?
+    context[:to] && context[:from] && context[:user]
   end
 
   def holiday_entries_for(project_ids = nil, task_ids = nil)
@@ -22,8 +30,6 @@ class Reports::Entries
       map_entry(entry, false)
     end
   end
-
-  private
 
   def map_entry(e, is_holiday)
     rate = e[:rate] if e.apply_rate?
@@ -58,7 +64,7 @@ class Reports::Entries
   end
 
   def entries
-    @user.time_entries.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", @from, @to)
+    context[:user].time_entries.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", context[:from], context[:to])
   end
 
 end

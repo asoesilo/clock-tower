@@ -60,6 +60,9 @@ gem 'puma'
 gem 'silencer'
 gem 'newrelic_rpm'
 
+gem "interactor-rails", "~> 2.0"
+
+
 group :production do
   gem 'rails_12factor'
 end
