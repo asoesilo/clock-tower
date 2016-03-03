@@ -2,6 +2,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :task
+  belongs_to :invoice
 
   validates :user, presence: true
   validates :project, presence: true

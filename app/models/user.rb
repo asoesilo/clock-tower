@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :projects
   has_many :time_entries
-
+  has_many :invoices
+  
   belongs_to :location
 
   validates :firstname, presence: true
