@@ -6,7 +6,7 @@ describe Admin::Reports::SummaryController do
   describe '#show' do
 
     before :each do
-      5.times do
+      3.times do
         create(:time_entry, duration_in_hours: 1)
       end
     end
@@ -21,7 +21,7 @@ describe Admin::Reports::SummaryController do
     it "should set @total_duration to the sum of all the time entry durations" do
       allow(TimeEntry).to receive(:query).and_return(TimeEntry.all)
       get :show
-      expect(assigns[:total_duration]).to eq(5)
+      expect(assigns[:total_duration]).to eq(3)
     end
 
     context "@from" do
