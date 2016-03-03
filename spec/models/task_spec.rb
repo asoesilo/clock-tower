@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Task do
   before :each do
     @task = build(:task)

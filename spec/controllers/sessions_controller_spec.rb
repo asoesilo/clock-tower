@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe SessionsController do
   before :each do
     @user = create(:user, password: 'test', email: 'test@email.com')

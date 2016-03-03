@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PasswordResetsController do
   describe "POST create" do
     context "with a valid email" do

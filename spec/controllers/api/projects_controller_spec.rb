@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Api::ProjectsController do
 
   logged_in_user

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe TimeEntry do
   before :each do
     @time_entry = build(:time_entry)

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Admin::UsersController do
 
   logged_in_user_admin

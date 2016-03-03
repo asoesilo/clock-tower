@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Reports::Entries do
 
   describe ".new" do

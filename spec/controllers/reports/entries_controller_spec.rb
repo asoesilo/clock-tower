@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Reports::EntriesController do
   logged_in_user
 
