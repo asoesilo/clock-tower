@@ -16,15 +16,6 @@ ActiveRecord::Schema.define(version: 20160303013327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "invoices", force: :cascade do |t|
-    t.string   "state"
-    t.integer  "user_id"
-    t.datetime "from"
-    t.datetime "to"
-    t.decimal  "subtotal"
-    t.decimal  "tax_amount"
-  end
-
   create_table "locations", force: :cascade do |t|
     t.string  "name"
     t.string  "province"
@@ -42,6 +33,15 @@ ActiveRecord::Schema.define(version: 20160303013327) do
   end
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+
+  create_table "statements", force: :cascade do |t|
+    t.string   "state"
+    t.integer  "user_id"
+    t.datetime "from"
+    t.datetime "to"
+    t.decimal  "subtotal"
+    t.decimal  "tax_amount"
+  end
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20160303013327) do
     t.string   "tax_desc"
     t.decimal  "tax_percent",             precision: 5, scale: 3
     t.integer  "location_id"
-    t.integer  "invoice_id"
+    t.integer  "statement_id"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree

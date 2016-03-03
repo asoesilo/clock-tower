@@ -1,6 +1,6 @@
-class AddInvoiceModel < ActiveRecord::Migration
+class AddStatementModel < ActiveRecord::Migration
   def change
-    create_table :invoices do |t|
+    create_table :statements do |t|
       t.string :state
       t.integer :user_id
       t.datetime :from
@@ -9,6 +9,6 @@ class AddInvoiceModel < ActiveRecord::Migration
       t.decimal :tax_amount
     end
 
-    add_column :time_entries, :invoice_id, :integer
+    add_column :time_entries, :statement_id, :integer
   end
 end
