@@ -22,16 +22,6 @@ class User < ActiveRecord::Base
     "#{firstname} #{lastname}"
   end
 
-  def rate_for(task, holiday = false)
-    return nil unless hourly?
-    if secondary_rate? && task.apply_secondary_rate?
-      rate = self.secondary_rate
-    else
-      rate = self.rate
-    end
-    holiday ? rate.to_f * holiday_rate_multiplier : rate.to_f
-  end
-
   def as_json(options)
     {
       id: id,

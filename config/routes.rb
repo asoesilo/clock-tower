@@ -34,6 +34,4 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'external/create_user' => 'users#create'
-
 end
