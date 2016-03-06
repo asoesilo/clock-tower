@@ -1,0 +1,44 @@
+<%= form_for @user, url: profile_path, method: :put do |f| %>
+  
+  <div class='row'>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :firstname, 'First Name' %>
+        <%= f.text_field :firstname, { class: 'form-control'} %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :lastname, 'Last Name' %>
+        <%= f.text_field :lastname, { class: 'form-control'} %>
+      </div>
+    </div>
+  
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :company_name, 'Company Name' %>
+        <%= f.text_field :company_name, { class: 'form-control'} %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :tax_number, 'Tax Number' %>
+        <%= f.text_field :tax_number, { class: 'form-control'} %>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <%= f.label :has_tax, "Charge Tax?" %>
+        <%= f.check_box :has_tax %>
+      </div>
+    </div>
+
+
+  </div>
+
+  <%= f.submit "Update Account Info", class: "btn btn-primary btn-block control-btn" %>
+
+<% end %>
