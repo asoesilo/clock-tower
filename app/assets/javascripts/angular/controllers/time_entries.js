@@ -104,8 +104,9 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
 
         //$scope.task = null;
         //$scope.project = null;
+        //$scope.date = new Date();
+
         $scope.duration = null;
-        $scope.date = new Date();
         $scope.comments = null;
       }, function(error) {
         alert(error.data.errors.join());
