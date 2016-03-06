@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :show]
 
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :statements, only: [:index, :show]
 
   # For time entries 
   namespace :api do

@@ -1,0 +1,10 @@
+<tr>
+  <td><%= statement.from.to_s(:humanly) %></td>
+  <td><%= statement.to.to_s(:humanly) %></td>
+  <td><%= statement.state %></td>
+  <td><%= statement.hours %></td>
+  <td><%= statement.subtotal %></td>
+  <td><%= statement.tax_amount %></td>
+  <td><%= statement.total %></td>
+  <td><%= link_to 'View', statement %></td>
+</tr>
