@@ -11,6 +11,42 @@ describe CreateStatement do
     it "should fail if there is no user set" do
       expect(CreateStatement.call(from: 1.month.ago, to: 1.month.from_now).failure?).to eq(true)
     end
+  end
 
+  it "should create a statement" do
+    expect do
+      CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: create(:user))
+    end.to change(Statement, :count).by(1)
+  end
+
+  it "should assign the created statement to .statement" do
+    expect(CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: create(:user)).statement).to be_a(Statement)
+  end
+
+  context "correct paramaters" do
+    before :each do
+      @user = create(:user, hourly: true, rate: 10)
+      3.times do
+        @user.time_entries << create(:time_entry, duration_in_hours: 1)
+      end
+
+      @statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
+    end
+    
+    it "should sum up the rate * duration of the time entries and save it to subtotal" do
+      expect(@statement.subtotal).to eq(30.0)
+    end
+
+    it "should associate time entries in the date range with itslef" do
+      expect(@statement.time_entries.count).to eq(3)
+    end
+
+    it "should ignore time entries outside of the date range" do
+      @user.time_entries << create(:time_entry, entry_date: 3.months.ago)
+      @user.time_entries << create(:time_entry, entry_date: 3.months.from_now)
+
+      statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
+      expect(statement.time_entries.count).to eq(3)
+    end
   end
 end
