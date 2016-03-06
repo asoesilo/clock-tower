@@ -17,11 +17,15 @@ class CreateStatement
   end
 
   def entries
-    context[:user].time_entries.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", context[:from], context[:to])
+    context[:user].time_entries.where(apply_rate: true).where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", context[:from], context[:to])
   end
 
   def required_params?
     context[:to] && context[:from] && context[:user]
+  end
+
+  def total_hours
+    entries.sum("duration_in_hours")
   end
 
   def statement_params
@@ -31,7 +35,9 @@ class CreateStatement
       subtotal: subtotal,
       tax_amount: tax_total,
       time_entries: entries,
-      user: context[:user]
+      user: context[:user],
+      total: (tax_total + subtotal),
+      hours: total_hours
     }
   end
 end

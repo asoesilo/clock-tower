@@ -48,5 +48,17 @@ describe CreateStatement do
       statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
       expect(statement.time_entries.count).to eq(3)
     end
+
+    it "should sum up the total amount of hours" do
+      expect(@statement.hours).to eq(3)
+    end
+
+    it "should ignore entries that dont have apply_rate" do
+      allow(@user).to receive(:hourly?).and_return(false)
+      @user.time_entries << create(:time_entry)
+
+      statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
+      expect(statement.time_entries.count).to eq(3)
+    end
   end
 end

@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :projects
   has_many :time_entries
-  has_many :invoices
+  has_many :statements
   
   belongs_to :location
 
