@@ -25,7 +25,8 @@ describe CreateStatement do
 
   context "correct paramaters" do
     before :each do
-      @user = create(:user, hourly: true, rate: 10)
+      @user = create(:user, hourly: true, rate: 10, has_tax: true)
+      allow(@user).to receive(:location).and_return(build(:location, tax_percent: 50))
       3.times do
         @user.time_entries << create(:time_entry, duration_in_hours: 1)
       end
@@ -35,6 +36,10 @@ describe CreateStatement do
     
     it "should sum up the rate * duration of the time entries and save it to subtotal" do
       expect(@statement.subtotal).to eq(30.0)
+    end
+
+    it "Caclulate the tax amount to be equal to the total hours * tax percent" do
+      expect(@statement.tax_amount).to eq(15.0)
     end
 
     it "should associate time entries in the date range with itslef" do
