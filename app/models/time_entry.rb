@@ -3,6 +3,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :project
   belongs_to :task
   belongs_to :statement
+  belongs_to :location
 
   validates :user, presence: true
   validates :project, presence: true
@@ -11,6 +12,8 @@ class TimeEntry < ActiveRecord::Base
   validates :duration_in_hours, presence: true
 
   before_save :set_holiday
+  before_save :set_location
+  before_save :set_tax
   before_save :set_rate
   # Before save prevents user selecting holiday / secondary rate task + changing it afterwards.
   # Before create prevents user from updating old entries when they have a new rate, therefore updating it.
@@ -32,15 +35,15 @@ class TimeEntry < ActiveRecord::Base
       result = TimeEntry.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", from, to)
 
       if user_ids.present?
-        result = result.where("time_entries.user_id = (?)", user_ids)
+        result = result.where(user_id: user_ids)
       end
 
       if project_ids.present?
-        result = result.where("time_entries.project_id = (?)", project_ids)
+        result = result.where(project_id: project_ids)
       end
 
       if task_ids.present?
-        result = result.where("time_entries.task_id = (?)", task_ids)
+        result = result.where(task_id: task_ids)
       end
 
       result.order(entry_date: :desc)
@@ -55,10 +58,21 @@ class TimeEntry < ActiveRecord::Base
     self.holiday_rate_multiplier = user.holiday_rate_multiplier
   end
 
+  def set_location
+    self.location = user.location if user.location
+    self.location = project.location if project.location
+  end
+
+  def set_tax
+    self.has_tax = user.has_tax?
+    if self.location
+      self.tax_percent = location.tax_percent
+      self.tax_desc = location.tax_name
+    end
+  end
+
   def set_holiday_code
-    code = user.location.holiday_code if user.location
-    code = project.location.holiday_code if project.location
-    self.holiday_code = code || :ca_bc
+    self.holiday_code = location.try(:holiday_code) || :ca_bc
   end
 
   def set_rate
