@@ -14,7 +14,14 @@
         <%= f.text_field :lastname, { class: 'form-control'} %>
       </div>
     </div>
-  
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.text_field :email, { class: 'form-control'} %>
+      </div>
+    </div>
+
     <div class="col-md-6">
       <div class="form-group">
         <%= f.label :company_name, 'Company Name' %>
@@ -29,13 +36,12 @@
       </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-6">
       <div class="form-group">
-        <%= f.label :has_tax, "Charge Tax?" %>
+        <%= f.label :has_tax, "Charge Tax?" %><br/>
         <%= f.check_box :has_tax %>
       </div>
     </div>
-
 
   </div>
 

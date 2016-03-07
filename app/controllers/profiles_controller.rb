@@ -20,7 +20,7 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:user).permit(:firstname, :lastname, :company_name, :tax_number, :has_tax)
+    params.require(:user).permit(:firstname, :lastname, :company_name, :tax_number, :has_tax, :email)
   end
 
 end
