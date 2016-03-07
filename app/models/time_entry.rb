@@ -31,15 +31,15 @@ class TimeEntry < ActiveRecord::Base
       result = TimeEntry.where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", from, to)
 
       if user_ids.present?
-        result = result.where("time_entries.user_id = (?)", user_ids)
+        result = result.where(user_id: user_ids)
       end
 
       if project_ids.present?
-        result = result.where("time_entries.project_id = (?)", project_ids)
+        result = result.where(project_id: project_ids)
       end
 
       if task_ids.present?
-        result = result.where("time_entries.task_id = (?)", task_ids)
+        result = result.where(task_id: task_ids)
       end
 
       result.order(entry_date: :desc)
