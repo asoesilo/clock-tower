@@ -3,9 +3,9 @@ class Admin::StatementsController < Admin::BaseController
 
   def index
     @all_users = User.all
-    @containing = params[:containing]
     @statements = Statement.all
 
+    @containing = params[:containing]
     @statements = @statements.containing_date(params[:containing]) if params[:containing].present?
     @statements = @statements.by_users(params[:users]) if params[:users].present?
   end

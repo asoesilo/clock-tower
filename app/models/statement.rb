@@ -8,6 +8,10 @@ class Statement < ActiveRecord::Base
   validates :from, presence: true
   validates :to, presence: true
   validates :user_id, presence: true
+  validates :subtotal, presence: true
+  validates :tax_amount, presence: true
+  validates :hours, presence: true
+  validates :total, presence: true
 
   scope :by_users, -> (users){ where(user_id: users) }
   scope :containing_date, -> (date){ where("statements.from <= ? AND statements.to >= ?", date, date) }
