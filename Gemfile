@@ -54,6 +54,8 @@ gem 'holidays', '~> 3.2.0'
 
 gem 'sentry-raven'
 
+gem 'statesman'
+
 # ruby app server
 # https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
 gem 'puma'
