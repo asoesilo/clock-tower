@@ -15,7 +15,9 @@
       <th>Total</th>
     </thead>
     <tbody>
-      <%= render 'entries', entries: @entries %>
+      <% entries.each do |entry| %>
+        <%= render 'entry', entry: entry %>
+      <% end %>
       <tr>
         <th></th>
         <th></th>
