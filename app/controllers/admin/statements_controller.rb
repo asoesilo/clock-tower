@@ -1,6 +1,5 @@
 class Admin::StatementsController < Admin::BaseController
-
-  before_action :load_statement, only: [:show]
+  include StatementQueries
 
   def index
     @all_users = User.all
@@ -12,22 +11,20 @@ class Admin::StatementsController < Admin::BaseController
   end
 
   def show
-  end
-
-  private
-
-  def load_statement
     @statement = Statement.find(params[:id])
-    @entries = @statement.time_entries.order(:entry_date)
-    .group(:entry_date, :rate, :tax_percent)
-    .select("
-        SUM(duration_in_hours) AS hours,
-        SUM(duration_in_hours * rate * (tax_percent / 100)) AS tax,
-        SUM(duration_in_hours * rate) as total,
-        tax_percent,
-        entry_date,
-        rate
-      ")
+    @entries = entries_by_date @statement
   end
 
+  def new
+    @users = User.active
+  end
+
+  def create
+    users = params[:users]
+    users.each do |user_id|
+      user = User.find(user_id)
+      CreateStatement.call(user: user, to: params[:to], from: params[:from])
+    end
+    redirect_to admin_statements_path
+  end
 end

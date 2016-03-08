@@ -18,6 +18,8 @@ class TimeEntry < ActiveRecord::Base
   # Before save prevents user selecting holiday / secondary rate task + changing it afterwards.
   # Before create prevents user from updating old entries when they have a new rate, therefore updating it.
 
+  scope :between, -> (from, to) { where('time_entries.entry_date BETWEEN ? AND ?', from.beginning_of_day, to.end_of_day) }
+
   def as_json(options)
     {
       id: id,

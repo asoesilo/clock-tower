@@ -17,11 +17,11 @@ class CreateStatement
   end
 
   def entries
-    context[:user].time_entries.where(apply_rate: true).where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", context[:from], context[:to])
+    context[:user].time_entries.where(apply_rate: true, statement_id: nil).where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", context[:from], context[:to])
   end
 
   def required_params?
-    context[:to] && context[:from] && context[:user]
+    context[:to].present? && context[:from].present? && context[:user].present?
   end
 
   def total_hours

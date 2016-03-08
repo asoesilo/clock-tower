@@ -3,19 +3,23 @@
     <%= form_tag(admin_statements_path, method: :get, class: "form", role: "form") do %>
       <div class="row">
         
-        <div class="col-md-5 option-field">
+        <div class="col-md-6 option-field">
           <%= text_field_tag :containing, @containing, class: "form-control pick-a-date", placeholder: "Statments containing date" %>
         </div>
 
         <div class="col-md-6 option-field">
           <%= select_tag :users, options_from_collection_for_select(@all_users, :id, :fullname, params[:users]), { class: "form-control chosen-select", "data-placeholder" => "Filter by users", multiple: true } %>
         </div>      
+      </div>
 
-        <div class="col-md-1">
+      <div class="row">
+        <div class="col-md-2">
+          <%= link_to "New Statement", [:new, :admin, :statement], class: 'btn btn-primary control-btn' %>
+        </div>
+        <div class="col-md-offset-9 col-md-1">
           <%= button_tag "Fetch", class: "btn btn-primary control-btn pull-right" %>
         </div>
       </div>
-    
     <% end %>
   </div>
 </div>
