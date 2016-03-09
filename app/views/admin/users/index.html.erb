@@ -8,10 +8,6 @@
     </div>
   </div>
 
-  <%= render 'layouts/show_alert' %>
-
-  <%= render 'layouts/show_notice' %>
-
   <% if @users && @users.any? %>
     <table class="table table-striped table-hover">
       <thead>
@@ -19,7 +15,11 @@
           <th>First name</th>
           <th>Last name</th>
           <th>Email</th>
-          <th>Admin?</th>
+          <th>Location</th>
+          <th>Last Entry</th>
+          <th>Active</th>
+          <th>Admin</th>
+          <th style="width:40px"></th>
         </tr>
       </thead>
       <tbody>

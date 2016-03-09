@@ -1,8 +1,16 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
+if ENV['CI']
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
+else
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
+
 require 'rspec/rails'
-require 'rspec/autorun'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -17,6 +25,9 @@ RSpec.configure do |config|
 
   config.include UserAccountHelpers,         type: :controller
   config.extend  UserAccountHelpers::Macros, type: :controller
+
+  # Rails spec configuration from location vs meta data
+  config.infer_spec_type_from_file_location!
 
   # ## Mock Framework
   #
@@ -44,4 +55,27 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  config.before(:suite) do
+    TimeEntry.destroy_all
+    Project.destroy_all
+    Task.destroy_all
+    Location.destroy_all
+    User.destroy_all
+  end
+
+  # rspec-rails 3 will no longer automatically infer an example group's spec type
+  # from the file location. You can explicitly opt-in to the feature using this
+  # config option.
+  # To explicitly tag specs without using automatic inference, set the `:type`
+  # metadata manually:
+  #
+  #     describe ThingsController, :type => :controller do
+  #       # Equivalent to being in spec/controllers
+  #     end
+  config.infer_spec_type_from_file_location!
+end
+
+FactoryGirl::SyntaxRunner.class_eval do
+  include RSpec::Mocks::ExampleMethods
 end

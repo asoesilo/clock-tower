@@ -1,0 +1,51 @@
+<div class="jumbotron report-options">
+  <div class="container">
+    <%= form_tag(admin_reports_summary_path, method: :get, class: "form", role: "form") do %>
+      <div class="row">
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :from, @from.to_s(:humanly), class: "form-control pick-a-date", placeholder: "From" %>
+        </div>
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :to, @to.to_s(:humanly), class: "form-control pick-a-date", placeholder: "To" %>
+        </div>
+        <div class="col-md-6 option-field">
+          <%= select_tag :users, options_from_collection_for_select(@all_users, :id, :fullname, params[:users]), { class: "form-control chosen-select", "data-placeholder" => "Filter by users", multiple: true } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 option-field">
+          <%= select_tag :projects, options_from_collection_for_select(@all_projects, :id, :name, params[:projects]), { class: "form-control chosen-select", "data-placeholder" => "Filter by projects", multiple: true } %>
+        </div>
+        <div class="col-md-6 option-field">
+          <%= select_tag :tasks, options_from_collection_for_select(@all_tasks, :id, :name, params[:tasks]), { class: "form-control chosen-select", "data-placeholder" => "Filter by tasks", multiple: true } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <%= button_tag "Fetch", class: "btn btn-primary pull-right control-btn" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <div class="alert alert-info">
+    <strong>Total duration:</strong> 
+    <br>
+    <%= number_with_precision(@total_duration, precision: 2) %> hours
+  </div>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% @time_entries.each do |time_entry| %>
+        <tr>
+          <td><%= time_entry.user.fullname %></td>
+          <td><%= time_entry.project.name %></td>
+          <td><%= time_entry.task.name %></td>
+          <td><%= time_entry.entry_date.to_s(:humanly) %></td>
+          <td><%= time_entry.duration_in_hours %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

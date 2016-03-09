@@ -1,17 +1,15 @@
 'use strict';
 
 var ClockTower = angular.module('ClockTower');
+
 ClockTower.service('TimeEntryService', ['$http', '$resource', function($http, $resource) {
+  
   var TimeEntry = $resource('./api/time_entries/:id', {id: '@id'}, {
     'update': { method: 'PUT' }
   });
 
-  var getAllTimeEntries = function() {
-    return TimeEntry.query();
-  };
-
-  var getTimeEntriesForProfile = function() {
-    return $http.get('./api/profile/time_entries');
+  var getTimeEntries = function() {
+    return $http.get('./api/time_entries');
   };
 
   var createTimeEntry = function(taskId, projectId, entryDate, duration, comments, success, error) {
@@ -48,10 +46,10 @@ ClockTower.service('TimeEntryService', ['$http', '$resource', function($http, $r
   };
 
   return {
-    all: getAllTimeEntries,
-    get: getTimeEntriesForProfile,
+    list:   getTimeEntries,
     create: createTimeEntry,
     update: updateTimeEntry,
     delete: deleteTimeEntry
   };
+
 }]);

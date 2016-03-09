@@ -1,6 +1,7 @@
 <tr>
   <td><%= project.name %></td>
   <td><%= project.created_at %></td>
+  <td><%= project.location.try :name %></td>
   <td><%= link_to "Edit", edit_admin_project_path(project) %></td>
   <td><%= link_to "Delete", admin_project_path(project), method: :delete %></td>
 </tr>

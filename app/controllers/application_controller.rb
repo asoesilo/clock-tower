@@ -1,13 +1,22 @@
 class ApplicationController < ActionController::Base
+  
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_action :authenticate_user
 
-  protected
+  before_action :authenticate_user
+  before_action :check_for_password_update 
+  before_action :set_raven_context
+
+  private
+
+  def set_raven_context
+    Raven.user_context(user_id: session[:user_id])
+    Raven.extra_context(params: params.to_hash, url: request.url)
+  end
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by(active: true, id: session[:user_id]) if session[:user_id]
   end
   
   def to_home_if_logged_in
@@ -18,7 +27,12 @@ class ApplicationController < ActionController::Base
     !current_user.nil?
   end
 
-  private
+  def check_for_password_update
+    return unless current_user
+    redirect_to [:edit, :password], notice: 'A password update is required to proceed' if current_user.password_reset_required?
+  end
+
+
   def authenticate_user
     redirect_to new_session_path, alert: "Please login first!" unless current_user
   end

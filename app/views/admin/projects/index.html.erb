@@ -8,20 +8,15 @@
     </div>
   </div>
 
-  <%= render 'layouts/show_alert' %>
-
-  <%= render 'layouts/show_notice' %>
-
-  <%= render 'admin/projects/project_error' %>
-
-  
-
   <% if @projects && @projects.any? %>
     <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Name</th>
           <th>Created at</th>
+          <th>Location</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>

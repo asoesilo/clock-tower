@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag 'timesheet' %>
+<% end %>
+
 <div ng-controller="TimeEntriesCtrl">
   <script type="text/ng-template" id="confirmationModal.html">
     <div class="modal-header">
@@ -35,7 +39,7 @@
             </p>
           </div>
           <div class="col-md-2">
-            <input type="text" class="form-control" placeholder="Duration" ng-model="duration">
+            <input type="text" ng-required="true" class="form-control" placeholder="Duration (Hours)" ng-model="duration">
           </div>
           <div class="col-md-2">
             <button class="btn btn-primary btn-block control-btn" type="submit">Submit</button>
@@ -49,8 +53,13 @@
   </div>
 
   <div class="container">
+    <p ng-show="totalHours">
+      <strong>Total Hours:</strong>
+      <span>{{ totalHours }}</span>
+      <span ng-show="moreEntries">(Only showing latest 25 entries)</span>
+    </p>
     <accordion close-others="false">
-      <accordion-group ng-repeat="entry in timeEntries" is-open="entry.isEditState" is-disabled="true">
+      <accordion-group ng-repeat="entry in timeEntries" is-open="entry.isEditState" is-disabled="true" ng-class="{'fresh': entry.justCreated}">
         <accordion-heading>
           <div class="row">
             <div class="col-md-8">
@@ -98,7 +107,7 @@
             </p>
           </div>
           <div class="col-md-2">
-            <input type="text" class="form-control" placeholder="Duration" ng-model="entry.newDuration">
+            <input type="text" class="form-control" placeholder="Duration (Hours)" ng-model="entry.newDuration">
           </div>
           <div class="col-md-2">
             <div class="col-md-6">

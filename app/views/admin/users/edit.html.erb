@@ -1,0 +1,9 @@
+<div class="container padding-top-20">
+  <h2>Update User</h2>
+  
+  <%= form_for([:admin, @user], html: {class: "form", role: "form"}) do |f| %>
+    <%= render f %>
+    <%= f.submit "Submit", {class: "btn btn-primary btn-block control-btn"} %>
+  <% end %>
+
+</div>

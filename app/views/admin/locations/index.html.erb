@@ -1,0 +1,30 @@
+<div class="container padding-top-20">
+  <div class="row">
+    <div class="col-md-2 vcenter">
+      <h1>Locations</h1>
+    </div>
+    <div class="vcenter">
+      <%= link_to "Create new location", new_admin_location_path %>
+    </div>
+  </div>
+
+  <% if @locations.any? %>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Created by</th>
+          <th>Tax Name</th>
+          <th>Tax %</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @locations %>
+      </tbody>
+    </table>
+  <% else %>
+    <div>There are currently no locations</div>
+  <% end %>
+</div>
