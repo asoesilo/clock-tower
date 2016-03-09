@@ -42,6 +42,7 @@ describe Statement do
     it "should return an instance of the statement state machien class" do
       expect(@statement.state_machine).to be_a(StatementStateMachine)
     end
+
   end
 
   describe ".transition_class" do    

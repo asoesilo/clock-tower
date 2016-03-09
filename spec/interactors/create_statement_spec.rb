@@ -31,6 +31,10 @@ describe CreateStatement do
         @user.time_entries << create(:time_entry, duration_in_hours: 1)
       end
 
+      @user.time_entries << create(:time_entry, entry_date: 3.months.ago)
+      @user.time_entries << create(:time_entry, entry_date: 3.months.from_now)
+
+
       @statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
     end
     
@@ -46,16 +50,15 @@ describe CreateStatement do
       expect(@statement.time_entries.count).to eq(3)
     end
 
-    it "should ignore time entries outside of the date range" do
-      @user.time_entries << create(:time_entry, entry_date: 3.months.ago)
-      @user.time_entries << create(:time_entry, entry_date: 3.months.from_now)
-
-      statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
-      expect(statement.time_entries.count).to eq(3)
-    end
-
     it "should sum up the total amount of hours" do
       expect(@statement.hours).to eq(3)
+    end
+
+    it "should ignore time entries that are already associated to a report" do
+      @user.time_entries << create(:time_entry)
+      statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
+
+      expect(statement.time_entries.count).to eq(1)
     end
 
     it "should ignore entries that dont have apply_rate" do
@@ -63,7 +66,7 @@ describe CreateStatement do
       @user.time_entries << create(:time_entry)
 
       statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
-      expect(statement.time_entries.count).to eq(3)
+      expect(statement.time_entries.count).to eq(0)
     end
   end
 end
