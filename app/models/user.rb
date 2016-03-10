@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   private
 
   def send_email_invite
-    UserMailer.user_invite(self, creator).deliver
+    UserMailer.user_invite(self, creator).deliver_now
   end
 
 end
