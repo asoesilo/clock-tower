@@ -2,6 +2,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :task
+  belongs_to :statement
   belongs_to :location
 
   validates :user, presence: true
@@ -16,6 +17,8 @@ class TimeEntry < ActiveRecord::Base
   before_save :set_rate
   # Before save prevents user selecting holiday / secondary rate task + changing it afterwards.
   # Before create prevents user from updating old entries when they have a new rate, therefore updating it.
+
+  scope :between, -> (from, to) { where('time_entries.entry_date BETWEEN ? AND ?', from.beginning_of_day, to.end_of_day) }
 
   def as_json(options)
     {
