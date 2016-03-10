@@ -38,7 +38,7 @@ class GenerateReportEntries
         task_id:      e[:task_id],
         hours:        e[:hours],
         holiday:      is_holiday,
-        holiday_code: e.try(:holiday_code),
+        holiday_code: e.try(:holiday_code).try(:to_sym),
         date:         e.try(:entry_date),
         project:      Project.find_by(id: e[:project_id]),
         task:         Task.find_by(id: e[:task_id]),
