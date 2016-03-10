@@ -9,8 +9,8 @@ else
   SimpleCov.start 'rails'
 end
 
-
 require 'rspec/rails'
+require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -57,11 +57,14 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.before(:suite) do
-    TimeEntry.destroy_all
-    Project.destroy_all
-    Task.destroy_all
-    Location.destroy_all
-    User.destroy_all
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
   end
 
   # rspec-rails 3 will no longer automatically infer an example group's spec type
