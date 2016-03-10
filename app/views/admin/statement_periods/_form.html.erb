@@ -1,0 +1,5 @@
+<%= form_for [:admin, @statement_period], html: {class: 'form'} do |f| %>
+  <%= f.text_field :to, {class: "form-control", placeholder: "To"} %>
+  <%= f.text_field :from, {class: "form-control", placeholder: "From"} %>
+  <%= f.text_field :draft_days, {class: "form-control", placeholder: "Draft Peroid"} %>
+<% end %>
