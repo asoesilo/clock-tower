@@ -85,6 +85,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'quiet_assets'
   gem 'simplecov'
+  gem 'database_cleaner'
 end
 
 gem 'codeclimate-test-reporter', group: :test, require: nil
