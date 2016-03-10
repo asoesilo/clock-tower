@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Project do
   before :each do
     @project = build(:project)

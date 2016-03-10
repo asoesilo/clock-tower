@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Api::TasksController do
 
   logged_in_user

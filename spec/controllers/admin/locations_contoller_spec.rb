@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Admin::LocationsController do
 
   logged_in_user_admin

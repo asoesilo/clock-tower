@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe HomeController do
   describe "GET show" do
     context "no logged in user" do

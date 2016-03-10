@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PasswordsController do
   logged_in_user
 

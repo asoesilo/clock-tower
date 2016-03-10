@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Admin::TasksController do
 
   logged_in_user_admin
