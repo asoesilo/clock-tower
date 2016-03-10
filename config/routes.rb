@@ -27,11 +27,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :statements
+    resources :statement_periods
     resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
-    resources :statement_periods, only: [:index, :show, :edit, :update, :new]
     namespace :reports do
       get 'payroll' => 'payroll#show'
       get 'summary' => 'summary#show'

@@ -8,6 +8,16 @@
     </div>
   </div>
 
-
-  <%= render @statement_periods %>
+  <table class='table'>
+    <thead>
+      <th>From</th>
+      <th>To</th>
+      <th>Days in Draft</th>
+      <th><%# Edit %></th>
+      <th><%# Delete %></th>
+    </thead>
+    <tbody>
+      <%= render @statement_periods %>
+    </tbody>
+  </table>
 </div>
