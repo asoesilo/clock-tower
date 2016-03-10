@@ -16,6 +16,10 @@ describe StatementPeriod do
       expect(build :statement_period, draft_days: nil).to have(1).errors_on(:draft_days)
     end
 
+    it "should be invalid with draft days set to less than 0" do
+      expect(build :statement_period, draft_days: -3).to have(1).errors_on(:draft_days)
+    end
+
     context "should only allow numbers up to 31 or End of Month / Start of Month for from" do
       it "should fail with numbers higher than 31" do
         expect(build :statement_period, from: 40).to have(1).errors_on(:from)

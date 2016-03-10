@@ -3,6 +3,6 @@ class StatementPeriod < ActiveRecord::Base
 
   validates :from, inclusion: { in: VALID_TO_FROM }
   validates :to, inclusion: { in: VALID_TO_FROM }
-  validates :draft_days, presence: true
+  validates :draft_days, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
 end
