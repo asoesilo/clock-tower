@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :project do
-    name    { Faker::Lorem.word }
+    name    { "#{Faker::Lorem.word}#{Faker::Lorem.word}#{Faker::Lorem.word}" }
     association :creator, factory: :user
 
     factory :project_without_name do

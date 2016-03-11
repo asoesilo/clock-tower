@@ -1,10 +1,10 @@
 describe Statement do
 
-  describe "factory" do 
+  describe "factory" do
     it "has a valid factory" do
       expect(build(:statement)).to be_valid
     end
-    
+
     it "is invalid without from" do
       expect(build(:statement, from: nil)).to have(1).errors_on(:from)
     end
@@ -32,6 +32,10 @@ describe Statement do
     it "is invalid without total" do
       expect(build(:statement, total: nil)).to have(1).errors_on(:total)
     end
+
+    it "is invalid without post_date" do
+      expect(build(:statement, post_date: nil)).to have(1).errors_on(:post_date)
+    end
   end
 
   describe "#state_machine" do
@@ -45,7 +49,7 @@ describe Statement do
 
   end
 
-  describe ".transition_class" do    
+  describe ".transition_class" do
     it "should return StatementTransition" do
       expect(Statement.transition_class).to eq(StatementTransition)
     end
