@@ -9,7 +9,7 @@ class CreateStatement
   private
 
   def tax_total
-    entries.sum("duration_in_hours * rate * (tax_percent / 100)")
+    entries.where(has_tax: true).sum("duration_in_hours * rate * (tax_percent / 100)")
   end
 
   def subtotal
