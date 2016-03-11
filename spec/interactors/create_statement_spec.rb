@@ -37,7 +37,7 @@ describe CreateStatement do
 
       @statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
     end
-    
+
     it "should sum up the rate * duration of the time entries and save it to subtotal" do
       expect(@statement.subtotal).to eq(30.0)
     end
@@ -52,6 +52,15 @@ describe CreateStatement do
 
     it "should sum up the total amount of hours" do
       expect(@statement.hours).to eq(3)
+    end
+
+    it "should not add tax for time entries with has_tax false" do
+      @user.time_entries << create(:time_entry, duration_in_hours: 1)
+      allow(@user).to receive(:has_tax?).and_return(false)
+      @user.time_entries << create(:time_entry, duration_in_hours: 1)
+
+      statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
+      expect(statement.tax_amount).to eq(5)
     end
 
     it "should ignore time entries that are already associated to a report" do
