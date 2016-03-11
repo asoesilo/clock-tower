@@ -6,11 +6,11 @@ class StatementPeriod < ActiveRecord::Base
   validates :draft_days, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   def from_date
-    parse_date(from)
+    parse_date(from).beginning_of_day
   end
 
   def to_date
-    parse_date(to)
+    parse_date(to).end_of_day
   end
 
   def draft_end_date

@@ -2,21 +2,15 @@ class CreateStatementsForPeriod
   include Interactor
 
   def call
-    @today = Date.today
-    set_statement_period
+    @statement_period = context[:statement_period]
+    set_statement_dates
     fetch_users
     create_statements
   end
 
   private
 
-  def set_statement_period
-    @statement_period = StatementPeriod.where(to: @today.day).take
-    if @statement_period.blank?
-      context.errors = "No Statements end today"
-      context.fail!
-    end
-
+  def set_statement_dates
     @to = @statement_period.to_date
     @from = @statement_period.from_date
     @end_date = @statement_period.draft_end_date
@@ -29,7 +23,7 @@ class CreateStatementsForPeriod
       context.fail!
     end
 
-    @users = user_ids.map do |user_id| 
+    @users = user_ids.map do |user_id|
       User.find(user_id)
     end
   end
