@@ -23,7 +23,7 @@ class Admin::StatementsController < Admin::BaseController
     users = params[:users]
     users.each do |user_id|
       user = User.find(user_id)
-      CreateStatement.call(user: user, to: params[:to], from: params[:from])
+      CreateStatement.call(user: user, to: params[:to], from: params[:from], post_date: params[:post_date])
     end
     redirect_to admin_statements_path
   end

@@ -1,6 +1,9 @@
 <div class="jumbotron report-options">
-  <div class="container">
-    <h3 class='text-center'><%= @statement.from.to_s(:humanly) %> - <%= @statement.to.to_s(:humanly) %></h3>
+  <div class="container text-center">
+    <h3><%= @statement.from.to_s(:humanly) %> - <%= @statement.to.to_s(:humanly) %></h3>
+    <% if @statement.post_date > Date.today %>
+      <p>Post Date - <%= @statement.post_date.to_s(:humanly) %></p>
+    <% end %>
   </div>
 </div>
 <div class="container">

@@ -21,7 +21,7 @@ class CreateStatement
   end
 
   def required_params?
-    context[:to].present? && context[:from].present? && context[:user].present?
+    context[:to].present? && context[:from].present? && context[:user].present? && context[:post_date].present?
   end
 
   def total_hours
@@ -37,7 +37,8 @@ class CreateStatement
       time_entries: entries,
       user: context[:user],
       total: (tax_total + subtotal),
-      hours: total_hours
+      hours: total_hours,
+      post_date: context[:post_date]
     }
   end
 end
