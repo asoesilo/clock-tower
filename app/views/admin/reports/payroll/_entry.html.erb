@@ -4,10 +4,12 @@
   </td>
   <td>
     <%= entry[:task].try(:name) || "[Unknown Task]" %>
-    <% if entry[:holiday] && entry[:date] %>
-      - 
-      <% holiday = Holidays.on(entry[:date], entry[:holiday_code].to_sym).first %>
-      <%= holiday[:name] %> (<%=  holiday[:date] %>)
+    <% if entry[:holiday] && entry[:date] && entry[:holiday_code] %>
+      <% holiday = Holidays.on(entry[:date], entry[:holiday_code]).first %>
+      <% if holiday %>
+        -
+        <%= holiday[:name] %> (<%=  holiday[:date] %>)
+      <% end %>
     <% end %>
   </td>
   <td style="width:60px">
