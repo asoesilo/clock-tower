@@ -3,6 +3,7 @@
   <td><%= statement.from.to_s(:humanly) %></td>
   <td><%= statement.to.to_s(:humanly) %></td>
   <td><%= statement.post_date.to_s(:humanly) %></td>
+  <td><%= statement.state.capitalize %></td>
   <td><%= statement.hours %></td>
   <td><%= number_to_currency statement.subtotal %></td>
   <td><%= number_to_currency statement.tax_amount %></td>

@@ -9,7 +9,7 @@ class LockStatementsForDate
   end
 
   def statements
-    Statement.where(post_date: @date)
+    Statement.where(post_date: (@date.beginning_of_day..@date.end_of_day))
   end
 
   def close_statement(statement)
