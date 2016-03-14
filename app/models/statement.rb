@@ -17,6 +17,14 @@ class Statement < ActiveRecord::Base
   scope :by_users, -> (users){ where(user_id: users) }
   scope :containing_date, -> (date){ where("statements.from <= ? AND statements.to >= ?", date, date) }
 
+  def state
+    state_machine.current_state
+  end
+
+  def transition_to(new_state)
+    state_machine.transition_to(new_state)
+  end
+
   def state_machine
     @state_machine ||= StatementStateMachine.new(self, transition_class: StatementTransition)
   end
