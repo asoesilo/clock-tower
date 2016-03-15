@@ -1,4 +1,4 @@
-<tr id=<%= "entry-#{time_entry.id}"%> >
+<tr class="entry-row" id=<%= "entry-#{time_entry.id}"%> >
   <td class="task"><%= time_entry.task.name %></td>
   <td class="project"><%= time_entry.project.name %></td>
   <td class="date"><%= time_entry.entry_date.to_s(:humanly) %></td>
