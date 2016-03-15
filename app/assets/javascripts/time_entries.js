@@ -44,4 +44,10 @@ $(function(){
   }).on('ajax:error', function alertErrors(e, data, status, xhr){
     alert(data.errors);
   });
+
+  $('.delete').on('ajax:success', function(e, data, status, xhr){
+    $(this).closest('tr').remove();
+  }).on('ajax:error', function alertErrors(e, data, status, xhr){
+    alert(data.errors)
+  });
 });
