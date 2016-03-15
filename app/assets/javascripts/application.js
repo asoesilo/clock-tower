@@ -17,3 +17,5 @@
 //= require bootstrap-sprockets
 //= require chosen-jquery
 //= require app
+//= require moment.min
+//= require time_entries

@@ -1,7 +1,16 @@
-<tr>
-  <td><%= time_entry.project.name %></td>
-  <td><%= time_entry.task.name %></td>
-  <td><%= time_entry.entry_date.to_s(:humanly) %></td>
-  <td><%= time_entry.duration_in_hours %></td>
-  <td><%= time_entry.comments %></td>
+<tr id=<%= "entry-#{time_entry.id}"%> >
+  <td class="task"><%= time_entry.task.name %></td>
+  <td class="project"><%= time_entry.project.name %></td>
+  <td class="date"><%= time_entry.entry_date.to_s(:humanly) %></td>
+  <td class="hours"><%= time_entry.duration_in_hours %></td>
+  <td class="comments"><%= time_entry.comments %></td>
+  <td><%= link_to "Edit", "#", data: {
+    toggle: "modal", target: "#entry-edit",
+    project_id: time_entry.project.id,
+    task_id: time_entry.task.id,
+    entry_date: time_entry.entry_date,
+    duration: time_entry.duration_in_hours,
+    comments: time_entry.comments,
+    entry_id: time_entry.id } %>
+  </td>
 </tr>
