@@ -1,127 +1,50 @@
-<% content_for :head do %>
-  <%= javascript_include_tag 'timesheet' %>
-<% end %>
-
-<div ng-controller="TimeEntriesCtrl">
-  <script type="text/ng-template" id="confirmationModal.html">
-    <div class="modal-header">
-      <h3 class="modal-title">Clock Tower</h3>
-    </div>
-    <div class="modal-body">
-        {{message}}
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary" ng-click="ok()">OK</button>
-      <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-    </div>
-  </script>
-
-  <div class="jumbotron padding-top-20">
-    <div class="container">
-      <form ng-submit="createTimeEntry()">
-        <div class="form-group row">
-          <div class="col-md-3">
-            <select name="task" class="form-control" data-placeholder="What are you working on?" chosen="tasks" ng-model="task" ng-options="task.name for task in tasks">
-              <option value></option>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <select name="project" class="form-control" data-placeholder="Select project" chosen="projects" ng-model="project" ng-options="project.name for project in projects">
-              <option value></option>
-            </select>
-          </div>
-          <div class="col-md-2">
-            <p class="input-group">
-              <input type="text" class="form-control" placeholder="Select date" datepicker-popup="{{dateFormat}}" ng-model="date" ng-required="true" show-weeks="true" min-date="minDate" max-date="maxDate" is-open="opened" datepicker-options="dateOptions" close-text="Close" readonly>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="toggleCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-          </div>
-          <div class="col-md-2">
-            <input type="text" ng-required="true" class="form-control" placeholder="Duration (Hours)" ng-model="duration">
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-primary btn-block control-btn" type="submit">Submit</button>
-          </div>
-        </div>
-        <div>
-          <input type="text" class="form-control" placeholder="Write your comments here" ng-model="comments">
-        </div>
-      </form>
-    </div>
-  </div>
-
+<div class="jumbotron report-options">
   <div class="container">
-    <p ng-show="totalHours">
-      <strong>Total Hours:</strong>
-      <span>{{ totalHours }}</span>
-      <span ng-show="moreEntries">(Only showing latest 25 entries)</span>
-    </p>
-    <accordion close-others="false">
-      <accordion-group ng-repeat="entry in timeEntries" is-open="entry.isEditState" is-disabled="true" ng-class="{'fresh': entry.justCreated}">
-        <accordion-heading>
-          <div class="row">
-            <div class="col-md-8">
-              <div class="col-md-4">
-                {{entry.task.name}}
-              </div>
-              <div class="col-md-4">
-                {{entry.project.name}}
-              </div>
-              <div class="col-md-4">
-                <div class="col-md-9">{{formatViewDate(entry.date)}}</div>
-                <div class="col-md-3">{{entry.duration_in_hours}}</div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              {{entry.comments}}
-            </div>
-            <div class="col-md-1">
-              <div class="col-md-6">
-                <div class="action-icon-push" ng-hide="entry.isHover"></div>
-                <a href ng-click="enterEditState(entry)" ng-hide="entry.isEditState"><i class="fa fa-pencil fa-1x"></i></a>
-              </div>
-              <div class="col-md-6">
-                <div class="action-icon-push" ng-hide="entry.isHover"></div>
-                <a href ng-click="deleteTimeEntry(entry)"><i class="fa fa-times fa-1x"></i></a>
-              </div>
-            </div>
-          </div>
-        </accordion-heading>
-        <div class="form-group row">
-          <div class="col-md-3">
-            <select name="task" class="form-control" chosen="tasks"  ng-model="entry.newTask" ng-options="task.name for task in tasks track by task.id">
-            </select>
-          </div>
-          <div class="col-md-3">
-            <select name="project" class="form-control" chosen="projects"  ng-model="entry.newProject" ng-options="project.name for project in projects track by project.id">
-            </select>
-          </div>
-          <div class="col-md-2">
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="entry.newDate" min-date="minDate" max-date="maxDate" is-open="entry.calendarOpen" close-text="Close" show-weeks="true" readonly>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="toggleCalendar($event, entry)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-          </div>
-          <div class="col-md-2">
-            <input type="text" class="form-control" placeholder="Duration (Hours)" ng-model="entry.newDuration">
-          </div>
-          <div class="col-md-2">
-            <div class="col-md-6">
-              <button class="btn btn-primary btn-block control-btn btn-success" ng-click="saveEntry(entry)"><i class="fa fa-save fa-1x"></i></button>
-            </div>
-            <div class="col-md-6">
-              <button class="btn btn-primary btn-block control-btn btn-danger" ng-click="cancelEdit(entry)"><i class="fa fa-undo fa-1x"></i></button>
-            </div>
-          </div>
+    <%= form_tag(time_entries_path, method: :get, class: "form", role: "form") do %>
+      <div class="row">
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :projects, options_from_collection_for_select(@all_projects, :id, :name, params[:projects]), { class: "form-control chosen-select", "data-placeholder" => "Filter by projects", multiple: true } %>
         </div>
-        <div>
-          <input type="text" class="form-control" placeholder="Write your comments here" ng-model="entry.newComments">
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :tasks, options_from_collection_for_select(@all_tasks, :id, :name, params[:tasks]), { class: "form-control chosen-select", "data-placeholder" => "Filter by tasks", multiple: true } %>
         </div>
-      </accordion-group>
-    </accordion>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :from, @from, class: "form-control pick-a-date", placeholder: "From" %>
+        </div>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :to, @to, class: "form-control pick-a-date", placeholder: "To" %>
+        </div>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :on, @on, class: "form-control pick-a-date", placeholder: "On" %>
+        </div>
+
+        <div class="col-md-3">
+          <%= button_tag "Fetch", class: "btn btn-primary control-btn pull-right btn-block" %>
+        </div>
+
+      </div>
+    <% end %>
   </div>
+</div>
+
+<div class="container">
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Task</th>
+        <th>Entry Date</th>
+        <th>Hours</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @time_entries %>
+    </tbody>
+  </table>
 </div>

@@ -1,10 +1,7 @@
 <tr>
   <td><%= time_entry.project.name %></td>
   <td><%= time_entry.task.name %></td>
-  <td><%= time_entry.user.fullname %></td>
-  <td><%= time_entry.entry_date %></td>
+  <td><%= time_entry.entry_date.to_s(:humanly) %></td>
   <td><%= time_entry.duration_in_hours %></td>
   <td><%= time_entry.comments %></td>
-  <td><%= link_to "Edit", edit_time_entry_path(time_entry) %></td>
-  <td><%= link_to "Delete", time_entry_path(time_entry), method: :delete %></td>
 </tr>
