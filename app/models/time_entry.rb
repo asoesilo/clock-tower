@@ -11,7 +11,7 @@ class TimeEntry < ActiveRecord::Base
   validates :entry_date, presence: true
   validates :duration_in_hours, presence: true
 
-  validate :not_in_locked_statement
+  validate :statement_editable?
 
   before_save :set_holiday
   before_save :set_location
@@ -56,8 +56,8 @@ class TimeEntry < ActiveRecord::Base
 
   private
 
-  def not_in_locked_statement
-    if statement && statement.state == 'locked'
+  def statement_editable?
+    if statement && statement.state != 'pending'
       errors.add(:statement, 'is locked.')
     end
   end
