@@ -2,8 +2,8 @@ describe LockStatementsForDate do
   before :each do
     @statement = create :statement, post_date: Date.today
     @statement2 = create :statement, post_date: Date.today
-    @old_statement = create :statement, post_date: Date.yesterday
-    @new_statement = create :statement, post_date: Date.yesterday
+    @old_statement = create :statement, post_date: 1.week.ago
+    @new_statement = create :statement, post_date: 1.week.from_now
     @result = LockStatementsForDate.call(date: Date.today)
   end
 
@@ -19,4 +19,10 @@ describe LockStatementsForDate do
   it "should change all statements for that date" do
     expect(@statement2.state).to eq('locked')
   end
+
+  it "should update the statement to include all time_entries before locking it" do
+    expect(UpdateStatement).to receive(:call).with({ statement: @old_statement })
+    LockStatementsForDate.call(date: 1.week.ago)
+  end
+
 end
