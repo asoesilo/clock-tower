@@ -38,6 +38,15 @@ describe TimeEntry do
 
   end
 
+  it "should not be editable on a locked statement" do
+    entry = create :time_entry
+    statement = create :statement
+    allow(entry).to receive(:statement).and_return(statement)
+    allow(statement).to receive(:state).and_return('locked')
+
+    expect(entry).to have(1).errors_on(:statement)
+  end
+
   describe "#set_location" do
     before :each do
       @location = build(:location)
@@ -102,7 +111,7 @@ describe TimeEntry do
       allow(location).to receive(:holiday_code).and_return("ca_qc")
       @time_entry.location = location
 
-      @time_entry.save      
+      @time_entry.save
       expect(@time_entry.holiday_code).to eq("ca_qc")
     end
 
@@ -111,28 +120,28 @@ describe TimeEntry do
       expect(@time_entry.holiday_code).to eq("ca_bc")
     end
 
-    it "should set is holiday to true if the entry date is a holiday" do 
+    it "should set is holiday to true if the entry date is a holiday" do
       allow(@time_entry.entry_date).to receive(:holiday?).and_return(true)
 
       @time_entry.save
       expect(@time_entry.is_holiday).to eq(true)
     end
-    
-    it "should set is holiday to false if the entry date is not a holiday" do 
+
+    it "should set is holiday to false if the entry date is not a holiday" do
       allow(@time_entry.entry_date).to receive(:holiday?).and_return(false)
 
       @time_entry.save
       expect(@time_entry.is_holiday).to eq(false)
     end
 
-    it "should set is holiday rate multiplier match the users holiday rate multiplier" do 
+    it "should set is holiday rate multiplier match the users holiday rate multiplier" do
       allow(@time_entry.user).to receive(:holiday_rate_multiplier).and_return(3.5)
 
       @time_entry.save
       expect(@time_entry.holiday_rate_multiplier).to eq(3.5)
     end
 
-    it "should set is holiday rate multiplier match the users holiday rate multiplier" do 
+    it "should set is holiday rate multiplier match the users holiday rate multiplier" do
       allow(@time_entry.user).to receive(:holiday_rate_multiplier).and_return(nil)
 
       @time_entry.save
@@ -206,7 +215,7 @@ describe TimeEntry do
 
       @time_entry.save
       expect(@time_entry.rate).to eq(10)
-    end    
+    end
 
     it "should set the rate to the users rate * the users holiday rate mutlipler if the task doesn't use secondary rate and it is a holiday" do
       @time_entry.user = build :user, rate: 10, holiday_rate_multiplier: 2, hourly: true
@@ -263,7 +272,7 @@ describe TimeEntry do
     it "should include duration" do
       expect(@time_entry.as_json(root: false)[:duration_in_hours]).to eq(@time_entry.duration_in_hours)
     end
-    
+
     it "should include comments" do
       expect(@time_entry.as_json(root: false)[:comments]).to eq(@time_entry.comments)
     end
