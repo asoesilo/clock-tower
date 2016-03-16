@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -14,13 +14,13 @@ Rails.application.routes.draw do
   resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
   resources :statements, only: [:index, :show]
 
-  # For time entries 
+  # For time entries
   namespace :api do
     resources :tasks, only: [:index]
     resources :projects, only: [:index]
     resources :time_entries, only: [:create, :update, :destroy, :index]
   end
-  
+
   namespace :reports do
     get 'entries' => 'entries#show'
   end
