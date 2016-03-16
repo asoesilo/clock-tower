@@ -29,6 +29,10 @@ class Statement < ActiveRecord::Base
     @state_machine ||= StatementStateMachine.new(self, transition_class: StatementTransition)
   end
 
+  def editable?
+    ['pending'].include?(self.state)
+  end
+
   def self.transition_class
     StatementTransition
   end

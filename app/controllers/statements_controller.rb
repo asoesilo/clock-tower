@@ -1,7 +1,7 @@
 class StatementsController < ApplicationController
   include StatementQueries
 
-  before_action :load_statement, only: [:show, :update]
+  before_action :load_statement, only: [:show]
 
   def index
     @statements = current_user.statements

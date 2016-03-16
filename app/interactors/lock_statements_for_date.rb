@@ -4,7 +4,7 @@ class LockStatementsForDate
   def call
     @date = context[:date]
     statements.each do |statement|
-      next if statement.state != 'pending'
+      next unless statement.editable?
       UpdateStatement.call(statement: statement)
       close_statement(statement)
     end

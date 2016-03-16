@@ -11,7 +11,7 @@ class UpdateStatement
   private
 
   def statement_editable?
-    @statement && @statement.state == 'pending'
+    @statement && @statement.editable?
   end
 
   def statement_params
