@@ -7,6 +7,7 @@ class Statement < ActiveRecord::Base
 
   validates :from, presence: true
   validates :to, presence: true
+  validates :post_date, presence: true
   validates :user_id, presence: true
   validates :subtotal, presence: true
   validates :tax_amount, presence: true
@@ -16,8 +17,20 @@ class Statement < ActiveRecord::Base
   scope :by_users, -> (users){ where(user_id: users) }
   scope :containing_date, -> (date){ where("statements.from <= ? AND statements.to >= ?", date, date) }
 
+  def state
+    state_machine.current_state
+  end
+
+  def transition_to(new_state)
+    state_machine.transition_to(new_state)
+  end
+
   def state_machine
     @state_machine ||= StatementStateMachine.new(self, transition_class: StatementTransition)
+  end
+
+  def editable?
+    ['pending'].include?(self.state)
   end
 
   def self.transition_class

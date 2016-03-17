@@ -3,7 +3,9 @@ class CreateStatement
 
   def call
     context.fail! unless required_params?
-    context.statement = Statement.create!(statement_params)
+    @user = context[:user]
+    context.statement = @statement = Statement.create!(statement_params)
+    email_user
   end
 
   private
@@ -17,11 +19,11 @@ class CreateStatement
   end
 
   def entries
-    context[:user].time_entries.where(apply_rate: true, statement_id: nil).where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", context[:from], context[:to])
+    context[:user].time_entries.where(apply_rate: true, statement_id: nil).between(context[:from], context[:to])
   end
 
   def required_params?
-    context[:to].present? && context[:from].present? && context[:user].present?
+    context[:to].present? && context[:from].present? && context[:user].present? && context[:post_date].present?
   end
 
   def total_hours
@@ -35,9 +37,14 @@ class CreateStatement
       subtotal: subtotal,
       tax_amount: tax_total,
       time_entries: entries,
-      user: context[:user],
+      user: @user,
       total: (tax_total + subtotal),
-      hours: total_hours
+      hours: total_hours,
+      post_date: context[:post_date]
     }
+  end
+
+  def email_user
+    UserMailer.statement_created(@user, @statement).deliver_now
   end
 end

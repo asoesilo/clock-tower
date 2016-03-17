@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :statement do
     from        { 1.month.ago }
     to          { 1.month.from_now }
+    post_date   { 2.months.from_now }
     subtotal    { rand(1000) }
     tax_amount  { rand(100) }
     total       { rand(1100) }

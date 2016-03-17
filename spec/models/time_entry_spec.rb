@@ -38,6 +38,15 @@ describe TimeEntry do
 
   end
 
+  it "should not be editable on a locked statement" do
+    entry = create :time_entry
+    statement = create :statement
+    allow(entry).to receive(:statement).and_return(statement)
+    allow(statement).to receive(:state).and_return('locked')
+
+    expect(entry).to have(1).errors_on(:statement)
+  end
+
   describe "#as_json" do
     it "should include id" do
       expect(@time_entry.as_json(root: false)[:id]).to eq(@time_entry.id)

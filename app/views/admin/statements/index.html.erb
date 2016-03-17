@@ -2,14 +2,13 @@
   <div class="container">
     <%= form_tag(admin_statements_path, method: :get, class: "form", role: "form") do %>
       <div class="row">
-        
         <div class="col-md-6 option-field">
           <%= text_field_tag :containing, @containing, class: "form-control pick-a-date", placeholder: "Statments containing date" %>
         </div>
 
         <div class="col-md-6 option-field">
           <%= select_tag :users, options_from_collection_for_select(@all_users, :id, :fullname, params[:users]), { class: "form-control chosen-select", "data-placeholder" => "Filter by users", multiple: true } %>
-        </div>      
+        </div>
       </div>
 
       <div class="row">
@@ -31,6 +30,8 @@
         <th>For</th>
         <th>From</th>
         <th>To</th>
+        <th>Post Date</th>
+        <th>State</th>
         <th>Hours</th>
         <th>Subtotal</th>
         <th>Tax Amt</th>
@@ -40,7 +41,7 @@
     </thead>
     <tbody>
       <%= render @statements %>
-    </tbody>  
+    </tbody>
   </table>
-  
+
 </div>
