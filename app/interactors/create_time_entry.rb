@@ -3,20 +3,33 @@ class CreateTimeEntry
 
   def call
     set_required_variables
-    context.fail! unless required_params
+    unless required_params?
+      add_errors
+      context.fail!
+    end
     context.time_entry = TimeEntry.create!(time_entry_params)
   end
 
   private
 
-  def required_params
+  def required_params?
     @user.present? && @project.present? && @task.present? && @entry_date.present? && @duration_in_hours.present?
+  end
+
+  def add_errors
+    errors = []
+    errors << "User is required" if @user.blank?
+    errors << "Project is required" if @project.blank?
+    errors << "Task is required" if @task.blank?
+    errors << "Entry Date is required" if @entry.blank?
+    errors << "Duration is required" if @duration_in_hours.blank?
+    context.errors = errors.join(', ')
   end
 
   def set_required_variables
     @user = context[:user]
-    @project = Project.find(context[:project_id])
-    @task = Task.find(context[:task_id])
+    @project = Project.find_by(id: context[:project_id])
+    @task = Task.find_by(id: context[:task_id])
     @entry_date = Date.parse(context[:entry_date])
     @duration_in_hours = context[:duration_in_hours]
   end

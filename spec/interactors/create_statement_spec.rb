@@ -27,7 +27,7 @@ describe CreateStatement do
     before :each do
       @user = create(:user)
       3.times do
-        @user.time_entries << create(:time_entry, duration_in_hours: 1, rate: 10, apply_rate: true, tax_percent: 50)
+        @user.time_entries << create(:time_entry, duration_in_hours: 1, rate: 10, apply_rate: true, tax_percent: 50, has_tax: true)
       end
 
       @user.time_entries << create(:time_entry, entry_date: 3.months.ago)
@@ -53,9 +53,8 @@ describe CreateStatement do
     end
 
     it "should not add tax for time entries with has_tax false" do
-      @user.time_entries << create(:time_entry, duration_in_hours: 1)
-      allow(@user).to receive(:has_tax?).and_return(false)
-      @user.time_entries << create(:time_entry, duration_in_hours: 1)
+      @user.time_entries << create(:time_entry, duration_in_hours: 1, apply_rate: true, has_tax: false)
+      @user.time_entries << create(:time_entry, duration_in_hours: 1, apply_rate: true, has_tax: true, tax_percent: 50, rate: 10)
 
       statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, user: @user ).statement
       expect(statement.tax_amount).to eq(5)

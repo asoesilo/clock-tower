@@ -2,8 +2,8 @@ describe CreateTimeEntry do
   def set_params
     @params = {
       user: @user,
-      project_id: @project.id,
-      task_id: @task.id,
+      project_id: @project.try(:id),
+      task_id: @task.try(:id),
       duration_in_hours: @duration,
       entry_date: @entry_date.to_s
     }
@@ -17,6 +17,45 @@ describe CreateTimeEntry do
     @entry_date = Date.today
     set_params
     @time_entry = CreateTimeEntry.call(@params).time_entry
+  end
+
+  context "with invalid context" do
+    it "should fail if there is no user" do
+      @user = nil
+      set_params
+      result = CreateTimeEntry.call(@params)
+
+      expect(result.success?).to eq(false)
+    end
+
+    it "should fail if there is no project id" do
+      @project = nil
+      set_params
+      result = CreateTimeEntry.call(@params)
+
+      expect(result.success?).to eq(false)
+    end
+
+    it "should fail if there is no task id" do
+      @task = nil
+      set_params
+      result = CreateTimeEntry.call(@params)
+
+      expect(result.success?).to eq(false)
+    end
+
+    it "should fail if there is no duration" do
+      @duration = nil
+      set_params
+      result = CreateTimeEntry.call(@params)
+
+      expect(result.success?).to eq(false)
+    end
+
+    it "should set errors if the time entry cannot be created" do
+      result = CreateTimeEntry.call(entry_date: Date.today.to_s)
+      expect(result.errors).to_not eq(nil)
+    end
   end
 
   it "should create a time entry" do
