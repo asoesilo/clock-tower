@@ -1,9 +1,9 @@
 <tr>
   <td><%= entry.entry_date.to_s(:humanly) %></td>
   <td><%= number_to_currency entry.rate %></td>
-  <td><%= entry.tax_percent %></td>
+  <td><%= entry.tax_percent if entry.has_tax %></td>
   <td><%= entry.hours %></td>
   <td><%= number_to_currency entry.total %></td>
-  <td><%= number_to_currency entry.tax %></td>
-  <td><%= number_to_currency entry.tax + entry.total %></td>
+  <td><%= number_to_currency ( entry.has_tax ? entry.tax : 0 ) %></td>
+  <td><%= number_to_currency ( entry.has_tax ? entry.total + entry.tax : entry.total ) %></td>
 </tr>

@@ -3,13 +3,13 @@
 var ClockTower = angular.module('ClockTower');
 
 ClockTower.service('TimeEntryService', ['$http', '$resource', function($http, $resource) {
-  
-  var TimeEntry = $resource('./api/time_entries/:id', {id: '@id'}, {
+
+  var TimeEntry = $resource('/api/time_entries/:id', {id: '@id'}, {
     'update': { method: 'PUT' }
   });
 
   var getTimeEntries = function() {
-    return $http.get('./api/time_entries');
+    return $http.get('/api/time_entries');
   };
 
   var createTimeEntry = function(taskId, projectId, entryDate, duration, comments, success, error) {

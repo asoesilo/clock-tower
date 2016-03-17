@@ -6,12 +6,12 @@ describe HomeController do
         expect(response).to render_template(:show)
       end
     end
-    
+
     context "with logged in user" do
       logged_in_user
       it "should redirect to the time entries page" do
         get :show
-        expect(response).to redirect_to(time_entries_url)
+        expect(response).to redirect_to(new_time_entry_url)
       end
     end
   end
