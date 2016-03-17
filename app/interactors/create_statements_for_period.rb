@@ -34,7 +34,7 @@ class CreateStatementsForPeriod
       if res.success?
         puts "Created Statement for #{user.fullname}"
       else
-        puts "Statement could not be created fo #{user.fullname}"
+        puts "Statement could not be created for #{user.fullname}"
       end
     end
   end
