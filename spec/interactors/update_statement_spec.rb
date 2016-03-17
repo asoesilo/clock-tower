@@ -1,10 +1,10 @@
 describe UpdateStatement do
   before :each do
-    @user = create :user,  hourly: true, rate: 10, has_tax: true
-    @entry1 = create :time_entry, entry_date: Date.today, user: @user, duration_in_hours: 1
-    @statement = create :statement, from: 1.month.ago, to: 1.week.from_now, time_entries: [@entry1], user: @user, hours: 1, subtotal: 10, tax_amount: 10
-    @entry2 = create :time_entry, entry_date: Date.today, user: @user, duration_in_hours: 1
-    @entry3 = create :time_entry, entry_date: 2.months.ago, user: @user, duration_in_hours: 1
+    @user = create :user
+    @entry1 = create :time_entry, entry_date: Date.today, user: @user, duration_in_hours: 1, apply_rate: true, rate: 10, has_tax: false
+    @statement = create :statement, from: 1.month.ago, to: 1.week.from_now, time_entries: [@entry1], user: @user
+    @entry2 = create :time_entry, entry_date: Date.today, user: @user, duration_in_hours: 1, apply_rate: true, rate: 10, has_tax: false
+    @entry3 = create :time_entry, entry_date: 2.months.ago, user: @user, duration_in_hours: 1, apply_rate: true, rate: 10, has_tax: false
 
     UpdateStatement.call(statement: @statement)
   end
