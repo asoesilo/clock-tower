@@ -57,7 +57,7 @@ class TimeEntry < ActiveRecord::Base
   private
 
   def statement_editable?
-    if statement && statement.state != 'pending'
+    if statement && !statement.editable?
       errors.add(:statement, 'is locked.')
     end
   end

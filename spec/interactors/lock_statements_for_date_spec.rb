@@ -19,4 +19,10 @@ describe LockStatementsForDate do
   it "should change all statements for that date" do
     expect(@statement2.state).to eq('locked')
   end
+
+  it "should update the statement to include all time_entries before locking it" do
+    expect(UpdateStatement).to receive(:call).with({ statement: @old_statement })
+    LockStatementsForDate.call(date: 1.week.ago)
+  end
+
 end
