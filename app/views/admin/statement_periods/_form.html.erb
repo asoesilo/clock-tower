@@ -1,0 +1,30 @@
+<%= form_for [:admin, @statement_period], html: { class: 'form' } do |f| %>
+  <div class="row">
+    <div class='col-md-4'>
+      <div class="form-group">
+        <%= f.label :from, 'Period Start' %>
+        <%= f.select(:from, month_select, { include_blank: 'From' }, { class: "form-control", required: true } ) %>
+      </div>
+    </div>
+
+    <div class='col-md-4'>
+      <div class="form-group">
+        <%= f.label :to, 'Period End' %>
+        <%= f.select(:to, month_select, { include_blank: 'To' }, { class: "form-control", required: true } ) %>
+      </div>
+    </div>
+
+    <div class='col-md-4'>
+      <div class="form-group">
+        <%= f.label :draft_days, 'Days user can amend Statement' %>
+        <%= f.number_field :draft_days, { class: "form-control", placeholder: "Draft Period (days)", required: true } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-offset-9 col-md-3">
+      <%= f.submit 'Create', class: 'btn btn-primary btn-block control-btn' %>
+    </div>
+  </div>
+<% end %>
