@@ -64,6 +64,7 @@ gem 'newrelic_rpm'
 
 gem "interactor-rails", "~> 2.0"
 
+gem "kaminari"
 
 group :production do
   gem 'rails_12factor'

@@ -8,3 +8,13 @@
     background-color: #ACF0F2;
   }
 }
+
+#entry-edit.modal {
+  top: 50px;
+  left: 30px;
+  right: 30px;
+}
+
+tr.entry-row td {
+  max-width: 400px;
+}
