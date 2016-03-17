@@ -1,17 +1,21 @@
 describe CreateTimeEntry do
+  def set_params
+    @params = {
+      user: @user,
+      project: @project.id,
+      task: @task.id,
+      duration_in_hours: @duration,
+      entry_date: @entry_date
+    }
+  end
+
   before :each do
     @user = create :user
     @project = create :project
     @task = create :task
     @duration = 1
     @entry_date = Date.today
-    @params = {
-      user: @user,
-      project: @project,
-      task: @task,
-      duration_in_hours: @duration,
-      entry_date: @entry_date
-    }
+    set_params
     @time_entry = CreateTimeEntry.call(@params).time_entry
   end
 
@@ -34,7 +38,8 @@ describe CreateTimeEntry do
   context "with location on user and not project" do
     before :each do
       @location = create :location, province: 'Quebec'
-      allow(@user).to receive(:location).and_return(@location)
+      @user = create :user, location: @location
+      set_params
       @time_entry = CreateTimeEntry.call(@params).time_entry
     end
 
@@ -50,7 +55,8 @@ describe CreateTimeEntry do
   context "with location on project and not user" do
     before :each do
       @location = create :location, province: 'Alberta'
-      allow(@project).to receive(:location).and_return(@location)
+      @project = create :project, location: @location
+      set_params
       @time_entry = CreateTimeEntry.call(@params).time_entry
     end
 
@@ -67,8 +73,9 @@ describe CreateTimeEntry do
     before :each do
       @location = create :location, province: 'Nova Scotia'
       @wrong_location = create :location
-      allow(@project).to receive(:location).and_return(@location)
-      allow(@user).to receive(:location).and_return(@wrong_location)
+      @project = create :project, location: @location
+      @user = create :user, location: @wrong_location
+      set_params
       @time_entry = CreateTimeEntry.call(@params).time_entry
     end
 
@@ -103,7 +110,8 @@ describe CreateTimeEntry do
 
   describe "tax" do
     it "should set has_tax to the users tax setting" do
-      allow(@user).to receive(:has_tax?).and_return(true)
+      @user = create :user, has_tax: true
+      set_params
       entry = CreateTimeEntry.call(@params).time_entry
       expect(entry.has_tax).to eq(true)
     end
@@ -117,7 +125,8 @@ describe CreateTimeEntry do
     context "with location" do
       before :each do
         @location = create :location, tax_name: 'test', tax_percent: 1.23
-        allow(@project).to receive(:location).and_return(@location)
+        @project = create :project, location: @location
+        set_params
         @time_entry = CreateTimeEntry.call(@params).time_entry
       end
 
@@ -171,14 +180,16 @@ describe CreateTimeEntry do
 
       it "should set the rate to the users rate if the task doesn't uses secondary rate but the user doesn't have one" do
         allow(@user).to receive(:secondary_rate).and_return(nil)
-        allow(@task).to receive(:apply_secondary_rate?).and_return(false)
+        @task = create :task, apply_secondary_rate: false
+        set_params
         entry = CreateTimeEntry.call(@params).time_entry
 
         expect(entry.rate).to eq(10)
       end
 
       it "should set the rate to the users secondary rate if the task uses secondary rate and the user has a secondary rate" do
-        allow(@task).to receive(:apply_secondary_rate?).and_return(true)
+        @task = create :task, apply_secondary_rate: true
+        set_params
         allow(@user).to receive(:secondary_rate).and_return(20)
         entry = CreateTimeEntry.call(@params).time_entry
 
@@ -201,7 +212,8 @@ describe CreateTimeEntry do
       end
 
       it "should set the rate to the users rate * holiday mutlipler if the task uses secondary rate but the user doesn't have one" do
-        allow(@task).to receive(:apply_secondary_rate?).and_return(true)
+        @task = create :task, apply_secondary_rate: true
+        set_params
         allow(@user).to receive(:secondary_rate).and_return(nil)
         entry = CreateTimeEntry.call(@params).time_entry
 
@@ -209,7 +221,8 @@ describe CreateTimeEntry do
       end
 
       it "should set the rate to the users secondary_rate * holiday mutlipler if the task uses secondary rate" do
-        allow(@task).to receive(:apply_secondary_rate?).and_return(true)
+        @task = create :task, apply_secondary_rate: true
+        set_params
         allow(@user).to receive(:secondary_rate).and_return(20)
         entry = CreateTimeEntry.call(@params).time_entry
 

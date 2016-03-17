@@ -15,8 +15,8 @@ class CreateTimeEntry
 
   def set_required_variables
     @user = context[:user]
-    @project = context[:project]
-    @task = context[:task]
+    @project = Project.find(context[:project_id])
+    @task = Task.find(context[:task_id])
     @entry_date = context[:entry_date]
     @duration_in_hours = context[:duration_in_hours]
   end
