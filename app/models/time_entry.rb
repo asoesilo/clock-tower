@@ -11,10 +11,10 @@ class TimeEntry < ActiveRecord::Base
   validates :entry_date, presence: true
   validates :duration_in_hours, presence: true
 
-  before_save :set_holiday
-  before_save :set_location
-  before_save :set_tax
-  before_save :set_rate
+  # before_save :set_holiday
+  # before_save :set_location
+  # before_save :set_tax
+  # before_save :set_rate
   # Before save prevents user selecting holiday / secondary rate task + changing it afterwards.
   # Before create prevents user from updating old entries when they have a new rate, therefore updating it.
 
@@ -50,7 +50,7 @@ class TimeEntry < ActiveRecord::Base
 
       result.order(entry_date: :desc)
     end
-  end 
+  end
 
   private
 
