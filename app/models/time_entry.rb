@@ -11,6 +11,8 @@ class TimeEntry < ActiveRecord::Base
   validates :entry_date, presence: true
   validates :duration_in_hours, presence: true
 
+  validate :statement_editable?
+
   before_save :set_holiday
   before_save :set_location
   before_save :set_tax
@@ -50,9 +52,15 @@ class TimeEntry < ActiveRecord::Base
 
       result.order(entry_date: :desc)
     end
-  end 
+  end
 
   private
+
+  def statement_editable?
+    if statement && statement.state != 'pending'
+      errors.add(:statement, 'is locked.')
+    end
+  end
 
   def set_holiday
     set_holiday_code

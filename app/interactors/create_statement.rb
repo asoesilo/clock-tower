@@ -19,7 +19,7 @@ class CreateStatement
   end
 
   def entries
-    @user.time_entries.where(apply_rate: true, statement_id: nil).where("time_entries.entry_date >= ? AND time_entries.entry_date <= ?", context[:from], context[:to])
+    context[:user].time_entries.where(apply_rate: true, statement_id: nil).between(context[:from], context[:to])
   end
 
   def required_params?
