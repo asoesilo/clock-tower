@@ -17,7 +17,7 @@ class CreateTimeEntry
     @user = context[:user]
     @project = Project.find(context[:project_id])
     @task = Task.find(context[:task_id])
-    @entry_date = context[:entry_date]
+    @entry_date = Date.parse(context[:entry_date])
     @duration_in_hours = context[:duration_in_hours]
   end
 

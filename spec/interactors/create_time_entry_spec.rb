@@ -2,10 +2,10 @@ describe CreateTimeEntry do
   def set_params
     @params = {
       user: @user,
-      project: @project.id,
-      task: @task.id,
+      project_id: @project.id,
+      task_id: @task.id,
       duration_in_hours: @duration,
-      entry_date: @entry_date
+      entry_date: @entry_date.to_s
     }
   end
 
@@ -90,13 +90,13 @@ describe CreateTimeEntry do
 
   describe "holiday" do
     it "should be true if the entry is on a holiday" do
-      allow(@entry_date).to receive(:holiday?).and_return true
+      @entry_date = Date.new(2016, 12, 25)
+      set_params
       entry = CreateTimeEntry.call(@params).time_entry
       expect(entry.is_holiday?).to eq(true)
     end
 
     it "should be false if the entry is not on a holiday" do
-      allow(@entry_date).to receive(:holiday?).and_return false
       entry = CreateTimeEntry.call(@params).time_entry
       expect(entry.is_holiday?).to eq(false)
     end
@@ -201,7 +201,8 @@ describe CreateTimeEntry do
       before :each do
         allow(@user).to receive(:rate).and_return(10)
         allow(@user).to receive(:holiday_rate_multiplier).and_return(2)
-        allow(@entry_date).to receive(:holiday?).and_return(true)
+        @entry_date = Date.new(2016, 12, 25)
+        set_params
       end
 
       it "should set the rate to the users rate * holiday mutlipler if the task doesn't uses secondary rate" do
