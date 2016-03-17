@@ -7,6 +7,7 @@ class Statement < ActiveRecord::Base
 
   validates :from, presence: true
   validates :to, presence: true
+  validates :post_date, presence: true
   validates :user_id, presence: true
   validates :subtotal, presence: true
   validates :tax_amount, presence: true
