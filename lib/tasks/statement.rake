@@ -8,4 +8,9 @@ namespace :statement do
       end
   end
 
+  desc "Lock all statements with a post_date of today"
+  task daily_lock: :environment do
+    LockStatementsForDate.call(date: Date.today)
+  end
+
 end

@@ -1,4 +1,3 @@
-
 describe "statement:daily_create" do
   include_context 'rake'
 
