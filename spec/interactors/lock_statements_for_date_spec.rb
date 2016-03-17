@@ -2,8 +2,8 @@ describe LockStatementsForDate do
   before :each do
     @statement = create :statement, post_date: Date.today
     @statement2 = create :statement, post_date: Date.today
-    @old_statement = create :statement, post_date: Date.yesterday
-    @new_statement = create :statement, post_date: Date.yesterday
+    @old_statement = create :statement, post_date: 1.week.ago
+    @new_statement = create :statement, post_date: 1.week.from_now
     @result = LockStatementsForDate.call(date: Date.today)
   end
 

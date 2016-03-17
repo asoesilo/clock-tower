@@ -12,7 +12,7 @@ describe SessionsController do
 
       it "should redirect to the time entry index page" do
         post :create, email: "test@email.com", password: 'test'
-        expect(response).to redirect_to(time_entries_url)
+        expect(response).to redirect_to(new_time_entry_url)
       end
     end
 
