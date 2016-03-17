@@ -17,24 +17,42 @@ describe Statement do
       expect(build(:statement, user_id: nil)).to have(1).errors_on(:user_id)
     end
 
-    it "is invalid without a subtotal" do
-      expect(build(:statement, subtotal: nil)).to have(1).errors_on(:subtotal)
-    end
-
-    it "is invalid without a tax_amount" do
-      expect(build(:statement, tax_amount: nil)).to have(1).errors_on(:tax_amount)
-    end
-
-    it "is invalid without hours" do
-      expect(build(:statement, hours: nil)).to have(1).errors_on(:hours)
-    end
-
-    it "is invalid without total" do
-      expect(build(:statement, total: nil)).to have(1).errors_on(:total)
-    end
-
     it "is invalid without post_date" do
       expect(build(:statement, post_date: nil)).to have(1).errors_on(:post_date)
+    end
+  end
+
+  context "aggregate functions" do
+    before :each do
+      @user = create :user
+      @statement = create :statement
+      3.times do
+        @statement.time_entries << (create(:time_entry, duration_in_hours: 1, apply_rate: true, rate: 10, has_tax: true, tax_percent: 50))
+      end
+    end
+
+    it "should sum up the rate * duration of the time entries and save it to subtotal" do
+      expect(@statement.subtotal).to eq(30.0)
+    end
+
+    it "Caclulate the tax amount to be equal to the total hours * tax percent" do
+      expect(@statement.tax_amount).to eq(15.0)
+    end
+
+    it "should associate time entries in the date range with itslef" do
+      expect(@statement.time_entries.count).to eq(3)
+    end
+
+    it "should sum up the total amount of hours" do
+      expect(@statement.hours).to eq(3)
+    end
+
+    it "should not add tax for time entries with has_tax false" do
+      @user.time_entries << create(:time_entry, duration_in_hours: 1, apply_rate: true, has_tax: false)
+      @user.time_entries << create(:time_entry, duration_in_hours: 1, apply_rate: true, has_tax: true, tax_percent: 50, rate: 10)
+
+      statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, post_date: 2.months.from_now, user: @user ).statement
+      expect(statement.tax_amount).to eq(5)
     end
   end
 
