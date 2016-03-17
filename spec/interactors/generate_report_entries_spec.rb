@@ -16,12 +16,12 @@ describe GenerateReportEntries do
 
   describe "#regular_entries" do
     before :each do
-      @user = create :user, rate: 10, hourly: true
+      @user = create :user
       @project = create :project
       @task = create :task
 
       4.times do
-        @user.time_entries << create(:time_entry, project: @project, task: @task, duration_in_hours: 1)  
+        @user.time_entries << create(:time_entry, project: @project, task: @task, duration_in_hours: 1, rate: 10, apply_rate: true)
       end
 
       @entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
@@ -54,16 +54,14 @@ describe GenerateReportEntries do
     end
 
     it "should exclude time entries not in its date range" do
-      @user.time_entries << create(:time_entry, project: @project, task: @task, entry_date: 1.month.ago, duration_in_hours: 1)
+      @user.time_entries << create(:time_entry, project: @project, task: @task, entry_date: 1.month.ago, duration_in_hours: 1, apply_rate: true)
       entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
 
       expect(entry.regular_entries[0][:hours]).to eq(4)
     end
 
     it "should exclude time entries on a holiday" do
-      te = build(:time_entry, project: @project, task: @task, duration_in_hours: 1)
-      allow(te.entry_date).to receive(:holiday?).and_return(true)
-      te.save
+      te = create(:time_entry, project: @project, task: @task, duration_in_hours: 1, apply_rate: true, is_holiday: true)
       @user.time_entries << te
       entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
 
@@ -80,14 +78,12 @@ describe GenerateReportEntries do
 
   describe "#holiday_entries" do
     before :each do
-      @user = create :user, rate: 10, hourly: true
+      @user = create :user
       @project = create :project
       @task = create :task
 
       5.times do
-        te = build(:time_entry, project: @project, task: @task, duration_in_hours: 1)
-        allow(te.entry_date).to receive(:holiday?).and_return(true)
-        @user.time_entries << te
+        @user.time_entries << create(:time_entry, project: @project, task: @task, duration_in_hours: 1, rate: 10, apply_rate: true, is_holiday: true)
       end
 
       @entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
@@ -98,7 +94,7 @@ describe GenerateReportEntries do
     end
 
     it "should exclude time entries not in its date range" do
-      @user.time_entries << create(:time_entry, project: @project, task: @task, entry_date: 1.month.ago, duration_in_hours: 1)
+      @user.time_entries << create(:time_entry, project: @project, task: @task, entry_date: 1.month.ago, duration_in_hours: 1, is_holiday: true, apply_rate: true)
       entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
 
       expect(entry.holiday_entries[0][:hours]).to eq(5)
@@ -112,9 +108,7 @@ describe GenerateReportEntries do
     end
 
     it "should have two entries if there are two combos of task rate project" do
-      te = build(:time_entry)
-      allow(te.entry_date).to receive(:holiday?).and_return(true)
-      @user.time_entries << te
+      @user.time_entries << create(:time_entry, apply_rate: true, is_holiday: true)
       entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
 
       expect(entry.holiday_entries.count).to eq(2)
