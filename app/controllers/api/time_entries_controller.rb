@@ -10,7 +10,7 @@ class Api::TimeEntriesController < Api::BaseController
   end
 
   def create
-    result = CreateTimeEntry.call(interactor_params)
+    result = CreateTimeEntry.call(new_params)
     if result.success?
       render json: { entry: result.time_entry }, status: :ok
     else
@@ -20,7 +20,6 @@ class Api::TimeEntriesController < Api::BaseController
 
   def update
     time_entry = current_user.time_entries.find(params[:id])
-
     if time_entry.update_attributes(time_entry_params)
       render json: { entry: time_entry }, status: :ok
     else
@@ -40,8 +39,12 @@ class Api::TimeEntriesController < Api::BaseController
 
   private
 
-  def interactor_params
+  def new_params
     time_entry_params.merge({ user: current_user })
+  end
+
+  def update_params(time_entry)
+    time_entry_params.merge({ time_entry: time_entry })
   end
 
   def time_entry_params
