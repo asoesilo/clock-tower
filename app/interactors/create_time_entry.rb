@@ -7,7 +7,9 @@ class CreateTimeEntry
       add_errors
       context.fail!
     end
-    context.time_entry = TimeEntry.create!(time_entry_params)
+    @time_entry = TimeEntry.create!(time_entry_params)
+    associate_with_statement if open_statement_for_date? && add_to_statement?
+    context.time_entry = @time_entry
   end
 
   private
@@ -78,4 +80,16 @@ class CreateTimeEntry
     }
   end
 
+  def open_statement_for_date?
+    @statement = @user.statements.in_state(:pending).containing_date(@entry_date).take
+    @statement.present?
+  end
+
+  def add_to_statement?
+    @time_entry.apply_rate?
+  end
+
+  def associate_with_statement
+    @statement.time_entries << @time_entry
+  end
 end

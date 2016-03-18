@@ -29,15 +29,33 @@ class Statement < ActiveRecord::Base
     @state_machine ||= StatementStateMachine.new(self, transition_class: StatementTransition)
   end
 
+  def tax_amount
+    time_entries.where(has_tax: true).sum("duration_in_hours * rate * (tax_percent / 100)")
+  end
+
+  def subtotal
+    time_entries.sum("duration_in_hours * rate")
+  end
+
+  def hours
+    time_entries.sum("duration_in_hours")
+  end
+
+  def total
+     subtotal + tax_amount
+  end
+
   def editable?
     ['pending'].include?(self.state)
   end
 
-  def self.transition_class
-    StatementTransition
-  end
+  class << self
+    def transition_class
+      StatementTransition
+    end
 
-  def self.initial_state
-    :pending
+    def initial_state
+      :pending
+    end
   end
 end
