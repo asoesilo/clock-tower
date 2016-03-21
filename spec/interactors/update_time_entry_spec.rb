@@ -18,7 +18,7 @@ describe UpdateTimeEntry do
     @duration = 1
     @entry_date = Date.today
     @comments = "Test Comment"
-    @entry = create :time_entry, project: @project, task: @task, entry_date: @entry_date, duration_in_hours: @duration, comments: @comments, user: @user, location: @location
+    @entry = create :time_entry, project: @project, task: @task, entry_date: @entry_date, duration_in_hours: @duration, comments: @comments, user: @user, location: @location, is_holiday: false
 
     set_params
   end
@@ -73,6 +73,16 @@ describe UpdateTimeEntry do
       expect(@entry.location).to eq(@location)
     end
 
+    it "should change the location to the users location if the project doesn't have one" do
+      location = create :location
+      @user.update location: location
+      @project = create :project, location: nil
+      set_params
+      UpdateTimeEntry.call(@params)
+
+      expect(@entry.location).to eq(location)
+    end
+
     context "data derived from location" do
       it "should change the tax desc to the locations" do
         expect(@entry.tax_desc).to eq(@location.tax_name)
@@ -110,6 +120,36 @@ describe UpdateTimeEntry do
 
       it "should recalculate the rate" do
         expect(@entry.rate).to eq(20)
+      end
+    end
+
+    context "with statement" do
+      it "should remove the time entry from the statement if there it moves it out of the statement date range" do
+        statement = create :statement, from: 1.day.ago, to: 1.day.from_now
+        @entry.update statement: statement
+        @entry_date = 1.week.ago
+        set_params
+        UpdateTimeEntry.call(@params)
+
+        expect(@entry.statement).to eq(nil)
+      end
+
+      it "should add the time entry to a statement its entry_date is inside of an open statements date range" do
+        statement = create :statement, from: 1.week.ago, to: 1.week.from_now
+        @entry_date = 1.day.ago
+        set_params
+        UpdateTimeEntry.call(@params)
+
+        expect(@entry.statement).to eq(statement)
+      end
+
+      it "should not change the time_entries statement if the new date is inside of its statement date range" do
+        statement = create :statement, from: 1.week.ago, to: 1.week.from_now
+        @entry.update statement: statement
+        set_params
+        UpdateTimeEntry.call(@params)
+
+        expect(@entry.statement).to eq(statement)
       end
     end
   end

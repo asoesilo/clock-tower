@@ -20,10 +20,12 @@ class Api::TimeEntriesController < Api::BaseController
 
   def update
     time_entry = current_user.time_entries.find(params[:id])
-    if time_entry.update_attributes(time_entry_params)
-      render json: { entry: time_entry }, status: :ok
+    result = UpdateTimeEntry.call(update_params(time_entry))
+
+    if result.success?
+      render json: { entry: result.time_entry }, status: :ok
     else
-      render json: { errors: time_entry.errors.full_messages }, status: :bad_request
+      render json: { errors: result.errors }, status: :bad_request
     end
   end
 

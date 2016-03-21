@@ -6,11 +6,11 @@
           <div class="row">
             <div class="col-md-3 form-group">
               <label for="task">Task</label>
-              <%= select_tag 'time_entry[task]', options_from_collection_for_select(@all_tasks, :id, :name), class: "form-control", required: true, id: "task"  %>
+              <%= select_tag 'time_entry[task_id]', options_from_collection_for_select(@all_tasks, :id, :name), class: "form-control", required: true, id: "task"  %>
             </div>
             <div class="col-md-3 form-group">
               <label for="project">Project</label>
-              <%= select_tag "time_entry[project]", options_from_collection_for_select(@all_projects, :id, :name), class: "form-control", required: true, id: "project"  %>
+              <%= select_tag "time_entry[project_id]", options_from_collection_for_select(@all_projects, :id, :name), class: "form-control", required: true, id: "project"  %>
             </div>
             <div class="col-md-2 form-group">
               <label for="entry_date">Entry Date</label>

@@ -3,7 +3,7 @@ class UpdateTimeEntry
 
   def call
     unless required_params
-      #add errors
+      set_errors
       context.fail!
     end
     set_required_variables
@@ -11,23 +11,28 @@ class UpdateTimeEntry
 
     if changes.present?
       project_changed if changes[:project_id]
+      check_statement_validity if changes[:entry_date]
       set_holiday if holiday_needs_update?
       set_rate if rate_needs_update?
     end
 
-    @time_entry.save
-    context.time_entry = @time_entry
+    if @time_entry.save
+      context.time_entry = @time_entry
+    else
+      context.errors = @time_entry.errors.full_messages
+      context.fail!
+    end
   end
 
   private
 
   def changes
-    @time_entry.changes
+    @time_entry.previous_changes.merge(@time_entry.changes)
   end
 
   def project_changed
-    if @project.location && @project.location != @time_entry.location
-      set_location(@project.location)
+    if @project.location != @time_entry.location
+      set_location(@project.location || @user.location)
     end
   end
 
@@ -48,8 +53,18 @@ class UpdateTimeEntry
     @duration_in_hours = context[:duration_in_hours]
   end
 
+  def set_errors
+    errors = []
+    errors << "Time Entry is required" if context[:time_entry].blank?
+    errors << "Project is required" if context[:project_id].blank?
+    errors << "Task is required" if context[:task_id].blank?
+    errors << "Entry Date is required" if context[:entry_date].blank?
+    errors << "Duration is required" if context[:duration_in_hours].blank?
+    context.errors = errors.join(', ')
+  end
+
   def make_inital_changes
-    @time_entry.assign_attributes(time_entry_params)
+    @time_entry.update(time_entry_params)
   end
 
   def required_params
@@ -93,4 +108,12 @@ class UpdateTimeEntry
     end
   end
 
+  def check_statement_validity
+    if @time_entry.statement && !(@entry_date >= @time_entry.statement.from && @entry_date <= @time_entry.statement.to)
+      @time_entry.statement = nil
+    end
+    if @time_entry.statement.blank?
+      @time_entry.statement = Statement.in_state(:pending).containing_date(@entry_date).take
+    end
+  end
 end
