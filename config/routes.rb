@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :statements
+    resources :time_entries, only: [:index]
     resources :statement_periods, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
