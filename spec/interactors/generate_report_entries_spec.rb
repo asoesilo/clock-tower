@@ -21,7 +21,7 @@ describe GenerateReportEntries do
       @task = create :task
 
       4.times do
-        @user.time_entries << create(:time_entry, project: @project, task: @task, duration_in_hours: 1, rate: 10, apply_rate: true)
+        @user.time_entries << create(:time_entry, project: @project, task: @task, duration_in_hours: 1, rate: 10, apply_rate: true, is_holiday: false)
       end
 
       @entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
@@ -61,15 +61,14 @@ describe GenerateReportEntries do
     end
 
     it "should exclude time entries on a holiday" do
-      te = create(:time_entry, project: @project, task: @task, duration_in_hours: 1, apply_rate: true, is_holiday: true)
-      @user.time_entries << te
+      @user.time_entries << create(:time_entry, project: @project, task: @task, duration_in_hours: 1, apply_rate: true, is_holiday: true)
       entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
 
       expect(entry.regular_entries[0][:hours]).to eq(4)
     end
 
     it "should have two entries if there are two combos of task rate project" do
-      @user.time_entries << build(:time_entry)
+      @user.time_entries << create(:time_entry, duration_in_hours: 1, rate: 10, apply_rate: true, is_holiday: false)
       entry = GenerateReportEntries.call(from: 1.day.ago, to: 1.day.from_now, user: @user)
 
       expect(entry.regular_entries.count).to eq(2)
