@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :projects
   has_many :time_entries
   has_many :statements
-  
+
   belongs_to :location
 
   validates :firstname, presence: true
@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   scope :hourly, -> { where(hourly: true) }
   scope :by_email, -> (email){ where('lower(email) = ?', email.downcase) }
   scope :active, -> { where(active: true) }
+  scope :admins_accepting_emails, -> { where(is_admin: true, receive_admin_email: true) }
 
   after_create :send_email_invite
 

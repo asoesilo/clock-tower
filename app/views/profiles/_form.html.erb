@@ -1,5 +1,5 @@
 <%= form_for @user, url: profile_path, method: :put do |f| %>
-  
+
   <div class='row'>
     <div class="col-md-6">
       <div class="form-group">
@@ -44,6 +44,7 @@
     </div>
 
   </div>
+  <%= render 'admin_form', f: f if current_user.is_admin? %>
 
   <%= f.submit "Update Account Info", class: "btn btn-primary btn-block control-btn" %>
 

@@ -3,18 +3,26 @@ class LockStatementsForDate
 
   def call
     @date = context[:date]
+    @locked_statements = []
     statements.each do |statement|
       next unless statement.editable?
       close_statement(statement)
     end
+    email_admin if @locked_statements.present?
   end
 
   def statements
-    Statement.where(post_date: (@date.beginning_of_day...@date.end_of_day))
+    Statement.where(post_date: (@date.beginning_of_day..@date.end_of_day))
   end
 
   def close_statement(statement)
-    statement.transition_to(:locked)
+    if statement.transition_to(:locked)
+      @locked_statements.push (statement)
+    end
+  end
+
+  def email_admin
+    AdminMailer.locked_statements_notify(@locked_statements).deliver_now
   end
 
 end
