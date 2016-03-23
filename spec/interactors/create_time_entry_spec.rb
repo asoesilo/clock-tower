@@ -268,8 +268,44 @@ describe CreateTimeEntry do
 
         expect(entry.rate).to eq(40)
       end
-
     end
+  end
 
+  it "should associate itself with a statement if there is one in its date range that is editable" do
+    statement = create :statement, from: 1.week.ago, to: 1.day.from_now, user: @user
+    allow(@user).to receive(:hourly?).and_return(true)
+    entry = CreateTimeEntry.call(@params).time_entry
+
+    expect(entry.statement_id).to eq(statement.id)
+  end
+
+  it "should not associate itself with a statement if none exist in that date range" do
+    expect(@time_entry.statement).to eq(nil)
+  end
+
+  it "should not associate itself with statement if it is not hourly" do
+    create :statement, from: 1.week.ago, to: 1.day.from_now, user: @user
+    allow(@user).to receive(:hourly?).and_return(false)
+    entry = CreateTimeEntry.call(@params).time_entry
+
+    expect(entry.statement_id).to eq(nil)
+  end
+
+  it "should not associate itself with a statement that is not in its date range" do
+    create :statement, from: 1.week.ago, to: 1.day.ago, user: @user
+    allow(@user).to receive(:hourly?).and_return(true)
+    entry = CreateTimeEntry.call(@params).time_entry
+
+    expect(entry.statement_id).to eq(nil)
+  end
+
+  it "should not associate itself with a statement that is locked" do
+    statement = create :statement, from: 1.week.ago, to: 1.day.from_now, user: @user
+    statement.transition_to(:locked)
+
+    allow(@user).to receive(:hourly?).and_return(true)
+    entry = CreateTimeEntry.call(@params).time_entry
+
+    expect(entry.statement_id).to eq(nil)
   end
 end

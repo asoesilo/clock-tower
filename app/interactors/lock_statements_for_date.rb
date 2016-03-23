@@ -5,7 +5,6 @@ class LockStatementsForDate
     @date = context[:date]
     statements.each do |statement|
       next unless statement.editable?
-      UpdateStatement.call(statement: statement)
       close_statement(statement)
     end
   end
