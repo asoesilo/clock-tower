@@ -1,5 +1,5 @@
 <tr>
-  <td><%= entry.entry_date.to_s(:humanly) %></td>
+  <td><%= link_to entry.entry_date.to_s(:humanly), admin_time_entries_path(on: entry.entry_date, users: @statement.user) %></td>
   <td><%= number_to_currency entry.rate %></td>
   <td><%= entry.tax_percent if entry.has_tax %></td>
   <td><%= entry.hours %></td>
