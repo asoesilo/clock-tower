@@ -5,7 +5,7 @@ class CreateStatement
     context.fail! unless required_params?
     @user = context[:user]
     context.statement = @statement = Statement.create!(statement_params)
-    email_user
+    email_user unless context[:dont_email_user]
   end
 
   private
