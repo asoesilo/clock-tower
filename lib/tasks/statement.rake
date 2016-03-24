@@ -15,6 +15,8 @@ namespace :statement do
 
   desc "Create Legacy Statements"
   task legacy_create: :environment do
-    CreateLegacyStatements.call
+    end_date = ENV['END_DATE']
+    end_date = Date.parse(end_date) if end_date
+    CreateLegacyStatements.call(end_date: end_date)
   end
 end
