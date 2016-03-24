@@ -30,11 +30,11 @@ class Statement < ActiveRecord::Base
   end
 
   def tax_amount
-    time_entries.where(has_tax: true).sum("duration_in_hours * rate * (tax_percent / 100)")
+    time_entries.where(apply_rate: true, has_tax: true).sum("duration_in_hours * rate * (tax_percent / 100)")
   end
 
   def subtotal
-    time_entries.sum("duration_in_hours * rate")
+    time_entries.where(apply_rate: true).sum("duration_in_hours * rate")
   end
 
   def hours

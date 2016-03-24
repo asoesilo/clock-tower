@@ -46,12 +46,5 @@ describe CreateStatement do
 
       expect(statement.time_entries.count).to eq(1)
     end
-
-    it "should ignore entries that dont have apply_rate" do
-      @user.time_entries << create(:time_entry, apply_rate: false)
-
-      statement = CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, post_date: 2.months.from_now, user: @user ).statement
-      expect(statement.time_entries.count).to eq(0)
-    end
   end
 end

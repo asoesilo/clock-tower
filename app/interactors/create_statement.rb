@@ -11,7 +11,7 @@ class CreateStatement
   private
 
   def entries
-    context[:user].time_entries.where(apply_rate: true, statement_id: nil).between(context[:from], context[:to])
+    context[:user].time_entries.where(statement_id: nil).between(context[:from], context[:to])
   end
 
   def required_params?
