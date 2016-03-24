@@ -13,4 +13,8 @@ namespace :statement do
     LockStatementsForDate.call(date: Date.today)
   end
 
+  desc "Create Legacy Statements"
+  task legacy_create: :environment do
+    CreateLegacyStatements.call
+  end
 end
