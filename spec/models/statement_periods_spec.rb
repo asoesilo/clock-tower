@@ -64,4 +64,65 @@ describe StatementPeriod do
       end
     end
   end
+
+  describe "#from_date" do
+    it "should return a date with the same day of the month as the from" do
+      period = create :statement_period, from: '1'
+      date = 1.day.ago
+      expect(period.from_date(date)).to eq(Date.new(date.year, date.month, 1).beginning_of_day)
+    end
+
+    it "should return a date based off of the month / year of the date passed in" do
+      period = create :statement_period, from: '5'
+      date = 1.month.ago
+      expect(period.from_date(date)).to eq(Date.new(date.year, date.month, 5).beginning_of_day)
+    end
+
+    it "should return the beginning of month properly" do
+      period = create :statement_period, from: 'Start of Month'
+      date = 1.day.ago
+      expect(period.from_date(date)).to eq(date.beginning_of_month.beginning_of_day)
+    end
+
+    it "should return the end of month properly" do
+      period = create :statement_period, from: 'End of Month'
+      date = 1.day.ago
+      expect(period.from_date(date)).to eq(date.end_of_month.beginning_of_day)
+    end
+  end
+
+  describe "#to_date" do
+    it "should return a date with the same day of the month as the from, at the end of the day" do
+      period = create :statement_period, to: '10'
+      date = 1.day.from_now
+      expect(period.to_date(date)).to eq(Date.new(date.year, date.month, 10).end_of_day)
+    end
+
+    it "should return a date based off of the month / year of the date passed in" do
+      period = create :statement_period, to: '23'
+      date = 1.month.from_now
+      expect(period.to_date(date)).to eq(Date.new(date.year, date.month, 23).end_of_day)
+    end
+
+    it "should return the beginning of month properly" do
+      period = create :statement_period, to: 'Start of Month'
+      date = 1.day.from_now
+      expect(period.to_date(date)).to eq(date.beginning_of_month.end_of_day)
+    end
+
+    it "should return the end of month properly" do
+      period = create :statement_period, to: 'End of Month'
+      date = 1.day.from_now
+      expect(period.to_date(date)).to eq(date.end_of_month.end_of_day)
+    end
+  end
+
+  describe "#draft_end_date" do
+    it "should return a date #draft_days past the to date" do
+      period = create :statement_period, to: 1.day.from_now.day, draft_days: 1
+      date = 1.day.from_now
+      expect(period.draft_end_date(date)).to eq(date.advance(days: 1).end_of_day)
+    end
+  end
+
 end

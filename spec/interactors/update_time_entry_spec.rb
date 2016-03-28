@@ -140,7 +140,7 @@ describe UpdateTimeEntry do
         set_params
         UpdateTimeEntry.call(@params)
 
-        expect(@entry.statement).to eq(statement)
+        expect(@entry.reload.statement).to eq(statement)
       end
 
       it "should not change the time_entries statement if the new date is inside of its statement date range" do

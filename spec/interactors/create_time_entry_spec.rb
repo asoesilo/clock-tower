@@ -292,7 +292,7 @@ describe CreateTimeEntry do
   end
 
   it "should not associate itself with a statement that is not in its date range" do
-    create :statement, from: 1.week.ago, to: 1.day.ago, user: @user
+    create :statement, from: 1.week.ago, to: 2.days.ago, user: @user
     allow(@user).to receive(:hourly?).and_return(true)
     entry = CreateTimeEntry.call(@params).time_entry
 

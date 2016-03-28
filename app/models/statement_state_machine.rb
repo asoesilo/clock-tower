@@ -3,7 +3,9 @@ class StatementStateMachine
 
   state :pending, initial: true
   state :locked
+  state :void
 
-  transition from: :pending,  to: [:locked]
+  transition from: :pending,  to: [:locked, :void]
+  transition from: :locked,  to: [:void]
 
 end
