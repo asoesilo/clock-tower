@@ -8,7 +8,7 @@ class CreateTimeEntry
       context.fail!
     end
     @time_entry = TimeEntry.create!(time_entry_params)
-    associate_with_statement if open_statement_for_date? && add_to_statement?
+    associate_with_statement if open_statement_for_date?
     context.time_entry = @time_entry
   end
 
@@ -83,10 +83,6 @@ class CreateTimeEntry
   def open_statement_for_date?
     @statement = @user.statements.in_state(:pending).where('statements.to > ?', @entry_date).take
     @statement.present?
-  end
-
-  def add_to_statement?
-    @time_entry.apply_rate?
   end
 
   def associate_with_statement

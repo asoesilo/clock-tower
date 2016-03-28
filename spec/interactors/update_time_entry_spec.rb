@@ -151,6 +151,16 @@ describe UpdateTimeEntry do
 
         expect(@entry.statement).to eq(statement)
       end
+
+      it "should add the time entry to a pending statement that has a date before the to date, even if its before the from date" do
+        statement = create :statement, from: 1.day.ago, to: 1.day.from_now
+        @entry.update statement: statement
+        @entry_date = 1.week.ago
+        set_params
+        UpdateTimeEntry.call(@params)
+
+        expect(@entry.statement).to eq(statement)
+      end
     end
   end
 
