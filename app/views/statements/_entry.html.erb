@@ -1,5 +1,6 @@
-<tr>
-  <td><%= link_to entry.entry_date.to_s(:humanly), time_entries_path(on: entry.entry_date) %></td>
+<% backdated = entry.entry_date < @statement.from %>
+<tr <%= "class=active" if backdated %>>
+  <td><%= link_to entry.entry_date.to_s(:humanly), time_entries_path(on: entry.entry_date) %><%= " - Backdated" if backdated %></td>
   <td><%= number_to_currency ( entry.apply_rate ? entry.rate : 0 ) %></td>
   <td><%= entry.tax_percent if entry.has_tax %></td>
   <td><%= entry.hours %></td>
