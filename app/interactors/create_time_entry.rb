@@ -81,7 +81,7 @@ class CreateTimeEntry
   end
 
   def open_statement_for_date?
-    @statement = @user.statements.in_state(:pending).containing_date(@entry_date).take
+    @statement = @user.statements.in_state(:pending).where('statements.to > ?', @entry_date).take
     @statement.present?
   end
 

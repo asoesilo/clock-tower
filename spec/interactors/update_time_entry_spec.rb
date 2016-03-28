@@ -127,7 +127,7 @@ describe UpdateTimeEntry do
       it "should remove the time entry from the statement if there it moves it out of the statement date range" do
         statement = create :statement, from: 1.day.ago, to: 1.day.from_now
         @entry.update statement: statement
-        @entry_date = 1.week.ago
+        @entry_date = 1.week.from_now
         set_params
         UpdateTimeEntry.call(@params)
 

@@ -113,7 +113,7 @@ class UpdateTimeEntry
       @time_entry.statement = nil
     end
     if @time_entry.statement.blank?
-      @time_entry.statement = Statement.in_state(:pending).containing_date(@entry_date).take
+      @time_entry.statement = Statement.in_state(:pending).where('statements.to > ?', @entry_date).take
     end
   end
 end
