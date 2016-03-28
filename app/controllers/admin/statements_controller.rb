@@ -13,8 +13,6 @@ class Admin::StatementsController < Admin::BaseController
   def show
     @statement = Statement.find(params[:id])
     @entries = entries_by_date(@statement)
-    # @back_dated_entries = entries_by_date.before(@statement.from - 1.day)
-    # @entries = entries_by_date.between(@statement.from, @statement.to)
   end
 
   def new
