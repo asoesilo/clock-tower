@@ -1,7 +1,5 @@
 class UserMailer < ApplicationMailer
 
-  default from: ENV['EMAIL_SENDER'], bcc: ENV['SUPER_ADMIN_EMAIL']
-
   def user_invite(user, creator)
     @user = user
     @creator = creator
