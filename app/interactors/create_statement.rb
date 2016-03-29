@@ -5,10 +5,14 @@ class CreateStatement
     context.fail! unless required_params?
     @user = context[:user]
     context.statement = @statement = Statement.create!(statement_params)
-    email_user unless context[:dont_email_user]
+    email_user if email_user?
   end
 
   private
+
+  def email_user?
+    !context[:dont_email_user] && @statement.total > 0
+  end
 
   def entries
     context[:user].time_entries.where(statement_id: nil).between(context[:from], context[:to])

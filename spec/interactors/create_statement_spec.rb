@@ -46,5 +46,19 @@ describe CreateStatement do
 
       expect(statement.time_entries.count).to eq(1)
     end
+
+    it "should email the user if the total $ > 0" do
+      te = create(:time_entry, apply_rate: true, rate: 5, duration_in_hours: 10)
+      @user.time_entries << te
+      expect do
+        CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, post_date: 2.months.from_now, user: @user )
+      end.to change{ ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it "should not email the user if the total $ == 0" do
+      expect do
+        CreateStatement.call(from: 1.month.ago, to: 1.month.from_now, post_date: 2.months.from_now, user: @user )
+      end.to change{ ActionMailer::Base.deliveries.count }.by(0)
+    end
   end
 end
