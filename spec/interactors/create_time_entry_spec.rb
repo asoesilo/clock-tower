@@ -276,19 +276,11 @@ describe CreateTimeEntry do
     allow(@user).to receive(:hourly?).and_return(true)
     entry = CreateTimeEntry.call(@params).time_entry
 
-    expect(entry.statement_id).to eq(statement.id)
+    expect(entry.statements).to include(statement)
   end
 
   it "should not associate itself with a statement if none exist in that date range" do
-    expect(@time_entry.statement).to eq(nil)
-  end
-
-  it "should not associate itself with statement if it is not hourly" do
-    create :statement, from: 1.week.ago, to: 1.day.from_now, user: @user
-    allow(@user).to receive(:hourly?).and_return(false)
-    entry = CreateTimeEntry.call(@params).time_entry
-
-    expect(entry.statement_id).to eq(nil)
+    expect(@time_entry.statements.blank?).to eq(true)
   end
 
   it "should not associate itself with a statement that is not in its date range" do
@@ -296,7 +288,7 @@ describe CreateTimeEntry do
     allow(@user).to receive(:hourly?).and_return(true)
     entry = CreateTimeEntry.call(@params).time_entry
 
-    expect(entry.statement_id).to eq(nil)
+    expect(entry.statements.blank?).to eq(true)
   end
 
   it "should not associate itself with a statement that is locked" do
@@ -306,6 +298,6 @@ describe CreateTimeEntry do
     allow(@user).to receive(:hourly?).and_return(true)
     entry = CreateTimeEntry.call(@params).time_entry
 
-    expect(entry.statement_id).to eq(nil)
+    expect(entry.statements.blank?).to eq(true)
   end
 end

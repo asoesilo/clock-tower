@@ -125,31 +125,32 @@ describe UpdateTimeEntry do
 
     context "with statement" do
       it "should remove the time entry from the statement if there it moves it out of the statement date range" do
-        statement = create :statement, from: 1.day.ago, to: 1.day.from_now
-        @entry.update statement: statement
-        @entry_date = 1.week.ago
+        statement = create :statement, from: 1.day.ago, to: 1.day.from_now, user: @user
+        @entry.statements << statement
+        @entry_date = 1.week.from_now
         set_params
         UpdateTimeEntry.call(@params)
 
-        expect(@entry.statement).to eq(nil)
+        expect(@entry.statements.blank?).to eq(true)
       end
 
       it "should add the time entry to a statement its entry_date is inside of an open statements date range" do
-        statement = create :statement, from: 1.week.ago, to: 1.week.from_now
+        statement = create :statement, from: 1.week.ago, to: 1.week.from_now, user: @user
         @entry_date = 1.day.ago
         set_params
         UpdateTimeEntry.call(@params)
 
-        expect(@entry.reload.statement).to eq(statement)
+        expect(@entry.reload.statements).to include(statement)
       end
 
       it "should not change the time_entries statement if the new date is inside of its statement date range" do
-        statement = create :statement, from: 1.week.ago, to: 1.week.from_now
-        @entry.update statement: statement
+        statement = create :statement, from: 1.week.ago, to: 1.week.from_now, user: @user
+        @entry.statements << statement
+        @entry_date = 1.day.ago
         set_params
         UpdateTimeEntry.call(@params)
 
-        expect(@entry.statement).to eq(statement)
+        expect(@entry.statements).to include(statement)
       end
     end
   end

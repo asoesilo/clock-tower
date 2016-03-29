@@ -41,8 +41,8 @@ describe TimeEntry do
   it "should not be editable on a locked statement" do
     entry = create :time_entry
     statement = create :statement
-    allow(entry).to receive(:statement).and_return(statement)
-    allow(statement).to receive(:state).and_return('locked')
+    entry.statements << statement
+    statement.transition_to :locked
 
     expect(entry).to have(1).errors_on(:statement)
   end

@@ -2,7 +2,8 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :task
-  belongs_to :statement
+  has_many :statement_time_entries
+  has_many :statements, through: :statement_time_entries
   belongs_to :location
 
   validates :user, presence: true
@@ -47,12 +48,22 @@ class TimeEntry < ActiveRecord::Base
 
       result.order(entry_date: :desc)
     end
+
+    def with_no_statement
+      statement_ids = Statement.not_in_state(:void).pluck(:id)
+      # Select all time entries that are not associated either voided statements / no statement
+      joins('
+        LEFT OUTER JOIN statement_time_entries on statement_time_entries.time_entry_id = time_entries.id
+        LEFT OUTER JOIN statements on statements.id = statement_time_entries.statement_id')
+        .group('time_entries.id')
+        .having('COUNT(statements.id NOT IN (?) ) = 0', statement_ids)
+    end
   end
 
   private
 
   def statement_editable?
-    if statement && !statement.editable?
+    if statements.in_state(:locked).present?
       errors.add(:statement, 'is locked.')
     end
   end
