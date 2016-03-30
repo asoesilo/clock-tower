@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20160329201936) do
   create_table "statement_time_entries", force: :cascade do |t|
     t.integer "statement_id",  null: false
     t.integer "time_entry_id", null: false
+    t.string  "state"
   end
 
   create_table "statement_transitions", force: :cascade do |t|

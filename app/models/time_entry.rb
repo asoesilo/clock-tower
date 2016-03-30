@@ -50,13 +50,9 @@ class TimeEntry < ActiveRecord::Base
     end
 
     def with_no_statement
-      statement_ids = Statement.not_in_state(:void).pluck(:id)
-      # Select all time entries that are not associated either voided statements / no statement
-      joins('
-        LEFT OUTER JOIN statement_time_entries on statement_time_entries.time_entry_id = time_entries.id
-        LEFT OUTER JOIN statements on statements.id = statement_time_entries.statement_id')
+      joins("LEFT OUTER JOIN statement_time_entries ON time_entries.id = statement_time_entries.time_entry_id AND statement_time_entries.state != 'void'")
         .group('time_entries.id')
-        .having('COUNT(statements.id NOT IN (?) ) = 0', statement_ids)
+        .having('COUNT( statement_time_entries.id ) = 0')
     end
   end
 
