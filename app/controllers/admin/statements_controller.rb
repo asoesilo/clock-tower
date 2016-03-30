@@ -1,6 +1,7 @@
 class Admin::StatementsController < Admin::BaseController
   include StatementQueries
 
+  before_action :load_statement
   def index
     @all_users = User.all
     @statements = Statement.page(params[:page]).per(25).order(to: :desc)
@@ -11,8 +12,16 @@ class Admin::StatementsController < Admin::BaseController
   end
 
   def show
-    @statement = Statement.find(params[:id])
     @entries = entries_by_date(@statement)
+  end
+
+  def update
+    if @statement.transition_to(params[:state])
+      flash[:notice] = "Successfully transitioned to #{params[:state].capitalize}"
+    else
+      flash[:notice] = "Unable to transition to #{params[:state].capitalize}"
+    end
+    redirect_to [:admin, @statement]
   end
 
   def new
@@ -32,4 +41,11 @@ class Admin::StatementsController < Admin::BaseController
     end
     redirect_to admin_statements_path
   end
+
+  private
+
+  def load_statement
+    @statement = Statement.find(params[:id])
+  end
+
 end
