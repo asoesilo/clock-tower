@@ -28,7 +28,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :statements
     resources :time_entries, only: [:index]
-    resources :statement_periods, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :statement_periods
+    post 'statement_periods/:id' => 'statement_periods#generate', as: :generate_statement_period
     resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]

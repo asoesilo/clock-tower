@@ -18,15 +18,13 @@ class CreateStatementsForPeriod
   end
 
   def fetch_users
-    user_ids = TimeEntry.between(@from, @to).where(apply_rate: true).pluck(:user_id).uniq
+    user_ids = TimeEntry.with_no_statement.between(@from, @to).pluck(:user_id).uniq
     if user_ids.blank?
       context.errors = "No Users found with valid entries between #{@from} - #{@to}"
       context.fail!
     end
 
-    @users = user_ids.map do |user_id|
-      User.find(user_id)
-    end
+    @users = Users.where(id: user_ids)
   end
 
   def create_statements
