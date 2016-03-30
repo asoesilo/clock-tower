@@ -12,7 +12,7 @@ class CreateStatement
   private
 
   def entries
-    context[:user].time_entries.with_no_statement.between(context[:from], context[:to])
+    context[:user].time_entries.with_no_statement.before(context[:to])
   end
 
   def required_params?

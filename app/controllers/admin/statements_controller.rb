@@ -12,7 +12,7 @@ class Admin::StatementsController < Admin::BaseController
 
   def show
     @statement = Statement.find(params[:id])
-    @entries = entries_by_date @statement
+    @entries = entries_by_date(@statement)
   end
 
   def new
