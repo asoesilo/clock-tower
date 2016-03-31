@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    namespace :api do
+      resources :statements, only: [:index, :update]
+    end
+    get 'statements/pay' => 'statements#pay', as: :pay_statements
     resources :statements
     resources :time_entries, only: [:index]
     resources :statement_periods
