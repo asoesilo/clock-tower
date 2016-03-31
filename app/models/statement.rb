@@ -17,6 +17,8 @@ class Statement < ActiveRecord::Base
   def as_json(options)
     {
       id: id,
+      locked_at: locked_at.try(:to_s, :humanly),
+      created_at: created_at.to_s(:humanly),
       from: from.to_s(:humanly),
       to: to.to_s(:humanly),
       post_date: post_date.to_s(:humanly),

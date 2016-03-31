@@ -16,4 +16,16 @@ class StatementStateMachine
     statement.statement_time_entries.update_all state: transition.to_state
   end
 
+  after_transition(to: :locked) do |statement|
+    statement.touch(:locked_at)
+  end
+
+  after_transition(to: :paid) do |statement|
+    statement.touch(:paid_at)
+  end
+
+  after_transition(to: :void) do |statement|
+    statement.touch(:void_at)
+  end
+
 end
