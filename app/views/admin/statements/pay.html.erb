@@ -1,0 +1,83 @@
+<% content_for :head do %>
+  <%= javascript_include_tag 'timesheet' %>
+<% end %>
+<div class="container">
+  <div ng-controller="StatementsCtrl">
+    <div class='text-center' ng-hide='statements'><i class='fa-spinner fa fa-spin'></i></div>
+    <accordion ng-show="statements" close-others="false">
+      <accordion-group is-open="false">
+        <accordion-heading>
+          <div class="row">
+            <div class="col-md-2">
+              Name
+            </div>
+            <div class="col-md-2">
+              Hours
+            </div>
+            <div class="col-md-2">
+              Subtotal
+            </div>
+            <div class="col-md-2">
+              Tax
+            </div>
+            <div class="col-md-2">
+              Total
+            </div>
+          </div>
+        </accordion-heading>
+      </accordion-group>
+      <accordion-group ng-repeat="statement in statements track by statement.id" is-open="statement.isOpen" is-disabled="true">
+        <accordion-heading>
+          <div class="row">
+            <div class="col-md-2">
+              <a ng-href="/admin/users/{{ statement.user.id }}/edit" target="_blank">{{ statement.user.firstname + ' ' + statement.user.lastname }}</a>
+            </div>
+            <div class="col-md-2">
+              {{ statement.hours }}
+            </div>
+            <div class="col-md-2">
+              {{ statement.subtotal | currency }}
+            </div>
+            <div class="col-md-2">
+              {{ statement.tax_amount | currency }}
+            </div>
+            <div class="col-md-2">
+              {{ statement.total | currency }}
+            </div>
+            <div class="col-md-1">
+              <div class="col-md-6">
+                <div class="action-icon-push" ng-hide="entry.isHover"></div>
+                <a href ng-hide='statement.isOpen' ng-click="openStatement(statement)"><i class="fa fa-plus-square fa-1x"></i></a>
+                <a href ng-show='statement.isOpen' ng-click="openStatement(statement)"><i class="fa fa-minus-square fa-1x"></i></a>
+              </div>
+            </div>
+          </div>
+        </accordion-heading>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <p>Locked on: {{ statement.post_date }}</p>
+            </div>
+            <div class="col-md-3">
+              <p>Tax Number: {{ statement.user.tax_number }}</p>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
+              <div class="row">
+                <a target="_blank" ng-href="/admin/statements/{{ statement.id }}">View Statement</a>
+              </div>
+              <div class="row"  ng-show='statement.state === "locked"'>
+                <a href ng-click="payStatement(statement, $index)">Mark as Paid</a>
+                <i ng-show='statement.isLoading' class="fa fa-circle-o-notch fa-spin"></i>
+              </div>
+              <div class="row"  ng-show='statement.state === "paid"'>
+                 Paid
+              </div>
+            </div>
+          </div>
+        </div>
+      </accordion-group>
+    </accordion>
+  </div>
+</div>
