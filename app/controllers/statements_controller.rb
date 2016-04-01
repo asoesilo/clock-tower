@@ -4,7 +4,10 @@ class StatementsController < ApplicationController
   before_action :load_statement, only: [:show]
 
   def index
-    @statements = current_user.statements
+    @statements = current_user.statements.page(params[:page]).per(25).order(to: :desc)
+
+    @statements = @statements.containing_date(params[:containing]) if params[:containing].present?
+    @statements = @statements.in_state(params[:state]) if params[:state].present?
   end
 
   def show
