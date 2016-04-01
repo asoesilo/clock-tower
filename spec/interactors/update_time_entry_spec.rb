@@ -127,7 +127,7 @@ describe UpdateTimeEntry do
       it "should remove the time entry from the statement if there it moves it out of the statement date range" do
         statement = create :statement, from: 1.day.ago, to: 1.day.from_now
         @entry.update statement: statement
-        @entry_date = 1.week.ago
+        @entry_date = 1.week.from_now
         set_params
         UpdateTimeEntry.call(@params)
 
@@ -146,6 +146,16 @@ describe UpdateTimeEntry do
       it "should not change the time_entries statement if the new date is inside of its statement date range" do
         statement = create :statement, from: 1.week.ago, to: 1.week.from_now
         @entry.update statement: statement
+        set_params
+        UpdateTimeEntry.call(@params)
+
+        expect(@entry.statement).to eq(statement)
+      end
+
+      it "should add the time entry to a pending statement that has a date before the to date, even if its before the from date" do
+        statement = create :statement, from: 1.day.ago, to: 1.day.from_now
+        @entry.update statement: statement
+        @entry_date = 1.week.ago
         set_params
         UpdateTimeEntry.call(@params)
 
