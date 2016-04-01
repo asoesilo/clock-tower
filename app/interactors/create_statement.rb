@@ -6,10 +6,14 @@ class CreateStatement
     @user = context[:user]
     context.statement = @statement = Statement.create!(statement_params)
     @statement.time_entries << entries
-    email_user unless context[:dont_email_user]
+    email_user if email_user?
   end
 
   private
+
+  def email_user?
+    !context[:dont_email_user] && @statement.total > 0
+  end
 
   def entries
     context[:user].time_entries.with_no_statement.before(context[:to])
