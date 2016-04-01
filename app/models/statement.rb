@@ -2,7 +2,8 @@ class Statement < ActiveRecord::Base
   include Statesman::Adapters::ActiveRecordQueries
 
   has_many :statement_transitions, autosave: false
-  has_many :time_entries
+  has_many :statement_time_entries
+  has_many :time_entries, through: :statement_time_entries
   belongs_to :user
 
   validates :from, presence: true

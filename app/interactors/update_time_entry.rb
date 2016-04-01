@@ -109,11 +109,12 @@ class UpdateTimeEntry
   end
 
   def check_statement_validity
-    if @time_entry.statement && !(@entry_date >= @time_entry.statement.from && @entry_date <= @time_entry.statement.to)
-      @time_entry.statement = nil
-    end
-    if @time_entry.statement.blank?
-      @time_entry.statement = Statement.in_state(:pending).where('statements.to > ?', @entry_date).take
-    end
+    remove_invalid_statements
+    @time_entry.statements << @user.statements.in_state(:pending).where('statements.to > ?', @entry_date)
+  end
+
+  def remove_invalid_statements
+    stale_statements = @user.statements.in_state(:pending).where("statements.to < ?", @entry_date)
+    @time_entry.statements.delete(stale_statements)
   end
 end

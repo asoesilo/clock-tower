@@ -5,6 +5,7 @@ class CreateStatement
     context.fail! unless required_params?
     @user = context[:user]
     context.statement = @statement = Statement.create!(statement_params)
+    @statement.time_entries << entries
     email_user if email_user?
   end
 
@@ -15,7 +16,7 @@ class CreateStatement
   end
 
   def entries
-    context[:user].time_entries.where(statement_id: nil).before(context[:to])
+    context[:user].time_entries.with_no_statement.before(context[:to])
   end
 
   def required_params?
@@ -26,7 +27,6 @@ class CreateStatement
     {
       to: context[:to],
       from: context[:from],
-      time_entries: entries,
       user: @user,
       post_date: context[:post_date]
     }

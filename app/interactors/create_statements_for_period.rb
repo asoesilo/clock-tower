@@ -18,7 +18,7 @@ class CreateStatementsForPeriod
   end
 
   def fetch_users
-    user_ids = TimeEntry.where(statement_id: nil).between(@from, @to).pluck(:user_id).uniq
+    user_ids = TimeEntry.with_no_statement.between(@from, @to).pluck(:user_id).uniq
     if user_ids.blank?
       context.errors = "No Users found with valid entries between #{@from} - #{@to}"
       context.fail!

@@ -2,9 +2,9 @@ class CreateLegacyStatements
   include Interactor
 
   def call
-    @date = TimeEntry.where(statement_id: nil).order(entry_date: :asc).first.entry_date
+    @date = TimeEntry.with_no_statement.order(entry_date: :asc).first.entry_date
     @periods = StatementPeriod.all
-    @end_date = context[:end_date] || 1.month.ago.end_of_month
+    @end_date = context[:end_date] || Date.today.beginning_of_month
 
     until @date >= @end_date.end_of_month
       create_statements_for_month
@@ -24,7 +24,7 @@ class CreateLegacyStatements
 
   def void_statements(statements)
     statements.each do |statement|
-      statement.transition_to(:void)
+      statement.transition_to(:legacy)
     end
   end
 

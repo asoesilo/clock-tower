@@ -2,7 +2,8 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :task
-  belongs_to :statement
+  has_many :statement_time_entries
+  has_many :statements, through: :statement_time_entries
   belongs_to :location
 
   validates :user, presence: true
@@ -46,12 +47,18 @@ class TimeEntry < ActiveRecord::Base
 
       result.order(entry_date: :desc)
     end
+
+    def with_no_statement
+      joins("LEFT OUTER JOIN statement_time_entries ON time_entries.id = statement_time_entries.time_entry_id AND statement_time_entries.state != 'void'")
+        .group('time_entries.id')
+        .having('COUNT( statement_time_entries.id ) = 0')
+    end
   end
 
   private
 
   def statement_editable?
-    if statement && !statement.editable?
+    if statements.in_state(:locked).present?
       errors.add(:statement, 'is locked.')
     end
   end

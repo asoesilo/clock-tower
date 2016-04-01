@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323220628) do
+ActiveRecord::Schema.define(version: 20160329201936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,12 @@ ActiveRecord::Schema.define(version: 20160323220628) do
     t.string  "from"
     t.string  "to"
     t.integer "draft_days"
+  end
+
+  create_table "statement_time_entries", force: :cascade do |t|
+    t.integer "statement_id",  null: false
+    t.integer "time_entry_id", null: false
+    t.string  "state"
   end
 
   create_table "statement_transitions", force: :cascade do |t|
@@ -89,7 +95,6 @@ ActiveRecord::Schema.define(version: 20160323220628) do
     t.string   "tax_desc"
     t.decimal  "tax_percent",             precision: 5, scale: 3
     t.integer  "location_id"
-    t.integer  "statement_id"
   end
 
   add_index "time_entries", ["entry_date"], name: "index_time_entries_on_entry_date", using: :btree
