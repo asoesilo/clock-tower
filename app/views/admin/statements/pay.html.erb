@@ -1,6 +1,7 @@
 <% content_for :head do %>
   <%= javascript_include_tag 'timesheet' %>
 <% end %>
+
 <div class="container">
   <div ng-controller="StatementsCtrl">
     <div class='text-center' ng-hide='statements'><i class='fa-spinner fa fa-spin'></i></div>

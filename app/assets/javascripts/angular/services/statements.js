@@ -4,8 +4,8 @@ var ClockTower = angular.module('ClockTower');
 
 ClockTower.service('StatementService', ['$http', 'API_PATH', function($http, apiPath) {
 
-  function getStatements(state){
-    return $http.get('/admin/api/statements', { params: { state: state } });
+  function getStatements(params){
+    return $http.get('/admin/api/statements', { params: params });
   }
 
   function updateStatement(statement, params){
