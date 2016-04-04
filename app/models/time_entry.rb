@@ -55,10 +55,14 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
+  def editable?
+    !(statements.in_state(:locked, :legacy, :paid).present?)
+  end
+
   private
 
   def statement_editable?
-    if statements.in_state(:locked).present?
+    unless editable?
       errors.add(:statement, 'is locked.')
     end
   end
