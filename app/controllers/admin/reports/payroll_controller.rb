@@ -28,7 +28,7 @@ class Admin::Reports::PayrollController < Admin::Reports::BaseController
   private
 
   def report_params
-    params.permit(:from, :to, :users, projects: [], tasks: [])
+    params.permit(:from, :to, users: [], projects: [], tasks: [])
   end
 
 end

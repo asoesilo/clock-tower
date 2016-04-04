@@ -19,7 +19,7 @@ ClockTower.controller('StatementsCtrl', ['$scope', 'StatementService',
 
     function openNextStatement(index){
       if (index < $scope.statements.length) {
-        toggleOpen($scope.statements[index + 1]);
+        $scope.statements[index + 1].isOpen = true;
       }
     }
 
@@ -27,6 +27,7 @@ ClockTower.controller('StatementsCtrl', ['$scope', 'StatementService',
       toggleLoading(statement);
 
       changeState(statement, 'paid').success(function(data){
+        $('#statement-count').text($('#statement-count').text() - 1);
         statement.state = data.state;
         toggleLoading(statement);
         toggleOpen(statement);
@@ -38,8 +39,10 @@ ClockTower.controller('StatementsCtrl', ['$scope', 'StatementService',
       toggleOpen(statement);
     }
 
+    $scope.loading = true;
     StatementService.all({state: 'locked'}).success(function(data, status){
       $scope.statements = data;
+      $scope.loading = false;
       toggleOpen($scope.statements[0]);
     })
   }

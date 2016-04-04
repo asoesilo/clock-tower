@@ -1,10 +1,15 @@
 <% content_for :head do %>
   <%= javascript_include_tag 'timesheet' %>
 <% end %>
+<div class="jumbotron">
+  <div class="container text-center">
+    <h4><span id='statement-count'><%= Statement.in_state(:locked).count %></span> Locked Statements</h4>
+  </div>
+</div>
 
 <div class="container">
   <div ng-controller="StatementsCtrl">
-    <div class='text-center' ng-hide='statements'><i class='fa-spinner fa fa-spin'></i></div>
+    <div class='text-center' ng-show='loading'>Loading<br><i class='fa-spinner fa fa-spin'></i></div>
     <accordion ng-show="statements" close-others="false">
       <accordion-group is-open="false">
         <accordion-heading>
@@ -94,12 +99,12 @@
 
             <div class="col-sm-2">
               <div class="row">
-                <a target="_blank" ng-href="/admin/reports/payroll?from={{ statement.from | escape }}&to={{ statement.to | escape }}&users={{ statement.user.id | escape }}">
+                <a target="_blank" ng-href="/admin/reports/payroll?from={{ statement.from | escape }}&to={{ statement.to | escape }}&users%5B%5D={{ statement.user.id }}">
                   <p>Payroll Report</p>
                 </a>
               </div>
               <div class="row">
-                <a target="_blank" ng-href="/admin/reports/summary?from={{ statement.from | escape }}&to={{ statement.to | escape }}&users={{ statement.user.id | escape }}">
+                <a target="_blank" ng-href="/admin/reports/summary?from={{ statement.from | escape }}&to={{ statement.to | escape }}&users%5B%5D={{ statement.user.id }}">
                   <p>Summary Report</p>
                 </a>
               </div>

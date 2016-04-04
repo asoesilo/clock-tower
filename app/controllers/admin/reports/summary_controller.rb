@@ -17,7 +17,7 @@ class Admin::Reports::SummaryController < Admin::Reports::BaseController
   private
 
   def report_params
-    params.permit(:from, :to, :users, projects: [], tasks: [])
+    params.permit(:from, :to, users: [], projects: [], tasks: [])
   end
 
   def total_duration(entries)
