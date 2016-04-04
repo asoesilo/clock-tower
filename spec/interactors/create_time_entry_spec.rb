@@ -251,6 +251,14 @@ describe CreateTimeEntry do
         expect(entry.rate).to eq(20)
       end
 
+      it "should account for un-even rate" do
+        allow(@user).to receive(:holiday_rate_multiplier).and_return(1.25)
+        allow(@task).to receive(:apply_secondary_rate?).and_return(false)
+        entry = CreateTimeEntry.call(@params).time_entry
+
+        expect(entry.rate).to eq(12.5)
+      end
+
       it "should set the rate to the users rate * holiday mutlipler if the task uses secondary rate but the user doesn't have one" do
         @task = create :task, apply_secondary_rate: true
         set_params
@@ -267,6 +275,15 @@ describe CreateTimeEntry do
         entry = CreateTimeEntry.call(@params).time_entry
 
         expect(entry.rate).to eq(40)
+      end
+
+      it "should set properly account for un-even numbers" do
+        @task = create :task, apply_secondary_rate: true
+        set_params
+        allow(@user).to receive(:secondary_rate).and_return(5.25)
+        entry = CreateTimeEntry.call(@params).time_entry
+
+        expect(entry.rate).to eq(10.5)
       end
     end
   end
