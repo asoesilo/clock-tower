@@ -16,6 +16,9 @@ class Admin::StatementsController < Admin::BaseController
     @entries = entries_by_date(@statement)
   end
 
+  def pay
+  end
+
   def update
     if @statement.transition_to(params[:state])
       flash[:notice] = "Successfully transitioned to #{params[:state].capitalize}"
