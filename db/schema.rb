@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331203824) do
+ActiveRecord::Schema.define(version: 20160404174005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,11 +86,11 @@ ActiveRecord::Schema.define(version: 20160331203824) do
     t.integer  "project_id"
     t.integer  "task_id"
     t.date     "entry_date"
-    t.float    "duration_in_hours"
+    t.decimal  "duration_in_hours",       precision: 4, scale: 2
     t.string   "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "rate"
+    t.decimal  "rate",                    precision: 5, scale: 2
     t.boolean  "apply_rate"
     t.boolean  "is_holiday"
     t.decimal  "holiday_rate_multiplier", precision: 4, scale: 2
@@ -117,8 +117,8 @@ ActiveRecord::Schema.define(version: 20160331203824) do
     t.boolean  "is_admin"
     t.boolean  "active"
     t.boolean  "hourly",                                          default: true
-    t.float    "rate"
-    t.float    "secondary_rate"
+    t.decimal  "rate",                    precision: 5, scale: 2
+    t.decimal  "secondary_rate",          precision: 5, scale: 2
     t.decimal  "holiday_rate_multiplier", precision: 4, scale: 2, default: 1.5
     t.boolean  "password_reset_required"
     t.string   "company_name"

@@ -57,7 +57,7 @@ class CreateTimeEntry
   end
 
   def rate
-    is_holiday? ? (user_rate.to_f * @user.holiday_rate_multiplier) : user_rate.to_f
+    is_holiday? ? (user_rate * @user.holiday_rate_multiplier) : user_rate
   end
 
   def time_entry_params
