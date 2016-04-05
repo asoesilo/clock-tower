@@ -10,13 +10,26 @@ class Statement < ActiveRecord::Base
   validates :to, presence: true
   validates :post_date, presence: true
   validates :user_id, presence: true
-  validates :subtotal, presence: true
-  validates :tax_amount, presence: true
-  validates :hours, presence: true
-  validates :total, presence: true
 
   scope :by_users, -> (users){ where(user_id: users) }
   scope :containing_date, -> (date){ where("statements.from <= ? AND statements.to >= ?", date, date) }
+
+  def as_json(options)
+    {
+      id: id,
+      locked_at: locked_at.try(:to_s, :humanly),
+      created_at: created_at.to_s(:humanly),
+      from: from.to_s(:humanly),
+      to: to.to_s(:humanly),
+      post_date: post_date.to_s(:humanly),
+      state: state,
+      user: user.as_json(options),
+      subtotal: subtotal,
+      tax_amount: tax_amount,
+      hours: hours,
+      total: total
+    }
+  end
 
   def state
     state_machine.current_state

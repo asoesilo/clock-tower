@@ -16,7 +16,7 @@ class Admin::Reports::PayrollController < Admin::Reports::BaseController
         user: user,
         project_ids: report_params[:projects],
         task_ids: report_params[:tasks])
-      
+
       @entries_by_user[user.id.to_s] = {
         regular: reporter.regular_entries,
         holiday: reporter.holiday_entries

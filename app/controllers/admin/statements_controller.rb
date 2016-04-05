@@ -1,7 +1,8 @@
 class Admin::StatementsController < Admin::BaseController
   include StatementQueries
 
-  before_action :load_statement
+  before_action :load_statement, only: [:show, :update]
+
   def index
     @all_users = User.all
     @statements = Statement.page(params[:page]).per(25).order(to: :desc)
@@ -13,6 +14,9 @@ class Admin::StatementsController < Admin::BaseController
 
   def show
     @entries = entries_by_date(@statement)
+  end
+
+  def pay
   end
 
   def update

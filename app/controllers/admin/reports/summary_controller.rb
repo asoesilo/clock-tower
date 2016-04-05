@@ -2,10 +2,10 @@ class Admin::Reports::SummaryController < Admin::Reports::BaseController
 
   def show
     @time_entries = TimeEntry.query(
-      report_params[:from], 
-      report_params[:to], 
-      report_params[:users], 
-      report_params[:projects], 
+      report_params[:from],
+      report_params[:to],
+      report_params[:users],
+      report_params[:projects],
       report_params[:tasks]
     )
 
