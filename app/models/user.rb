@@ -31,7 +31,8 @@ class User < ActiveRecord::Base
       firstname: firstname,
       lastname: lastname,
       fullname: fullname,
-      email: email
+      email: email,
+      location: location.as_json(options)
     }
   end
 

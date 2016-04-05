@@ -19,8 +19,8 @@ describe Admin::Reports::PayrollController do
         get :show, from: "2015-1-1"
         expect(assigns[:from]).to eq(Date.parse("2015-1-1"))
       end
-    end    
-    
+    end
+
     context "@to" do
       it "should default to today if no param to is present" do
         get :show
@@ -56,7 +56,7 @@ describe Admin::Reports::PayrollController do
           expect(assigns[:users]).to eq(nil)
         end
 
-        it "should set to nil if there is no params users" do
+        it "should set to the users by ids passed into params[:users]" do
           get :show, users: [@chrispy.id]
           expect(assigns[:users]).to eq([@chrispy])
         end

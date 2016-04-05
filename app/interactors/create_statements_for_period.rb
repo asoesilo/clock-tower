@@ -24,7 +24,7 @@ class CreateStatementsForPeriod
       context.fail!
     end
 
-    @users = Users.where(id: user_ids)
+    @users = User.where(id: user_ids)
   end
 
   def create_statements
