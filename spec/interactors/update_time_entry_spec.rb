@@ -136,7 +136,7 @@ describe UpdateTimeEntry do
 
       it "should add the time entry to a statement its entry_date is inside of an open statements date range" do
         statement = create :statement, from: 1.week.ago, to: 1.week.from_now, user: @user
-        @entry_date = 1.day.ago
+        @entry_date = 2.days.ago
         set_params
         UpdateTimeEntry.call(@params)
 
@@ -146,7 +146,7 @@ describe UpdateTimeEntry do
       it "should not change the time_entries statement if the new date is inside of its statement date range" do
         statement = create :statement, from: 1.week.ago, to: 1.week.from_now, user: @user
         @entry.statements << statement
-        @entry_date = 1.day.ago
+        @entry_date = 2.days.ago
         set_params
         UpdateTimeEntry.call(@params)
 

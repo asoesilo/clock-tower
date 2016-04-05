@@ -13,6 +13,7 @@ class TimeEntry < ActiveRecord::Base
   validates :duration_in_hours, presence: true
 
   validate :statement_editable?
+  before_destroy :can_destroy?
 
   scope :between, -> (from, to) { where('time_entries.entry_date BETWEEN ? AND ?', from.beginning_of_day, to.end_of_day) }
   scope :before, -> (date) { where('time_entries.entry_date <= ?', date) }
@@ -56,10 +57,19 @@ class TimeEntry < ActiveRecord::Base
   end
 
   def editable?
-    !(statements.in_state(:locked, :legacy, :paid).present?)
+    statements.not_in_state(Statement.editable_states).blank?
   end
 
   private
+
+  def can_destroy?
+    if editable?
+      true
+    else
+      errors.add(:statement, 'is locked.')
+      false
+    end
+  end
 
   def statement_editable?
     unless editable?
