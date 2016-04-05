@@ -180,7 +180,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
           removeEntryFromArray(entry);
         }, function(error) {
           // TODO: error handling
-          alert(error);
+          alert('Cannot Delete, ' + error.data.errors);
         });
       }, function() {
         // Cancel delete

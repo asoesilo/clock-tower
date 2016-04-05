@@ -47,10 +47,14 @@ class Statement < ActiveRecord::Base
   end
 
   def editable?
-    ['pending'].include?(self.state)
+    Statement.editable_states.include?(self.state)
   end
 
   class << self
+    def editable_states
+      ['pending', 'void']
+    end
+
     def transition_class
       StatementTransition
     end
