@@ -16,6 +16,11 @@ describe TimeEntry do
       expect(build(:time_entry, comments: nil)).to be_valid
     end
 
+    it "is invalid with a comment of over 255 characters" do
+      long_comment = 'a' * 300
+      expect(build(:time_entry, comments: long_comment)).to have(1).errors_on(:comments)
+    end
+
     it "is invalid without an entry date" do
       expect(build(:time_entry, entry_date: nil)).to have(1).errors_on(:entry_date)
     end

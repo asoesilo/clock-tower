@@ -7,7 +7,11 @@ class CreateTimeEntry
       add_errors
       context.fail!
     end
-    @time_entry = TimeEntry.create!(time_entry_params)
+    @time_entry = TimeEntry.create(time_entry_params)
+    if @time_entry.errors.any?
+      context.errors = @time_entry.errors.full_messages
+      context.fail!
+    end
     associate_with_statement if open_statement_for_date?
     context.time_entry = @time_entry
   end
