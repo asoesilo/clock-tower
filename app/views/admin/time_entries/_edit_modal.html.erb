@@ -1,0 +1,35 @@
+<div class="modal fade" id="entry-edit" tabindex="-1">
+  <div class="modal-dialouge">
+    <div class="modal-content">
+      <div class="modal-body">
+        <%= form_tag "/api/time_entries/id", method: "put", remote: true, id: "modal-form" do %>
+          <div class="row">
+            <div class="col-md-3 form-group">
+              <label for="task">Task</label>
+              <%= select_tag 'time_entry[task_id]', options_from_collection_for_select(@all_tasks, :id, :name), class: "form-control", required: true, id: "task"  %>
+            </div>
+            <div class="col-md-3 form-group">
+              <label for="project">Project</label>
+              <%= select_tag "time_entry[project_id]", options_from_collection_for_select(@all_projects, :id, :name), class: "form-control", required: true, id: "project"  %>
+            </div>
+            <div class="col-md-2 form-group">
+              <label for="entry_date">Entry Date</label>
+              <%= text_field_tag "time_entry[entry_date]", "Entry Date", class: "form-control pick-a-date", required: true, id: "entry_date" %>
+            </div>
+            <div class="col-md-2 form-group">
+              <label for="hours">Hours</label>
+              <%= text_field_tag "time_entry[duration_in_hours]", "Duration", class: "form-control", required: true, id: "hours" %>
+            </div>
+            <div class="col-md-2 form-group">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary btn-block control-btn" type="submit">Submit</button>
+            </div>
+          </div>
+          <div>
+            <%= text_field_tag "time_entry[comments]", "", placeholder: "Write your comments here", class: "form-control", id: "comments" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
