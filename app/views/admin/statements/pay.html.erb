@@ -36,11 +36,11 @@
         </accordion-heading>
       </accordion-group>
 
-      <accordion-group ng-repeat="statement in statements track by statement.id" is-open="statement.isOpen" is-disabled="true">
+      <accordion-group ng-repeat="statement in statements track by statement.id" is-open="statement.isOpen" is-disabled="true" ng-class="{'panel-success': (statement.state === 'paid')}">
         <accordion-heading>
           <div class="row">
             <div class="col-sm-2">
-              <a ng-href="/admin/users/{{ statement.user.id }}/edit" target="_blank">{{ statement.user.firstname + ' ' + statement.user.lastname }}</a>
+              <p>{{ statement.user.firstname + ' ' + statement.user.lastname }}</p>
             </div>
             <div class="col-sm-2">
               <p>{{ statement.hours }}</p>

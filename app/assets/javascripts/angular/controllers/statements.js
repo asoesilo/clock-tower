@@ -43,7 +43,9 @@ ClockTower.controller('StatementsCtrl', ['$scope', 'StatementService',
     StatementService.all({state: 'locked'}).success(function(data, status){
       $scope.statements = data;
       $scope.loading = false;
-      toggleOpen($scope.statements[0]);
+      if ($scope.statements.length > 0){
+        toggleOpen($scope.statements[0]);
+      }
     })
   }
 ]);
