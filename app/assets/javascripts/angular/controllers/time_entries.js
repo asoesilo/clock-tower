@@ -180,7 +180,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
           removeEntryFromArray(entry);
         }, function(error) {
           // TODO: error handling
-          alert(error);
+          alert('Cannot Delete, ' + error.data.errors);
         });
       }, function() {
         // Cancel delete
@@ -217,8 +217,9 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         entry.date = parseDate(newEntry.date);
         entry.duration_in_hours = newEntry.duration_in_hours;
         entry.comments = newEntry.comments;
-      }, function(error) {
-        // TODO: Handle error
+      }, function(res) {
+        var errors = res.data.errors;
+        alert('Time Entry cannot be edited: ' + errors);
       });
     };
 
