@@ -18,6 +18,19 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
   function($scope, $modal, TaskService, ProjectService, TimeEntryService) {
     $scope.date = new Date();
 
+    function openAlertModal(message) {
+      $modal.open({
+        templateUrl: 'alertModal.html',
+        controller: ConfirmationModalCtrl,
+        size: 'md',
+        resolve: {
+          message: function() {
+            return message;
+          }
+        }
+      });
+    };
+
     var fetchTasks = function() {
       TaskService.all().success(function(tasks) {
         $scope.tasks = tasks;
@@ -109,7 +122,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         $scope.duration = null;
         $scope.comments = null;
       }, function(error) {
-        alert(error.data.errors.join());
+        openAlertModal('Could not create, ' + error.data.errors);
       });
     };
 
@@ -179,8 +192,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         TimeEntryService.delete(entry.id, function() {
           removeEntryFromArray(entry);
         }, function(error) {
-          // TODO: error handling
-          alert('Cannot Delete, ' + error.data.errors);
+          openAlertModal('Cannot Delete, ' + error.data.errors);
         });
       }, function() {
         // Cancel delete
@@ -218,8 +230,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         entry.duration_in_hours = newEntry.duration_in_hours;
         entry.comments = newEntry.comments;
       }, function(res) {
-        var errors = res.data.errors;
-        alert('Time Entry cannot be edited: ' + errors);
+        openAlertModal('Cannot update Entry, ' + res.data.errors);
       });
     };
 
