@@ -21,12 +21,12 @@
       <form ng-submit="createTimeEntry()">
         <div class="form-group row">
           <div class="col-md-3">
-            <select name="task" class="form-control" data-placeholder="What are you working on?" chosen="tasks" ng-model="task" ng-options="task.name for task in tasks">
+            <select name="task" class="form-control" data-placeholder="What are you working on?" ng-required="true" chosen="tasks" ng-model="task" ng-options="task.name for task in tasks">
               <option value></option>
             </select>
           </div>
           <div class="col-md-3">
-            <select name="project" class="form-control" data-placeholder="Select project" chosen="projects" ng-model="project" ng-options="project.name for project in projects">
+            <select name="project" class="form-control" data-placeholder="Select project" ng-required="true" chosen="projects" ng-model="project" ng-options="project.name for project in projects">
               <option value></option>
             </select>
           </div>
@@ -39,14 +39,14 @@
             </p>
           </div>
           <div class="col-md-2">
-            <input type="text" ng-required="true" class="form-control" placeholder="Duration (Hours)" ng-model="duration">
+            <input type="number" ng-required="true" step="any" class="form-control" min="0" max="999" placeholder="Duration (Hours)" ng-model="duration">
           </div>
           <div class="col-md-2">
             <button class="btn btn-primary btn-block control-btn" type="submit">Submit</button>
           </div>
         </div>
         <div>
-          <input type="text" class="form-control" placeholder="Write your comments here" ng-model="comments">
+          <input type="text" class="form-control" placeholder="Write your comments here" maxlength="255" ng-model="comments">
         </div>
       </form>
     </div>
@@ -97,11 +97,11 @@
         </accordion-heading>
         <div class="form-group row">
           <div class="col-md-3">
-            <select name="task" class="form-control" chosen="tasks"  ng-model="entry.newTask" ng-options="task.name for task in tasks track by task.id">
+            <select name="task" class="form-control" chosen="tasks" ng-required="true" ng-model="entry.newTask" ng-options="task.name for task in tasks track by task.id">
             </select>
           </div>
           <div class="col-md-3">
-            <select name="project" class="form-control" chosen="projects"  ng-model="entry.newProject" ng-options="project.name for project in projects track by project.id">
+            <select name="project" class="form-control" chosen="projects" ng-required="true" ng-model="entry.newProject" ng-options="project.name for project in projects track by project.id">
             </select>
           </div>
           <div class="col-md-2">
@@ -113,7 +113,7 @@
             </p>
           </div>
           <div class="col-md-2">
-            <input type="text" class="form-control" placeholder="Duration (Hours)" ng-model="entry.newDuration">
+            <input type="number" step="any" class="form-control" min="0" max="999" placeholder="Duration (Hours)" ng-model="entry.newDuration">
           </div>
           <div class="col-md-2">
             <div class="col-md-6">
@@ -125,7 +125,7 @@
           </div>
         </div>
         <div>
-          <input type="text" class="form-control" placeholder="Write your comments here" ng-model="entry.newComments">
+          <input type="text" class="form-control"  maxlength="255" placeholder="Write your comments here" ng-model="entry.newComments">
         </div>
       </accordion-group>
     </accordion>

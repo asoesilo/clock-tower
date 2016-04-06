@@ -195,7 +195,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       entry.newTask = {id: entry.task.id};
       entry.newProject = {id: entry.project.id};
       entry.newDate = entry.date;
-      entry.newDuration = entry.duration_in_hours;
+      entry.newDuration = Number(entry.duration_in_hours);
       entry.newComments = entry.comments;
 
       setEditState(entry, true);

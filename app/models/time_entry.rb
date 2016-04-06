@@ -10,7 +10,7 @@ class TimeEntry < ActiveRecord::Base
   validates :project, presence: true
   validates :task, presence: true
   validates :entry_date, presence: true
-  validates :duration_in_hours, presence: true
+  validates :duration_in_hours, presence: true, numericality: { greater_than_or_equal_to: 0, less_than: 1000 }
 
   validate :statement_editable?
   before_destroy :can_destroy?
