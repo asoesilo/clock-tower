@@ -9,6 +9,7 @@ class TimeEntry < ActiveRecord::Base
   validates :user, presence: true
   validates :project, presence: true
   validates :task, presence: true
+  validates :comments, length: { maximum: 255, allow_nil: true }
   validates :entry_date, presence: true
   validates :duration_in_hours, presence: true, numericality: { greater_than_or_equal_to: 0, less_than: 1000 }
 
