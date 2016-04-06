@@ -24,7 +24,7 @@ class CreateLegacyStatements
 
   def void_statements(statements)
     statements.each do |statement|
-      statement.transition_to(:locked)
+      statement.transition_to(:legacy)
     end
   end
 
