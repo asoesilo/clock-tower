@@ -21,6 +21,9 @@ $(function(){
 
     var entryId = button.data('entryId');
     var url = ("/api/time_entries/" + entryId);
+    if (button.data('admin') === true) {
+      url = '/admin' + url
+    }
     var project = button.data('projectId');
     var task = button.data('taskId');
     var hours = button.data('duration');

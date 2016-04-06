@@ -12,8 +12,9 @@
     entry_date: time_entry.entry_date,
     duration: time_entry.duration_in_hours,
     comments: time_entry.comments,
-    entry_id: time_entry.id } %>
+    entry_id: time_entry.id,
+    admin: true } %>
    |
-  <%= link_to "Delete", "/api/time_entries/#{time_entry.id}", class: 'delete', method: 'delete', remote: true, data: { confirm: "This will delete the Time Entry, You sure?" } %>
+  <%= link_to "Delete", "/admin/api/time_entries/#{time_entry.id}", class: 'delete', method: 'delete', remote: true, data: { confirm: "This will delete the Time Entry, You sure?" } %>
   </td>
 </tr>

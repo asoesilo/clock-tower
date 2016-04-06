@@ -1,0 +1,35 @@
+class Admin::Api::TimeEntriesController < Admin::BaseController
+  skip_before_filter :verify_authenticity_token
+
+  def update
+    time_entry = TimeEntry.find(params[:id])
+    result = UpdateTimeEntry.call(update_params(time_entry))
+
+    if result.success?
+      render json: { entry: result.time_entry }, status: :ok
+    else
+      render json: { errors: result.errors }, status: :bad_request
+    end
+  end
+
+  def destroy
+    time_entry = TimeEntry.find(params[:id])
+
+    if time_entry.destroy
+      head :ok
+    else
+      render json: { errors: time_entry.errors.full_messages }, status: :bad_request
+    end
+  end
+
+
+  private
+
+  def update_params(time_entry)
+    time_entry_params.merge({ time_entry: time_entry })
+  end
+
+  def time_entry_params
+    params.require(:time_entry).permit(:project_id, :task_id, :entry_date, :duration_in_hours, :comments)
+  end
+end
