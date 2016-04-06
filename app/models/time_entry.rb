@@ -11,7 +11,7 @@ class TimeEntry < ActiveRecord::Base
   validates :task, presence: true
   validates :comments, length: { maximum: 255, allow_nil: true }
   validates :entry_date, presence: true
-  validates :duration_in_hours, presence: true
+  validates :duration_in_hours, numericality: { greater_than_or_equal_to: 0, less_than: 1000 }
 
   validate :statement_editable?
   before_destroy :can_destroy?
