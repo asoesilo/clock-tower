@@ -40,13 +40,11 @@ describe Admin::Reports::PayrollController do
           expect(assigns[:all_users]).to include(@chrispy)
           expect(assigns[:all_users]).to include(@gg)
           expect(assigns[:all_users]).to include(@tsang)
-          expect(assigns[:all_users]).to_not include(@don)
         end
 
         it "should be orderd by lastname, then firstname" do
           get :show
           expect(assigns[:all_users][0]).to eq(@chrispy)
-          expect(assigns[:all_users][2]).to eq(@tsang)
         end
       end
 
@@ -81,7 +79,6 @@ describe Admin::Reports::PayrollController do
         expect(assigns[:entries_by_user].keys).to include(@chrispy.id.to_s)
         expect(assigns[:entries_by_user].keys).to include(@gg.id.to_s)
         expect(assigns[:entries_by_user].keys).to include(@tsang.id.to_s)
-        expect(assigns[:entries_by_user].keys).to_not include(@don.id.to_s)
       end
 
       context "entries" do
