@@ -18,6 +18,11 @@
 <%= form.text_field :holiday_rate_multiplier, class: "form-control mid-control", placeholder: "Holiday Rate Multiplier" %>
 <%= form.text_field :tax_number, class: "form-control mid-control", placeholder: "GST / HST Number" %>
 
+<%= form.label :has_tax, class: "form-control mid-control" do %>
+  <%= form.check_box :has_tax %>
+  <small><%= form.label :has_tax, "Apply Tax" %></small>
+<% end %>
+
 <%= form.label :hourly, class: "form-control mid-control" do %>
   <%= form.check_box :hourly %>
   <small><%= form.label :hourly, "Hourly (Contractor)" %></small>
