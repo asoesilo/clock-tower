@@ -17,7 +17,11 @@ class LockStatementsForDate
 
   def close_statement(statement)
     if statement.transition_to(:locked)
-      @locked_statements.push (statement)
+      if statement.total == 0
+        statement.transition_to(:paid)
+      else
+        @locked_statements.push (statement)
+      end
     end
   end
 
