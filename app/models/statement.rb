@@ -31,6 +31,10 @@ class Statement < ActiveRecord::Base
     }
   end
 
+  def to_s
+    "#{from.to_s(:humanly)} - #{to.to_s(:humanly)}"
+  end
+  
   def state
     state_machine.current_state
   end
