@@ -4,6 +4,7 @@
     <% if @statement.post_date > Date.today %>
       <p>Post Date - <%= @statement.post_date.to_s(:humanly) %></p>
     <% end %>
+    <p>State: <%= @statement.state.capitalize %></p>
   </div>
 </div>
 <div class="container">
