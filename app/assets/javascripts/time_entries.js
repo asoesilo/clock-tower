@@ -41,16 +41,17 @@ $(function(){
     form.prop('action', url);
   });
 
-  $('#modal-form').on('ajax:success', function hideModal(e, data, status, xhr){
+  $('.modal-form').on('ajax:success', function hideModal(e, data, status, xhr){
     updateEntryRow(data.entry);
-    $('#entry-edit').modal('hide');
+    console.log('hid')
+    $('#entry-edit-' + data.entry.id).modal('hide');
   }).on('ajax:error', function alertErrors(e, data, status, xhr){
-    alert(data.errors);
+    alert('Could not edit Time Entry, ', data.responseJSON.errors);
   });
 
   $('.delete').on('ajax:success', function(e, data, status, xhr){
     $(this).closest('tr').remove();
   }).on('ajax:error', function alertErrors(e, data, status, xhr){
-    alert(data.errors)
+    alert('Could not delete Time Entry, ', data.responseJSON.errors);
   });
 });
