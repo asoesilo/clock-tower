@@ -3,12 +3,16 @@
     <%= form_tag(time_entries_path, method: :get, class: "form", role: "form") do %>
       <div class="row">
 
-        <div class="col-md-6 option-field">
+        <div class="col-md-4 option-field">
           <%= select_tag :projects, options_from_collection_for_select(@all_projects, :id, :name, params[:projects]), { class: "form-control chosen-select", "data-placeholder" => "Filter by projects", multiple: true } %>
         </div>
 
-        <div class="col-md-6 option-field">
+        <div class="col-md-4 option-field">
           <%= select_tag :tasks, options_from_collection_for_select(@all_tasks, :id, :name, params[:tasks]), { class: "form-control chosen-select", "data-placeholder" => "Filter by tasks", multiple: true } %>
+        </div>
+
+        <div class="col-md-4 option-field">
+          <%= select_tag :statement, options_from_collection_for_select(@statements, :id, :to_s, params[:statement]), { class: "form-control chosen-select", "data-placeholder" => "Filter by Statement", prompt: "Filter by Statement"} %>
         </div>
 
         <div class="col-md-3 option-field">

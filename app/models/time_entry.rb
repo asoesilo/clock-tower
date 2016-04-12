@@ -61,6 +61,10 @@ class TimeEntry < ActiveRecord::Base
     statements.not_in_state(Statement.editable_states).blank?
   end
 
+  def statement
+    statements.not_in_state('void').take
+  end
+
   private
 
   def can_destroy?
