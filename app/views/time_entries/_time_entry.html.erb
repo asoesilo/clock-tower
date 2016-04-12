@@ -5,6 +5,11 @@
   <td class="hours"><%= time_entry.duration_in_hours %></td>
   <td class="comments"><%= time_entry.comments %></td>
   <td>
+    <% if time_entry.statement.present? %>
+      <%= link_to "View", time_entry.statement, target: "_blank" %>
+    <% end %>
+  </td>
+  <td>
   <% if time_entry.editable? %>
     <%= link_to "Edit", "#", data: {
       toggle: "modal", target: "#entry-edit",
