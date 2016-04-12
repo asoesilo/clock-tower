@@ -34,6 +34,7 @@ class Admin::StatementsController < Admin::BaseController
 
   def create
     users = params[:users]
+    users = User.pluck(:id) if users.blank?
 
     to = Date.parse(params[:to])
     from = Date.parse(params[:from])
