@@ -3,12 +3,12 @@ class LegacyStatementLock
 
   def call
     @date = context[:date]
-    @locked_statements = []
+    @legacy_statements = []
     statements.each do |statement|
       next unless statement.editable?
       close_statement(statement)
     end
-    email_admin if @locked_statements.present?
+    email_admin if @legacy_statements.present?
   end
 
   def statements
@@ -17,12 +17,12 @@ class LegacyStatementLock
 
   def close_statement(statement)
     if statement.transition_to(:legacy)
-      @locked_statements.push (statement)
+      @legacy_statements.push (statement)
     end
   end
 
   def email_admin
-    AdminMailer.legacy_statements_notify(@locked_statements).deliver_now
+    AdminMailer.legacy_statements_notify(@legacy_statements).deliver_now
   end
 
 end
