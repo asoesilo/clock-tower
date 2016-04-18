@@ -27,7 +27,8 @@ class TimeEntry < ActiveRecord::Base
       task: task.as_json(options),
       date: entry_date,
       duration_in_hours: duration_in_hours,
-      comments: comments
+      comments: comments,
+      statement_id: statement.try(:id),
     }
   end
 

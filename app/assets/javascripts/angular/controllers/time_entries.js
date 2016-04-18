@@ -18,14 +18,28 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
   function($scope, $modal, TaskService, ProjectService, TimeEntryService) {
     $scope.date = new Date();
 
-    function openAlertModal(message) {
+    function openAlertModal(message, statementId) {
       $modal.open({
         templateUrl: 'alertModal.html',
-        controller: ConfirmationModalCtrl,
+        controller: function($scope, $modalInstance, message, statementId){
+          $scope.message = message;
+          $scope.statementId = statementId;
+
+          $scope.showUrl = function() {
+            return statementId && (message.indexOf('locked') !== -1);
+          };
+
+          $scope.ok = function() {
+            $modalInstance.close();
+          };
+        },
         size: 'md',
         resolve: {
           message: function() {
             return message;
+          },
+          statementId: function() {
+            return statementId;
           }
         }
       });
@@ -192,7 +206,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         TimeEntryService.delete(entry.id, function() {
           removeEntryFromArray(entry);
         }, function(error) {
-          openAlertModal('Cannot Delete, ' + error.data.errors);
+          openAlertModal('Cannot Delete, ' + error.data.errors, entry.statement_id);
         });
       }, function() {
         // Cancel delete
@@ -230,7 +244,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         entry.duration_in_hours = newEntry.duration_in_hours;
         entry.comments = newEntry.comments;
       }, function(res) {
-        openAlertModal('Cannot update Entry, ' + res.data.errors);
+        openAlertModal('Cannot update Entry, ' + res.data.errors, entry.statement_id);
       });
     };
 
