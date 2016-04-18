@@ -22,6 +22,15 @@ namespace :statement do
     LockStatementsForDate.call(date: date)
   end
 
+  desc "Transition to legacy statements with a post_date of either today / the date passed into DATE, ex DATE=2016-01-15"
+  task legacy_lock: :environment do
+    date = ENV['DATE']
+    date = Date.parse(date) if date
+    date ||= Date.today
+    puts "Transitioning statements for #{date.to_s(:humanly)} to legacy"
+    LegacyStatementLock.call(date: date)
+  end
+
   desc "Create Statements for all past time entries"
   task legacy_create: :environment do
     end_date = ENV['END_DATE']
