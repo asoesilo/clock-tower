@@ -20,10 +20,10 @@
             <div class="col-sm-2">
               Hours
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
               Subtotal
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
               Tax
             </div>
             <div class="col-sm-2">
@@ -45,10 +45,10 @@
             <div class="col-sm-2">
               <p>{{ statement.hours }}</p>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
               <p>{{ statement.subtotal | currency }}</p>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
               <p>{{ statement.tax_amount | currency }}</p>
             </div>
             <div class="col-sm-2">
@@ -57,9 +57,11 @@
             <div class="col-sm-1">
               <p>{{ statement.id }}</p>
             </div>
+            <div class="col-sm-2">
+              <p ng-if="statement.back_dated">Back Dated Entries</p>
+            </div>
             <div class="col-sm-1">
-              <div class="col-sm-6">
-                <div class="action-icon-push" ng-hide="entry.isHover"></div>
+              <div class="row">
                 <a href ng-hide='statement.isOpen' ng-click="openStatement(statement)"><i class="fa fa-plus-square fa-1x"></i></a>
                 <a href ng-show='statement.isOpen' ng-click="openStatement(statement)"><i class="fa fa-minus-square fa-1x"></i></a>
               </div>

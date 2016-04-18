@@ -27,8 +27,13 @@ class Statement < ActiveRecord::Base
       subtotal: subtotal,
       tax_amount: tax_amount,
       hours: hours,
-      total: total
+      total: total,
+      back_dated: back_dated_entries?
     }
+  end
+
+  def back_dated_entries?
+    time_entries.before(from).count > 0
   end
 
   def to_s
