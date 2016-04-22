@@ -1,0 +1,29 @@
+<div class="jumbotron report-options">
+  <div class="container">
+    <h3 class="text-center">Generate Statements</h3><br>
+    <%= form_tag(admin_statements_path, method: :post, class: "form", role: "form") do %>
+      <div class="row">
+
+        <div class="col-md-4 option-field">
+          <%= text_field_tag :from, @from, class: "form-control pick-a-date", placeholder: "From", required: true %>
+        </div>
+
+        <div class="col-md-4 option-field">
+          <%= text_field_tag :to, @to, class: "form-control pick-a-date", placeholder: "To", required: true %>
+        </div>
+
+        <div class="col-md-4 option-field">
+          <%= text_field_tag :post_date, @post_date, class: "form-control pick-a-date", placeholder: "Post Date", required: true %>
+        </div>
+
+        <div class="col-md-12 option-field">
+          <%= select_tag :users, options_from_collection_for_select(@users, :id, :fullname, params[:users]), { class: "form-control chosen-select", "data-placeholder" => "  Users", multiple: true } %>
+        </div>
+
+        <div class="col-md-12">
+          <%= button_tag "Create", class: "btn btn-primary btn-block control-btn" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="modal fade edit-modal" id="entry-edit-<%= entry.id %>" tabindex="-1">
+  <div class="modal-dialouge">
+    <div class="modal-content">
+      <div class="modal-body">
+        <%= form_for [:api, entry], method: "put", remote: true, html: {class: "modal-form"} do |f| %>
+        <div class="row">
+          <div class="col-md-3 form-group">
+            <label for="task">Task</label>
+            <%= f.collection_select :task_id, @all_tasks, :id, :name, {}, class: "form-control", required: true, id: "task" %>
+          </div>
+          <div class="col-md-3 form-group">
+            <label for="project">Project</label>
+            <%= f.collection_select :project_id, @all_projects, :id, :name, {}, class: "form-control", required: true, id: "project" %>
+          </div>
+          <div class="col-md-2 form-group">
+            <label for="entry_date">Entry Date</label>
+            <%= f.text_field :entry_date, class: "form-control pick-a-date", value: entry.entry_date.to_s(:humanly), required: true, id: "entry_date" %>
+          </div>
+          <div class="col-md-2 form-group">
+            <label for="hours">Hours</label>
+            <%= f.text_field :duration_in_hours, class: "form-control", required: true, id: "hours" %>
+          </div>
+            <div class="col-md-2 form-group">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary btn-block control-btn" type="submit">Submit</button>
+            </div>
+          </div>
+          <div>
+            <%= f.text_field :comments, placeholder: "Write your comments here", class: "form-control", id: "comments" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

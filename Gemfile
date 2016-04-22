@@ -54,6 +54,8 @@ gem 'holidays', '~> 3.2.0'
 
 gem 'sentry-raven'
 
+gem 'statesman'
+
 # ruby app server
 # https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
 gem 'puma'
@@ -62,6 +64,7 @@ gem 'newrelic_rpm'
 
 gem "interactor-rails", "~> 2.0"
 
+gem "kaminari"
 
 group :production do
   gem 'rails_12factor'

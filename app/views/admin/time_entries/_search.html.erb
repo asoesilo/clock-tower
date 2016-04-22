@@ -1,0 +1,37 @@
+<div class="jumbotron report-options">
+  <div class="container">
+    <%= form_tag(admin_time_entries_path, method: :get, class: "form", role: "form") do %>
+      <div class="row">
+
+        <div class="col-md-4 option-field">
+          <%= select_tag :projects, options_from_collection_for_select(@all_projects, :id, :name, params[:projects]), { class: "form-control chosen-select", "data-placeholder" => "Filter by projects", multiple: true } %>
+        </div>
+
+        <div class="col-md-4 option-field">
+          <%= select_tag :tasks, options_from_collection_for_select(@all_tasks, :id, :name, params[:tasks]), { class: "form-control chosen-select", "data-placeholder" => "Filter by tasks", multiple: true } %>
+        </div>
+
+        <div class="col-md-4 option-field">
+          <%= select_tag :users, options_from_collection_for_select(@all_users, :id, :fullname, params[:users]), { class: "form-control chosen-select", "data-placeholder" => "Filter by users", multiple: true } %>
+        </div>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :from, @from, class: "form-control pick-a-date", placeholder: "From" %>
+        </div>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :to, @to, class: "form-control pick-a-date", placeholder: "To" %>
+        </div>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :on, @on, class: "form-control pick-a-date", placeholder: "On" %>
+        </div>
+
+        <div class="col-md-3">
+          <%= button_tag "Fetch", class: "btn btn-primary control-btn pull-right btn-block" %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -39,6 +39,16 @@
                     </li>
                     <li role="presentation" class="divider"></li>
                     <li>
+                      <%= link_to "Statements", admin_statements_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Statement Periods", admin_statement_periods_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Pay Statements", admin_pay_statements_path %>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li>
                       <%= link_to "Payroll Report", admin_reports_payroll_path(from: default_report_start_date, to: default_report_end_date) %>
                     </li>
                     <li>
@@ -48,7 +58,13 @@
                 </li>
               <% end %>
               <li>
-                <%= link_to "Tracker", time_entries_path %>
+                <%= link_to "Statements", statements_path %>
+              </li>
+              <li>
+                <%= link_to "Entries", time_entries_path %>
+              </li>
+              <li>
+                <%= link_to "Tracker", new_time_entry_path %>
               </li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -98,7 +114,7 @@
     <div class="navbar-inverse">
       <div class="container">
         <p class="muted text-center" id="copyright">
-          Initial version by <a href="https://ca.linkedin.com/in/andresoesilo/" target="_blank">Andre Soesilo</a>, 
+          Initial version by <a href="https://ca.linkedin.com/in/andresoesilo/" target="_blank">Andre Soesilo</a>,
           Lighthouse Labs alumnus.
         </p>
       </div>

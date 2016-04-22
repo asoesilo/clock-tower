@@ -1,0 +1,32 @@
+<div class="jumbotron report-options">
+  <div class="container text-center">
+    <h2>
+      <%= @statement.user.fullname %>
+    </h2>
+    <h3>
+      <%= @statement.from.to_s(:humanly) %> - <%= @statement.to.to_s(:humanly) %>
+    </h3>
+    <% if @statement.post_date > Date.today %>
+      <p>
+        Post Date - <%= @statement.post_date.to_s(:humanly) %><br>
+        State: <%= @statement.state.capitalize %>
+      </p>
+    <% end %>
+    <% if @statement.state_machine.allowed_transitions.present? %>
+      <%= form_for [:admin, @statement], method: 'PUT' do |f| %>
+        <div class="row">
+          <div class="col-md-offset-4 col-md-2">
+            <%= select_tag :state, options_for_select(valid_statement_states_select @statement ), class: "form-control", include_blank: 'State' %>
+          </div>
+
+          <div class="col-md-2">
+            <%= button_tag 'Change State', class: 'btn-block btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<div class="container">
+  <%= render 'entries', entries: @entries %>
+</div>

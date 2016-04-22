@@ -1,0 +1,34 @@
+<h4><%= link_to "Statement for #{@user.fullname}", @statement %></h4>
+
+<p>
+  Please review the statement and ensure all time entries are present and correct.
+  <br>
+  You have until <%= @statement.post_date.to_s(:humanly) %> to make revisions.
+  <br>
+  On that date the statement will be finalized and you will be paid based on the hours worked.
+</p>
+
+<table>
+  <thead>
+    <th width=150>Start Date</th>
+    <th width=150>End Date</th>
+    <th width=150>Hours</th>
+    <th width=150>Subtotal</th>
+    <% if @statement.tax_amount > 0 %>
+      <th>Tax Amount</th>
+    <% end %>
+    <th>Total</th>
+  </thead>
+  <tbody>
+    <tr style="text-align:center">
+      <td><%= @statement.from.to_s(:humanly) %></td>
+      <td><%= @statement.to.to_s(:humanly) %></td>
+      <td><%= @statement.hours %></td>
+      <td><%= number_to_currency @statement.subtotal %></td>
+      <% if @statement.tax_amount > 0 %>
+        <td><%= number_to_currency @statement.tax_amount %></td>
+      <% end %>
+      <td><%= number_to_currency @statement.total %></td>
+    </tr>
+  </tbody>
+</table>

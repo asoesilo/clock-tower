@@ -1,0 +1,25 @@
+<table class="table table-hover">
+  <thead>
+    <th>Entry Date</th>
+    <th>Hourly Rate</th>
+    <th>Tax %</th>
+    <th>Hours</th>
+    <th>Subtotal</th>
+    <th>Tax</th>
+    <th>Total</th>
+  </thead>
+  <tbody>
+    <% entries.each do |entry| %>
+      <%= render 'entry', entry: entry %>
+    <% end %>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th><%= @statement.hours %></th>
+      <th><%= number_to_currency @statement.subtotal %></th>
+      <th><%= number_to_currency @statement.tax_amount %></th>
+      <th><%= number_to_currency @statement.total %></th>
+    </tr>
+  </tbody>
+</table>

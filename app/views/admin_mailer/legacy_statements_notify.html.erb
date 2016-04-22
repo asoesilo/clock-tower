@@ -1,0 +1,29 @@
+The following statments have been transitioned to legacy and are for documentation purpose only.</br>
+No need to take any action.
+
+<table style="text-align:center">
+  <thead>
+    <th width=150>User</th>
+    <th width=150>Start Date</th>
+    <th width=150>End Date</th>
+    <th width=150>Hours</th>
+    <th width=150>Subtotal</th>
+    <th width=150>Tax Amount</th>
+    <th width=150>Total</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @statements.each do |statement| %>
+      <tr>
+        <td style="text-align:left"><%= statement.user.fullname %></td>
+        <td><%= statement.from.to_s(:humanly) %></td>
+        <td><%= statement.to.to_s(:humanly) %></td>
+        <td><%= statement.hours %></td>
+        <td><%= number_to_currency statement.subtotal %></td>
+        <td><%= number_to_currency statement.tax_amount %></td>
+        <td><%= number_to_currency statement.total %></td>
+        <td><%= link_to "View", [:admin, statement] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

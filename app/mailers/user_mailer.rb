@@ -1,7 +1,5 @@
 class UserMailer < ApplicationMailer
 
-  default from: ENV['EMAIL_SENDER'], bcc: ENV['SUPER_ADMIN_EMAIL']
-
   def user_invite(user, creator)
     @user = user
     @creator = creator
@@ -11,6 +9,12 @@ class UserMailer < ApplicationMailer
   def password_reset(user)
     @user = user
     mail to: user.email, subject: 'Clock Tower Password Reset'
+  end
+
+  def statement_created(user, statement)
+    @user = user
+    @statement = statement
+    mail to: user.email, subject: "Clocktower statement for #{@statement.from.to_s(:humanly)} - #{@statement.to.to_s(:humanly)}"
   end
 
 end
