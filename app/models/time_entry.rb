@@ -17,7 +17,7 @@ class TimeEntry < ActiveRecord::Base
   before_destroy :can_destroy?
 
   scope :between, -> (from, to) { where('time_entries.entry_date BETWEEN ? AND ?', from.beginning_of_day, to.end_of_day) }
-  scope :before, -> (date) { where('time_entries.entry_date <= ?', date) }
+  scope :before, -> (date) { where('time_entries.entry_date < ?', date) }
 
   def as_json(options)
     {
@@ -27,7 +27,8 @@ class TimeEntry < ActiveRecord::Base
       task: task.as_json(options),
       date: entry_date,
       duration_in_hours: duration_in_hours,
-      comments: comments
+      comments: comments,
+      statement_id: statement.try(:id),
     }
   end
 
@@ -59,6 +60,10 @@ class TimeEntry < ActiveRecord::Base
 
   def editable?
     statements.not_in_state(Statement.editable_states).blank?
+  end
+
+  def statement
+    statements.not_in_state('void').take
   end
 
   private

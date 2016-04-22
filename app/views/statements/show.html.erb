@@ -1,9 +1,10 @@
 <div class="jumbotron report-options">
   <div class="container text-center">
-    <h3><%= @statement.from.to_s(:humanly) %> - <%= @statement.to.to_s(:humanly) %></h3>
+    <h3><%= link_to @statement, time_entries_path(statement: @statement.id), target: '_blank' %></h3>
     <% if @statement.post_date > Date.today %>
       <p>Post Date - <%= @statement.post_date.to_s(:humanly) %></p>
     <% end %>
+    <p>State: <%= @statement.state.capitalize %></p>
   </div>
 </div>
 <div class="container">
