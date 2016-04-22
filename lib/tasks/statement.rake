@@ -22,7 +22,7 @@ namespace :statement do
     LockStatementsForDate.call(date: date)
   end
 
-  desc "Create Statements for all past time entries"
+  desc "Create Statements for all past time entries. Cut off date as END_DATE=2016-01-01"
   task legacy_create: :environment do
     end_date = ENV['END_DATE']
     end_date = Date.parse(end_date) if end_date
