@@ -9,7 +9,6 @@ class Project < ActiveRecord::Base
     {
       id: id,
       name: name,
-      creator: creator.as_json(options)
     }
   end
 end
