@@ -27,10 +27,6 @@ describe Task do
     it "should include name" do
       expect(@task.as_json(root: false)[:name]).to eq(@task.name)
     end
-
-    it "should include creator" do
-      expect(@task.as_json(root: false)[:creator]).to_not be_nil
-    end
   end
 
   describe "#creator" do

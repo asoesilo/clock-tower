@@ -31,10 +31,6 @@ describe Project do
     it "should include name" do
       expect(@project.as_json(root: false)[:name]).to eq(@project.name)
     end
-
-    it "should include creator" do
-      expect(@project.as_json(root: false)[:creator]).to_not be_nil
-    end
   end
 
   describe "#creator" do
