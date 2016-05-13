@@ -89,6 +89,7 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'simplecov'
   gem 'database_cleaner'
+  gem 'faker'
 end
 
 gem 'codeclimate-test-reporter', group: :test, require: nil
