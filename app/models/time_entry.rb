@@ -17,7 +17,7 @@ class TimeEntry < ActiveRecord::Base
   before_destroy :can_destroy?
 
   scope :between, -> (from, to) { where('time_entries.entry_date BETWEEN ? AND ?', from.beginning_of_day, to.end_of_day) }
-  scope :before, -> (date) { where('time_entries.entry_date < ?', date) }
+  scope :before, -> (date) { where('time_entries.entry_date <= ?', date) }
 
   def as_json(options)
     {
