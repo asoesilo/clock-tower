@@ -1,7 +1,7 @@
 <%= render 'admin/shared/form_error', object: @user %>
 
 <%= form.email_field :email, class: "form-control first-control", placeholder: "Email address" %>
-  
+
 <%= form.text_field :firstname, class: "form-control mid-control", placeholder: "First name" %>
 
 <%= form.text_field :lastname, class: "form-control mid-control", placeholder: "Last name" %>
@@ -10,7 +10,7 @@
 
 <%= form.text_field :company_name, class: "form-control mid-control", placeholder: "Company Name" %>
 
-<%= form.password_field :password, class: "form-control mid-control", placeholder: "Password" %>  
+<%= form.password_field :password, class: "form-control mid-control", placeholder: "Password" %>
 <%= form.password_field :password_confirmation, class: "form-control mid-control", placeholder: "Confirm password" %>
 
 <%= form.text_field :rate, class: "form-control mid-control", placeholder: "Hourly Rate" %>
@@ -31,6 +31,11 @@
 <%= form.label :is_admin, class: "form-control mid-control" do %>
   <%= form.check_box :is_admin %>
   <small><%= form.label :is_admin, "Administrator" %></small>
+<% end %>
+
+<%= form.label :receive_admin_email,  class: "form-control mid-control" do %>
+  <%= form.check_box :receive_admin_email %>
+  <small><%= form.label :receive_admin_email, "Recieve Admin emails?" %></small>
 <% end %>
 
 <%= form.label :active, class: "form-control last-control" do %>

@@ -12,7 +12,12 @@ The following statments have been locked and are ready to be confirmed and paid.
     <th></th>
   </thead>
   <tbody>
+    <% totals = Hash.new(0) %>
     <% @statements.each do |statement| %>
+      <% totals[:hours] += statement.hours %>
+      <% totals[:subtotal] += statement.subtotal %>
+      <% totals[:tax_amount] += statement.tax_amount %>
+      <% totals[:total] += statement.total %>
       <tr>
         <td style="text-align:left"><%= statement.user.fullname %></td>
         <td><%= statement.from.to_s(:humanly) %></td>
@@ -24,5 +29,13 @@ The following statments have been locked and are ready to be confirmed and paid.
         <td><%= link_to "View", [:admin, statement] %></td>
       </tr>
     <% end %>
+    <tr style="border-top: 2px solid black; background-color: #ddd;">
+      <td colspan="2" style="text-align: right;">Totals</td>
+      <td>Count: <%= @statements.length %></td>
+      <td><%= totals[:hours] %> hrs</td>
+      <td><%= number_to_currency totals[:subtotal] %></td>
+      <td><%= number_to_currency totals[:tax_amount] %></td>
+      <td><%= number_to_currency totals[:total] %></td>
+    </tr>
   </tbody>
 </table>

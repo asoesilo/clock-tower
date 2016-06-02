@@ -5,7 +5,7 @@ class Admin::StatementsController < Admin::BaseController
 
   def index
     @all_users = User.all
-    @statements = Statement.page(params[:page]).per(25).order(to: :desc)
+    @statements = Statement.page(params[:page]).per(100).includes(:user).order(to: :desc).order('users.firstname asc')
 
     @statements = @statements.containing_date(params[:containing]) if params[:containing].present?
     @statements = @statements.in_state(params[:state]) if params[:state].present?
