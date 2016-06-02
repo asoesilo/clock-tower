@@ -1,79 +1,48 @@
 Rails.application.routes.draw do
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 
   root to: "home#show"
 
   resource :session, only: [:new, :create, :destroy]
+  resource :password, only: [:edit, :update]
+  resource :profile, only: [:edit, :update]
 
-  resource :profile, only: [:new, :create]
-  resources :time_entries, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :password_resets, only: [:new, :create, :show]
+
+  resources :time_entries, only: [:index, :new]
+  resources :statements, only: [:index, :show]
+
+  # For time entries
   namespace :api do
-    resources :users, only: [:index]
     resources :tasks, only: [:index]
     resources :projects, only: [:index]
-    resources :time_entries, only: [:index, :create, :update, :destroy]
-    get 'profile/time_entries'
+    resources :time_entries, only: [:create, :update, :destroy, :index]
   end
+
   namespace :reports do
-    get 'summary'
-    get 'user'
+    get 'entries' => 'entries#show'
   end
+
   namespace :admin do
+    namespace :api do
+      resources :statements, only: [:index, :update]
+      resources :time_entries, only: [:destroy, :update]
+    end
+    get 'statements/pay' => 'statements#pay', as: :pay_statements
+    resources :statements
+    resources :time_entries, only: [:index]
+    resources :statement_periods
+    post 'statement_periods/:id' => 'statement_periods#generate', as: :generate_statement_period
     resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :projects, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
+    namespace :reports do
+      get 'payroll' => 'payroll#show'
+      get 'summary' => 'summary#show'
+    end
   end
+
 end

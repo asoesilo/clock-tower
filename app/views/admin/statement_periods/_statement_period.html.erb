@@ -1,0 +1,8 @@
+<tr>
+  <td><%= statement_period.from %></td>
+  <td><%= statement_period.to %></td>
+  <td><%= statement_period.draft_days %></td>
+  <td><%= link_to 'Create Statements', [:admin, statement_period] %></td>
+  <td><%= link_to 'Edit', [:edit, :admin, statement_period] %></td>
+  <td><%= link_to 'Delete', [:admin, statement_period], method: :delete, data: { confirm: "This will delete the statement period, are you sure?"}  %></td>
+</tr>

@@ -1,0 +1,41 @@
+The following statments have been locked and are ready to be confirmed and paid.</br>
+<%= link_to 'You you can mark locked statements as paid here', admin_pay_statements_url, target: '_blank' %></br>
+<table style="text-align:center">
+  <thead>
+    <th width=150>User</th>
+    <th width=150>Start Date</th>
+    <th width=150>End Date</th>
+    <th width=150>Hours</th>
+    <th width=150>Subtotal</th>
+    <th width=150>Tax Amount</th>
+    <th width=150>Total</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% totals = Hash.new(0) %>
+    <% @statements.each do |statement| %>
+      <% totals[:hours] += statement.hours %>
+      <% totals[:subtotal] += statement.subtotal %>
+      <% totals[:tax_amount] += statement.tax_amount %>
+      <% totals[:total] += statement.total %>
+      <tr>
+        <td style="text-align:left"><%= statement.user.fullname %></td>
+        <td><%= statement.from.to_s(:humanly) %></td>
+        <td><%= statement.to.to_s(:humanly) %></td>
+        <td><%= statement.hours %></td>
+        <td><%= number_to_currency statement.subtotal %></td>
+        <td><%= number_to_currency statement.tax_amount %></td>
+        <td><%= number_to_currency statement.total %></td>
+        <td><%= link_to "View", [:admin, statement] %></td>
+      </tr>
+    <% end %>
+    <tr style="border-top: 2px solid black; background-color: #ddd;">
+      <td colspan="2" style="text-align: right;">Totals</td>
+      <td>Count: <%= @statements.length %></td>
+      <td><%= totals[:hours] %> hrs</td>
+      <td><%= number_to_currency totals[:subtotal] %></td>
+      <td><%= number_to_currency totals[:tax_amount] %></td>
+      <td><%= number_to_currency totals[:total] %></td>
+    </tr>
+  </tbody>
+</table>

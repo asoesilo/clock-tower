@@ -1,3 +1,20 @@
 // Place all the styles related to the TimeEntries controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.panel.fresh {
+  .panel-heading {
+    // https://color.adobe.com/Aspirin-C-color-theme-251864/
+    background-color: #ACF0F2;
+  }
+}
+
+.edit-modal {
+  top: 50px;
+  left: 30px;
+  right: 30px;
+}
+
+tr.entry-row td {
+  max-width: 400px;
+}

@@ -1,0 +1,10 @@
+<% backdated = entry.entry_date < @statement.from %>
+<tr <%= "class=active" if backdated %>>
+  <td><%= link_to entry.entry_date.to_s(:humanly), admin_time_entries_path(on: entry.entry_date, users: @statement.user) %><%= " - Backdated" if backdated %></td>
+  <td><%= number_to_currency ( entry.apply_rate ? entry.rate : 0 ) %></td>
+  <td><%= entry.tax_percent if entry.has_tax %></td>
+  <td><%= entry.hours %></td>
+  <td><%= number_to_currency ( entry.apply_rate ? entry.total : 0 ) %></td>
+  <td><%= number_to_currency ( entry.has_tax && entry.apply_rate ? entry.tax : 0 ) %></td>
+  <td><%= number_to_currency ( entry.apply_rate ? (entry.has_tax ? entry.total + entry.tax : entry.total) : 0 ) %></td>
+</tr>

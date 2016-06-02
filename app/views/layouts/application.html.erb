@@ -5,8 +5,9 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
+  <%= yield :head %>
 </head>
-<body>
+<body id="<%= 'admin' if on_admin? %>">
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="navbar-inner">
       <div class="container">
@@ -18,18 +19,52 @@
           <div class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
               <% if current_user.is_admin? %>
-                <li>
-                  <%= link_to "Users", admin_users_path %>
-                </li>
-                <li>
-                  <%= link_to "Projects", admin_projects_path %>
-                </li>
-                <li>
-                  <%= link_to "Tasks", admin_tasks_path %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Admin
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li>
+                      <%= link_to "Users", admin_users_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Projects", admin_projects_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Tasks", admin_tasks_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Locations", admin_locations_path %>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li>
+                      <%= link_to "Statements", admin_statements_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Statement Periods", admin_statement_periods_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Pay Statements", admin_pay_statements_path %>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li>
+                      <%= link_to "Payroll Report", admin_reports_payroll_path(from: default_report_start_date, to: default_report_end_date) %>
+                    </li>
+                    <li>
+                      <%= link_to "Summary Report", admin_reports_summary_path(from: default_report_start_date, to: default_report_end_date) %>
+                    </li>
+                  </ul>
                 </li>
               <% end %>
               <li>
-                <%= link_to "Tracker", time_entries_path %>
+                <%= link_to "Statements", statements_path %>
+              </li>
+              <li>
+                <%= link_to "Entries", time_entries_path %>
+              </li>
+              <li>
+                <%= link_to "Tracker", new_time_entry_path %>
               </li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -38,13 +73,11 @@
                 </a>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <%= link_to "Summary", reports_summary_path(from: default_report_start_date, to: default_report_end_date) %>
-                  </li>
-                  <li>
-                    <%= link_to "User Time Tracking", reports_user_path(user: current_user.id, from: default_report_start_date, to: default_report_end_date) %>
+                    <%= link_to "My Entries", reports_entries_path(from: default_report_start_date, to: default_report_end_date) %>
                   </li>
                 </ul>
               </li>
+
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <%= current_user.fullname %>
@@ -53,6 +86,12 @@
                 <ul class="dropdown-menu" role="menu">
                   <li>
                     <%= link_to "Sign out", session_path, method: :delete %>
+                  </li>
+                  <li>
+                    <%= link_to "Edit Account Info", edit_profile_path %>
+                  </li>
+                  <li>
+                    <%= link_to "Update Password", edit_password_path %>
                   </li>
                 </ul>
               </li>
@@ -65,6 +104,7 @@
 
   <div id="wrap">
     <div id="container">
+      <%= render 'layouts/flash' %>
       <%= yield %>
     </div>
     <div id="push"></div>
@@ -74,8 +114,8 @@
     <div class="navbar-inverse">
       <div class="container">
         <p class="muted text-center" id="copyright">
-          <span class="glyphicon glyphicon-copyright-mark"></span>
-          2014 <a href="https://ca.linkedin.com/in/andresoesilo/" target="_blank">Andre Soesilo</a>
+          Initial version by <a href="https://ca.linkedin.com/in/andresoesilo/" target="_blank">Andre Soesilo</a>,
+          Lighthouse Labs alumnus.
         </p>
       </div>
     </div>

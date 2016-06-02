@@ -12,13 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require pickadate/picker
+//= require pickadate/picker.date
 //= require bootstrap-sprockets
-
-//= require angular
-//= require angular-ui-bootstrap-tpls
-//= require angular-resource.min.js
 //= require chosen-jquery
-//= require clock_tower_app
-//= require ./angular/services/constants
-//= require_tree ./angular
-//= require_tree .
+//= require app

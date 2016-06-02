@@ -1,0 +1,62 @@
+<div class="modal fade edit-modal" id="entry-edit-<%= entry.id %>" tabindex="-1">
+  <div class="modal-dialouge">
+    <div class="modal-content">
+      <div class="modal-body">
+        <%= form_for [:admin, :api, entry], method: "put", remote: true, html: {class: "modal-form"} do |f| %>
+          <div class="row">
+            <div class="col-md-3 form-group">
+              <label for="task">Task</label>
+              <%= f.collection_select :task_id, @all_tasks, :id, :name, {}, class: "form-control", required: true, id: "task" %>
+            </div>
+            <div class="col-md-3 form-group">
+              <label for="project">Project</label>
+              <%= f.collection_select :project_id, @all_projects, :id, :name, {}, class: "form-control", required: true, id: "project" %>
+            </div>
+            <div class="col-md-3 form-group">
+              <label for="entry_date">Entry Date</label>
+              <%= f.text_field :entry_date, class: "form-control pick-a-date", value: entry.entry_date.to_s(:humanly), required: true, id: "entry_date" %>
+            </div>
+            <div class="col-md-3 form-group">
+              <label for="hours">Hours</label>
+              <%= f.text_field :duration_in_hours, class: "form-control", required: true, id: "hours" %>
+            </div>
+
+            <div class="col-md-3 form-group">
+              <label for="rate">Rate</label>
+              <%= f.number_field :rate, class: "form-control", required: true, step: "any" %>
+            </div>
+            <div class="col-md-3 form-group">
+              <label for="apply_rate">Tax Percent</label>
+              <%= f.number_field :tax_percent, class: "form-control", step: "any" %>
+            </div>
+            <div class="col-md-3 form-group">
+              <label for="apply_rate">Tax name</label>
+              <%= f.text_field :tax_desc, class: "form-control" %>
+            </div>
+            <div class="col-md-1 form-group">
+              <%= f.label :apply_rate, 'Apply Rate' %><br>
+              <%= f.check_box :apply_rate %>
+            </div>
+            <div class="col-md-1 form-group">
+              <%= f.label :is_holiday, 'Holiday?' %><br>
+              <%= f.check_box :is_holiday %>
+            </div>
+            <div class="col-md-1 form-group">
+              <%= f.label :has_tax, 'Apply Tax' %><br>
+              <%= f.check_box :has_tax %>
+            </div>
+
+            <div class="col-md-12 form-group">
+              <%= f.label :comments, "Comments" %>
+              <%= f.text_field :comments, placeholder: "Write your comments here", class: "form-control", id: "comments" %>
+            </div>
+
+            <div class="col-md-offset-5 col-md-2 form-group">
+              <%= f.submit "Submit", class: "btn btn-primary btn-block control-btn" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,5 +2,33 @@
   <td><%= user.firstname %></td>
   <td><%= user.lastname %></td>
   <td><%= user.email %></td>
-  <td><%= user.is_admin? %></td>
+  <td><%= user.location.try :name %></td>
+  <td>
+    <% if entry = user.time_entries.order(entry_date: :desc).first %>
+      <span class="label <%= (Date.current - entry.entry_date.to_date) > 7 ? 'label-warning' : 'label-default' %>">
+        <%= entry.entry_date.to_formatted_s('') %>
+      </span>
+    <% else %>
+      <span class="label label-danger">None</span>
+    <% end %>
+  </td>
+  <td>
+    <% if user.active? %>
+      <span class="label label-success">Active</span>
+    <% else %>
+      <span class="label label-default">Inactive</span>
+    <% end %>
+  </td>
+  <td>
+    <% if user.is_admin? %>
+      <span class="label label-danger">Admin</span>
+    <% else %>
+      <span class="label label-default">Regular</span>
+    <% end %>
+  </td>
+  <td>
+    <%= link_to [:edit, :admin, user] do %>
+      E
+    <% end %>
+  </td>
 </tr>

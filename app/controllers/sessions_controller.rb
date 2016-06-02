@@ -1,36 +1,25 @@
 class SessionsController < ApplicationController
+
   skip_before_action :authenticate_user, only: [:new, :create, :destroy]
-  
   before_action :to_home_if_logged_in, only: [:new, :create]
 
   def new
-    @email = ""
   end
 
   def create
-    user = User.find_by_email(params[:email])
+    user = User.by_email(params[:email]).first
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      if user.is_admin?
-        redirect_to :reports_user
-      else
-        redirect_to :time_entries
-      end
+      redirect_to new_time_entry_path
     else
-      flash[:alert] = "Invalid email or password"
-
-      @email = params[:email]
+      flash.now[:alert] = "Invalid email or password"
       render :new
     end
   end
 
   def destroy
-    if current_user
-      reset_session
-    else
-      flash[:notice] = "You are not logged in!"
-    end
-
-    redirect_to :root
+    reset_session if current_user
+    redirect_to :root, notice: "You have been logged out."
   end
+
 end

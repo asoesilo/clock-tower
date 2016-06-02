@@ -1,0 +1,13 @@
+.report-options {
+  
+  div.option-field {
+    margin-bottom: 10px;
+  }
+
+  input.form-control.pick-a-date[readonly], 
+  input.form-control.pick-a-date[disabled] {
+    cursor: default;
+    background-color: white;
+  }
+
+}

@@ -1,69 +1,27 @@
 class TimeEntriesController < ApplicationController
+
   before_filter :validate_time_entry_update, only: [:edit, :update, :destroy]
 
   def index
+    @all_projects = Project.all
+    @all_tasks = Task.all
+    @statements = current_user.statements
+
+    @from = params[:from]
+    @to = params[:to]
+    @on = params[:on]
+    @time_entries = current_user.time_entries
+    @time_entries = current_user.statements.find(params[:statement]).time_entries if params[:statement].present?
+
+    @time_entries = @time_entries.where(project_id: params[:projects]) if params[:projects].present?
+    @time_entries = @time_entries.where(task_id: params[:tasks]) if params[:tasks].present?
+    @time_entries = @time_entries.where(entry_date: Date.parse(@on)) if @on.present?
+    @time_entries = @time_entries.between(Date.parse(@from), Date.parse(@to)) if @from.present? && @to.present?
+
+    @time_entries = @time_entries.page(params[:page]).per(25).order(entry_date: :desc, id: :asc)
   end
 
   def new
-    @time_entry = TimeEntry.new
   end
 
-  def create
-    @time_entry = TimeEntry.new(time_entries_params)
-    @time_entry.user = current_user
-
-    if @time_entry.save
-      redirect_to time_entries_path
-    else
-      render :new
-    end
-  end
-
-  def edit
-    @time_entry = TimeEntry.find(params[:id])
-  end
-
-  def update
-    @time_entry = TimeEntry.find(params[:id])
-    @time_entry.assign_attributes(time_entries_params)
-    @time_entry.user = current_user
-
-    if @time_entry.save
-      redirect_to time_entries_path
-    else
-      render :edit
-    end
-  end
-
-  def destroy
-    @time_entry = TimeEntry.find(params[:id])
-    @time_entry.destroy
-    redirect_to time_entries_path
-  end
-
-  private
-  def time_entries_params
-    params.require(:time_entry).permit(:project_id, :task_id, :entry_date, :duration_in_hours, :comments)
-  end
-
-  def validate_time_entry_update
-    if validate_is_entry_not_found
-      validate_is_creator
-    end
-  end
-
-  def validate_is_entry_not_found
-    if TimeEntry.find(params[:id]).nil?
-      redirect_to time_entries_path, alert: "Time entry cannot be found"
-      return false
-    end
-    true
-  end
-
-  def validate_is_creator
-    time_entry = TimeEntry.find(params[:id])
-    if time_entry.user != current_user
-      redirect_to time_entries_path, alert: "Cannot modify time entries created by other users"
-    end
-  end
 end

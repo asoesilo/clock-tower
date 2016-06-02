@@ -1,0 +1,81 @@
+<div class="jumbotron report-options">
+  <div class="container">
+    <%= form_tag(admin_reports_payroll_path, method: :get, class: "form", role: "form") do %>
+      <div class="row">
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :from, @from.to_s(:humanly), class: "form-control pick-a-date", placeholder: "From" %>
+        </div>
+
+        <div class="col-md-3 option-field">
+          <%= text_field_tag :to, @to.to_s(:humanly), class: "form-control pick-a-date", placeholder: "To" %>
+        </div>
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :users, options_from_collection_for_select(@all_users, :id, :fullname, params[:users]), { class: "form-control chosen-select", "data-placeholder" => "Filter by users", multiple: true } %>
+        </div>
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :projects, options_from_collection_for_select(@all_projects, :id, :name, params[:projects]), { class: "form-control chosen-select", "data-placeholder" => "Filter by projects", multiple: true } %>
+        </div>
+
+        <div class="col-md-6 option-field">
+          <%= select_tag :tasks, options_from_collection_for_select(@all_tasks, :id, :name, params[:tasks]), { class: "form-control chosen-select", "data-placeholder" => "Filter by tasks", multiple: true } %>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <%= button_tag "Fetch", class: "btn btn-primary control-btn pull-right" %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <% final_total = 0 %>
+  <% @reporting_users.each do |user| %>
+    <% next unless @entries_by_user[user.id.to_s][:regular].present? || @entries_by_user[user.id.to_s][:holiday].present? %>
+    <div class="row">
+      <h3>
+        <%= user.fullname %>
+        <% if user.company_name? %>
+          (<%= user.company_name %>)
+        <% end %>
+      </h3>
+    </div>
+    <table class="table table-striped table-bordered">
+      <tbody>
+        <% total_cost = 0 %>
+        <% @entries_by_user[user.id.to_s][:regular].each do |entry| %>
+          <% total_cost += entry[:cost] %>
+          <%= render 'entry', entry: entry %>
+        <% end %>
+        <% @entries_by_user[user.id.to_s][:holiday].each do |entry| %>
+          <%  total_cost += entry[:cost] %>
+          <%= render 'entry', entry: entry %>
+        <% end %>
+        <!-- Total -->
+        <tr class="warning">
+          <td colspan="4">
+            <strong>TOTAL:</strong>
+          </td>
+          <td>
+            <strong><%= number_to_currency total_cost %></strong>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+    <hr/>
+    <% final_total += total_cost %>
+  <% end %>
+
+  <div class="alert alert-info">
+    <strong>TOTAL: <%= number_to_currency final_total %></strong>
+  </div>
+
+</div>

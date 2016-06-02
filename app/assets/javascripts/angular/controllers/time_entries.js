@@ -6,7 +6,7 @@ var ConfirmationModalCtrl = function($scope, $modalInstance, message) {
   $scope.message = message;
 
   $scope.ok = function() {
-    $modalInstance.close()
+    $modalInstance.close();
   };
 
   $scope.cancel = function() {
@@ -16,17 +16,46 @@ var ConfirmationModalCtrl = function($scope, $modalInstance, message) {
 
 ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'ProjectService', 'TimeEntryService',
   function($scope, $modal, TaskService, ProjectService, TimeEntryService) {
-    $scope.date = "";
+    $scope.date = new Date();
+
+    function openAlertModal(message, statementId) {
+      $modal.open({
+        templateUrl: 'alertModal.html',
+        controller: function($scope, $modalInstance, message, statementId){
+          $scope.message = message;
+          $scope.statementId = statementId;
+
+          $scope.showUrl = function() {
+            return statementId && (message.indexOf('locked') !== -1);
+          };
+
+          $scope.ok = function() {
+            $modalInstance.close();
+          };
+        },
+        size: 'md',
+        resolve: {
+          message: function() {
+            return message;
+          },
+          statementId: function() {
+            return statementId;
+          }
+        }
+      });
+    };
 
     var fetchTasks = function() {
       TaskService.all().success(function(tasks) {
         $scope.tasks = tasks;
+        setSelectDefaults();
       });
     };
 
     var fetchProjects = function() {
       ProjectService.all().success(function(projects) {
         $scope.projects = projects;
+        setSelectDefaults();
       });
     };
 
@@ -97,24 +126,53 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
 
       TimeEntryService.create(task.id, project.id, date, duration, comments, function(response) {
         response.entry.date = parseDate(response.entry.date);
-        $scope.timeEntries.push(response.entry);
+        response.entry.justCreated = true;
+        $scope.timeEntries.unshift(response.entry);
 
-        $scope.task = null;
-        $scope.project = null;
+        //$scope.task = null;
+        //$scope.project = null;
+        //$scope.date = new Date();
+
         $scope.duration = null;
-        $scope.date = null;
         $scope.comments = null;
       }, function(error) {
-        // TODO: error handling
+        openAlertModal('Could not create, ' + error.data.errors);
       });
     };
 
+    var setSelectDefaults = function() {
+      var tasks = $scope.tasks;
+      var projects = $scope.projects;
+      var entries = $scope.timeEntries;
+
+      // function requires 3 ajax calls to complete and is called during the callback of each
+      if ( tasks.length === 0 || projects.length === 0 || entries.length === 0 ){
+        return;
+      }
+
+      var lastEntry = entries[0];
+      // task/project from lastEntry !== to values in $scope.tasks/projects
+      // so we have to set $scope.task/project to a value from tasks/projects
+      var lastTask = tasks.find(function(task){
+        return task.id === lastEntry.task.id;
+      });
+      var lastProject = projects.find(function(project){
+        return project.id === lastEntry.project.id;
+      });
+
+      $scope.task = lastTask;
+      $scope.project = lastProject;
+    };
+
     var fetchTimeEntries = function() {
-      TimeEntryService.get().success(function(data) {
-        $scope.timeEntries = data;
+      TimeEntryService.list().success(function(data) {
+        $scope.timeEntries = data.entries;
+        $scope.totalHours = data.total_hours;
+        $scope.moreEntries = (data.num_entries > 25);
         $scope.timeEntries.forEach(function(entry) {
           entry.date = parseDate(entry.date);
         });
+        setSelectDefaults();
       });
     };
 
@@ -123,7 +181,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       if(index > -1) {
         $scope.timeEntries.splice(index, 1);
       }
-    }
+    };
 
     $scope.deleteTimeEntry = function(entry) {
       // Use traditional Javascript dialog to prompt delete confirmation
@@ -148,7 +206,7 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         TimeEntryService.delete(entry.id, function() {
           removeEntryFromArray(entry);
         }, function(error) {
-          // TODO: error handling
+          openAlertModal('Cannot Delete, ' + error.data.errors, entry.statement_id);
         });
       }, function() {
         // Cancel delete
@@ -163,11 +221,11 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
       entry.newTask = {id: entry.task.id};
       entry.newProject = {id: entry.project.id};
       entry.newDate = entry.date;
-      entry.newDuration = entry.duration_in_hours;
+      entry.newDuration = Number(entry.duration_in_hours);
       entry.newComments = entry.comments;
 
       setEditState(entry, true);
-    }
+    };
 
     $scope.saveEntry = function(entry) {
       var task = entry.newTask;
@@ -185,25 +243,28 @@ ClockTower.controller('TimeEntriesCtrl', ['$scope', '$modal', 'TaskService', 'Pr
         entry.date = parseDate(newEntry.date);
         entry.duration_in_hours = newEntry.duration_in_hours;
         entry.comments = newEntry.comments;
-      }, function(error) {
-        // TODO: Handle error
+      }, function(res) {
+        openAlertModal('Cannot update Entry, ' + res.data.errors, entry.statement_id);
       });
-    }
+    };
 
     $scope.cancelEdit = function(entry) {
       setEditState(entry, false);
-    }
+    };
 
     var initializeData = function() {
       $scope.maxDate = new Date();
       $scope.minDate = new Date();
       $scope.minDate.setYear($scope.minDate.getFullYear() - 1);
-      $scope.dateFormat = "yyyy-MM-dd"
+      $scope.dateFormat = "yyyy-MM-dd";
+      $scope.tasks = [];
+      $scope.projects = [];
+      $scope.timeEntries = [];
 
       fetchTasks();
       fetchProjects();
       fetchTimeEntries();
-    }
+    };
 
     $scope.myDate = new Date();
 

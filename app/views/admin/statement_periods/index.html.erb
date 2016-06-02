@@ -1,0 +1,23 @@
+<div class="container padding-top-20">
+  <div class="row">
+    <div class="col-md-4 vcenter">
+      <h1>Statement Periods</h1>
+    </div>
+    <div class="vcenter">
+      <%= link_to "Add Period", new_admin_statement_period_path %>
+    </div>
+  </div>
+
+  <table class='table table-striped'>
+    <thead>
+      <th>From</th>
+      <th>To</th>
+      <th>Days in Draft</th>
+      <th><%# Edit %></th>
+      <th><%# Delete %></th>
+    </thead>
+    <tbody>
+      <%= render @statement_periods %>
+    </tbody>
+  </table>
+</div>

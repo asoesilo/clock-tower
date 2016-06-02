@@ -1,0 +1,17 @@
+<h1>Welcome</h1>
+
+Your account on Clock Tower has been created. Please login now to update your credentials and begin logging your Lighthouse work hours!
+
+<p>
+  Email: <%= @user.email %>
+  <br>
+  Password: <%= @user.password %>
+  <br>
+  URL: <%= link_to root_url, root_url %>
+</p>
+
+<p>
+  Cheers,
+  <br>
+  <%= @creator.fullname %>
+</p>

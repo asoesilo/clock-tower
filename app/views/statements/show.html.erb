@@ -1,0 +1,36 @@
+<div class="jumbotron report-options">
+  <div class="container text-center">
+    <h3><%= link_to @statement, time_entries_path(statement: @statement.id), target: '_blank' %></h3>
+    <% if @statement.post_date > Date.today %>
+      <p>Post Date - <%= @statement.post_date.to_s(:humanly) %></p>
+    <% end %>
+    <p>State: <%= @statement.state.capitalize %></p>
+  </div>
+</div>
+<div class="container">
+  <table class="table table-hover">
+    <thead>
+      <th>Entry Date</th>
+      <th>Hourly Rate</th>
+      <th>Tax %</th>
+      <th>Hours</th>
+      <th>Subtotal</th>
+      <th>Tax</th>
+      <th>Total</th>
+    </thead>
+    <tbody>
+      <% @entries.each do |entry| %>
+        <%= render 'entry', entry: entry %>
+      <% end %>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th><%= @statement.hours %></th>
+        <th><%= number_to_currency @statement.subtotal %></th>
+        <th><%= number_to_currency @statement.tax_amount %></th>
+        <th><%= number_to_currency @statement.total %></th>
+      </tr>
+    </tbody>
+  </table>
+</div>

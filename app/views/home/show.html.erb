@@ -1,6 +1,3 @@
-<%= render 'layouts/show_alert' %>
-<%= render 'layouts/show_notice' %>
-
 <div class="jumbotron">
   <div class="container">
     <div class="row">
@@ -8,7 +5,7 @@
         <h2>
           Welcome to Clock Tower!
         </h2>
-        <p>Insanely simple time tracking.</p>
+        <p>Incredibly simple time tracking.</p>
       </div>
 
       <% if !is_logged_in? %>
@@ -19,8 +16,8 @@
               <%= password_field_tag :password, nil, class: "form-control last-control", placeholder: "Password" %>
               <%= button_tag "Log In", class: "btn btn-primary btn-block control-btn" %>
             <% end %>
-            <div>
-              <%= link_to "Create a new account", new_profile_path, class: "text-center" %>
+            <div class='text-center'>
+              <%= link_to 'Forgot Password', new_password_reset_path %>
             </div>
           </div>
         </div>

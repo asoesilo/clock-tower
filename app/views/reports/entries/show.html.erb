@@ -1,0 +1,53 @@
+<div class="jumbotron report-options">
+  <div class="container">
+    <%= form_tag(reports_entries_path, method: :get, class: "form", role: "form") do %>
+      <div class="row">
+        <div class="col-md-4 option-field">
+          <%= text_field_tag :from, @from.to_s(:humanly), class: "form-control pick-a-date", placeholder: "From" %>
+        </div>
+        <div class="col-md-4 option-field">
+          <%= text_field_tag :to, @to.to_s(:humanly), class: "form-control pick-a-date", placeholder: "To" %>
+        </div>
+        
+        <div class="col-md-4">
+          <%= button_tag "Fetch", class: "btn btn-primary btn-block control-btn" %>
+        </div>
+        
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <h3> 
+      <%= current_user.fullname %>
+      <% if current_user.company_name? %>
+        (<%= current_user.company_name %>)
+      <% end %>
+    </h3>
+  </div>
+  <table class="table table-bordered">
+    <tbody>
+      <% total_cost = 0 %>
+      <% @entries[:regular].each do |entry| %>
+        <% total_cost += entry[:cost] %>
+        <%= render 'entry', entry: entry %>
+      <% end %>
+      <% @entries[:holiday].each do |entry| %>
+        <% total_cost += entry[:cost] %>
+        <%= render 'entry', entry: entry %>
+      <% end %>
+      <!-- Total -->
+      <tr class="warning">
+        <td colspan="4">
+          <strong>TOTAL:</strong>
+        </td>
+        <td>
+          <strong><%= number_to_currency total_cost %></strong>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

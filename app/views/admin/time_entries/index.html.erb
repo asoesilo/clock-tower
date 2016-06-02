@@ -1,0 +1,27 @@
+<% content_for :head do %>
+  <%= javascript_include_tag 'time_entry_index' %>
+<% end %>
+
+<%= render "search" %>
+
+<div class="container">
+  <%= paginate @time_entries %>
+
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Task</th>
+        <th>Project</th>
+        <th>Entry Date</th>
+        <th>Hours</th>
+        <th>Comments</th>
+        <th>Statement</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @time_entries %>
+    </tbody>
+  </table>
+</div>
